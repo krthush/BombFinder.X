@@ -69,10 +69,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _OSCCONbits `VS376 ~T0 @X0 0 e@4051 ]
 "18 dc_motor.h
 [v _initPWM `(v ~T0 @X0 0 ef ]
-"25
-[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "22
 [v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"25
+[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"26
+[v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "23
 [v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "24
@@ -3572,6 +3574,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 23: void turnLeft(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 24: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
+[; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 "3 main.c
 [p x OSC=IRCIO ]
 "10
@@ -3723,41 +3726,59 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 60: delay_s(2);
 "60
 [e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 61: fullSpeedAhead(&motorL, &motorR);
+[; ;main.c: 61: stop(&motorL, &motorR);
 "61
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
+[e ( _stop (2 , &U _motorL &U _motorR ]
 [; ;main.c: 63: delay_s(2);
 "63
 [e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 64: stop(&motorL, &motorR);
+[; ;main.c: 64: fullSpeedAhead(&motorL, &motorR);
 "64
-[e ( _stop (2 , &U _motorL &U _motorR ]
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
 [; ;main.c: 66: delay_s(2);
 "66
 [e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 67: turnLeft(&motorL, &motorR);
+[; ;main.c: 67: stop(&motorL, &motorR);
 "67
-[e ( _turnLeft (2 , &U _motorL &U _motorR ]
+[e ( _stop (2 , &U _motorL &U _motorR ]
 [; ;main.c: 69: delay_s(2);
 "69
 [e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 70: stop(&motorL, &motorR);
+[; ;main.c: 70: fullSpeedBack(&motorL, &motorR);
 "70
-[e ( _stop (2 , &U _motorL &U _motorR ]
+[e ( _fullSpeedBack (2 , &U _motorL &U _motorR ]
 [; ;main.c: 72: delay_s(2);
 "72
 [e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 73: turnRight(&motorL, &motorR);
+[; ;main.c: 73: stop(&motorL, &motorR);
 "73
+[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 75: delay_s(2);
+"75
+[e ( _delay_s (1 -> -> 2 `i `uc ]
+[; ;main.c: 76: turnLeft(&motorL, &motorR);
+"76
+[e ( _turnLeft (2 , &U _motorL &U _motorR ]
+[; ;main.c: 78: delay_s(2);
+"78
+[e ( _delay_s (1 -> -> 2 `i `uc ]
+[; ;main.c: 79: stop(&motorL, &motorR);
+"79
+[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 81: delay_s(2);
+"81
+[e ( _delay_s (1 -> -> 2 `i `uc ]
+[; ;main.c: 82: turnRight(&motorL, &motorR);
+"82
 [e ( _turnRight (2 , &U _motorL &U _motorR ]
-"74
+"83
 }
 [e :U 418 ]
 "58
 [e $U 419  ]
 [e :U 420 ]
-[; ;main.c: 74: }
-[; ;main.c: 76: }
-"76
+[; ;main.c: 83: }
+[; ;main.c: 85: }
+"85
 [e :UE 414 ]
 }

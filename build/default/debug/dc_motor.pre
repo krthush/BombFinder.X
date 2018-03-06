@@ -4649,6 +4649,7 @@ void stop(struct DC_motor *mL, struct DC_motor *mR);
 void turnLeft(struct DC_motor *mL, struct DC_motor *mR);
 void turnRight(struct DC_motor *mL, struct DC_motor *mR);
 void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
+void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 
 # 4 "dc_motor.c"
 void initPWM(){
@@ -4759,4 +4760,13 @@ setMotorPWM(mL);
 setMotorPWM(mR);
 _delay((unsigned long)((50)*(8000000/4000000.0)));
 }
+}
+
+
+void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR)
+{
+
+mL->direction=0;
+mR->direction=0;
+fullSpeedAhead(mL, mR);
 }

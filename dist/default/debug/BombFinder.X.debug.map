@@ -5,7 +5,7 @@ Linker command line:
 --edf=C:\Program Files (x86)\Microchip\xc8\v1.35\dat\en_msgs.txt -cs \
   -h+dist/default/debug\BombFinder.X.debug.sym \
   --cmf=dist/default/debug\BombFinder.X.debug.cmf -z -Q18F4331 \
-  -oC:\Users\tr514\AppData\Local\Temp\s51o.2 \
+  -oC:\Users\tr514\AppData\Local\Temp\s7h8.2 \
   -Mdist/default/debug/BombFinder.X.debug.map -E1 -ver=XC8 \
   -ASTACK=060h-02eeh -pstack=STACK -ACODE=00h-01CFFh -ACONST=00h-01CFFh \
   -ASMALLCONST=0300h-03FFhx26 -AMEDIUMCONST=0300h-01CFFh -ACOMRAM=01h-05Fh \
@@ -22,7 +22,7 @@ Linker command line:
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE -prparam=COMRAM \
-  C:\Users\tr514\AppData\Local\Temp\s51o.obj \
+  C:\Users\tr514\AppData\Local\Temp\s7h8.obj \
   dist/default/debug\BombFinder.X.debug.obj 
 
 Object code version is 3.11
@@ -35,24 +35,25 @@ Call graph: (short form)
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\tr514\AppData\Local\Temp\s51o.obj
+C:\Users\tr514\AppData\Local\Temp\s7h8.obj
                 end_init                              2        2        4        0       0
                 reset_vec                             0        0        2        0       0
                 idloc                            200000   200000        8   200000       0
                 config                           300000   300000        E   300000       0
 dist/default/debug\BombFinder.X.debug.obj
-                text9                              18FC     18FC       5C      C7E       0
-                text8                              1866     1866       2A      C33       0
-                text7                              19C8     19C8       84      CE4       0
-                text6                              1840     1840       26      C20       0
-                text5                              1BCC     1BCC      134      DE6       0
-                text4                              1A4C     1A4C       90      D26       0
-                text3                              1958     1958       70      CAC       0
-                text2                              1890     1890       36      C48       0
-                text1                              18C6     18C6       36      C63       0
-                text0                              1ADC     1ADC       F0      D6E       0
+                text10                             18AE     18AE       5C      C57       0
+                text9                              197A     197A       84      CBD       0
+                text8                              17BC     17BC       26      BDE       0
+                text7                              1A8E     1A8E      134      D47       0
+                text6                              190A     190A       70      C85       0
+                text5                              180C     180C       36      C06       0
+                text4                              17E2     17E2       2A      BF1       0
+                text3                              19FE     19FE       90      CFF       0
+                text2                              1842     1842       36      C21       0
+                text1                              1878     1878       36      C3C       0
+                text0                              1BC2     1BC2      13E      DE1       0
                 cstackCOMRAM                          1        1       32        1       1
-                cinit                              183A     183A        6      C1D       0
+                cinit                              17B6     17B6        6      BDB       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   STACK          
@@ -60,17 +61,18 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   CODE           
                 end_init                              2        2        4         0
                 reset_vec                             0        0        2         0
-                text9                              18FC     18FC       5C         0
-                text8                              1866     1866       2A         0
-                text7                              19C8     19C8       84         0
-                text6                              1840     1840       26         0
-                text5                              1BCC     1BCC      134         0
-                text4                              1A4C     1A4C       90         0
-                text3                              1958     1958       70         0
-                text2                              1890     1890       36         0
-                text1                              18C6     18C6       36         0
-                text0                              1ADC     1ADC       F0         0
-                cinit                              183A     183A        6         0
+                text10                             18AE     18AE       5C         0
+                text9                              197A     197A       84         0
+                text8                              17BC     17BC       26         0
+                text7                              1A8E     1A8E      134         0
+                text6                              190A     190A       70         0
+                text5                              180C     180C       36         0
+                text4                              17E2     17E2       2A         0
+                text3                              19FE     19FE       90         0
+                text2                              1842     1842       36         0
+                text1                              1878     1878       36         0
+                text0                              1BC2     1BC2      13E         0
+                cinit                              17B6     17B6        6         0
 
         CLASS   CONST          
 
@@ -111,17 +113,18 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
 
                 reset_vec                      000000  000006  000006         0       0  CODE    
                 cstackCOMRAM                   000001  000032  000033         1       1  COMRAM  
-                cinit                          00183A  000006  001840       C1D       0  CODE    
-                text6                          001840  000026  001866       C20       0  CODE    
-                text8                          001866  00002A  001890       C33       0  CODE    
-                text2                          001890  000036  0018C6       C48       0  CODE    
-                text1                          0018C6  000036  0018FC       C63       0  CODE    
-                text9                          0018FC  00005C  001958       C7E       0  CODE    
-                text3                          001958  000070  0019C8       CAC       0  CODE    
-                text7                          0019C8  000084  001A4C       CE4       0  CODE    
-                text4                          001A4C  000090  001ADC       D26       0  CODE    
-                text0                          001ADC  0000F0  001BCC       D6E       0  CODE    
-                text5                          001BCC  000134  001D00       DE6       0  CODE    
+                cinit                          0017B6  000006  0017BC       BDB       0  CODE    
+                text8                          0017BC  000026  0017E2       BDE       0  CODE    
+                text4                          0017E2  00002A  00180C       BF1       0  CODE    
+                text5                          00180C  000036  001842       C06       0  CODE    
+                text2                          001842  000036  001878       C21       0  CODE    
+                text1                          001878  000036  0018AE       C3C       0  CODE    
+                text10                         0018AE  00005C  00190A       C57       0  CODE    
+                text6                          00190A  000070  00197A       C85       0  CODE    
+                text9                          00197A  000084  0019FE       CBD       0  CODE    
+                text3                          0019FE  000090  001A8E       CFF       0  CODE    
+                text7                          001A8E  000134  001BC2       D47       0  CODE    
+                text0                          001BC2  00013E  001D00       DE1       0  CODE    
                 idloc                          200000  000008  200008    200000       0  IDLOC   
                 config                         300000  00000E  30000E    300000       0  CONFIG  
 
@@ -133,11 +136,11 @@ UNUSED ADDRESS RANGES
         BANK1            000100-0001FF              100
         BANK2            000200-0002EE               EF
         BIGRAM           000033-0002EE              2BC
-        CODE             000006-001839             1834
+        CODE             000006-0017B5             17B0
         COMRAM           000033-00005F               2D
-        CONST            000006-001839             1834
+        CONST            000006-0017B5             17B0
         EEDATA           F00000-F000FF              100
-        MEDIUMCONST      000300-001839             153A
+        MEDIUMCONST      000300-0017B5             14B6
         RAM              000060-0002EE              100
         SFR              000F60-000F9B               3C
                          000F9D-000FD3               37
@@ -145,7 +148,7 @@ UNUSED ADDRESS RANGES
                          000FE0-000FE2                3
                          000FE8-000FEA                3
                          000FF0-000FFB                C
-        SMALLCONST       000300-001839              100
+        SMALLCONST       000300-0017B5              100
         STACK            000060-0002EE              28F
 
                                   Symbol Table
@@ -228,6 +231,7 @@ __Htemp                  temp         000000
 __Htext                  text         000000
 __Htext0                 text0        000000
 __Htext1                 text1        000000
+__Htext10                text10       000000
 __Htext2                 text2        000000
 __Htext3                 text3        000000
 __Htext4                 text4        000000
@@ -292,6 +296,7 @@ __Ltemp                  temp         000000
 __Ltext                  text         000000
 __Ltext0                 text0        000000
 __Ltext1                 text1        000000
+__Ltext10                text10       000000
 __Ltext2                 text2        000000
 __Ltext3                 text3        000000
 __Ltext4                 text4        000000
@@ -303,7 +308,7 @@ __Ltext9                 text9        000000
 __S0                     (abs)        30000E
 __S1                     (abs)        000033
 __S2                     (abs)        000000
-___awdiv                 text7        0019C8
+___awdiv                 text9        00197A
 ___awdiv@counter         cstackCOMRAM 00000B
 ___awdiv@dividend        cstackCOMRAM 000007
 ___awdiv@divisor         cstackCOMRAM 000009
@@ -314,42 +319,45 @@ ___intlo_sp              stack        000000
 ___param_bank            (abs)        000010
 ___rparam_used           (abs)        000001
 ___sp                    stack        000000
-___wmul                  text6        001840
+___wmul                  text8        0017BC
 ___wmul@multiplicand     cstackCOMRAM 000003
 ___wmul@multiplier       cstackCOMRAM 000001
 ___wmul@product          cstackCOMRAM 000005
 __accesstop              (abs)        000060
 __activetblptr           (abs)        000000
-__end_of___awdiv         text7        001A4C
-__end_of___wmul          text6        001866
-__end_of__initialization cinit        00183A
-__end_of_delay_s         text9        001958
-__end_of_fullSpeedAhead  text3        0019C8
-__end_of_initPWM         text8        001890
-__end_of_main            text0        001BCC
-__end_of_setMotorPWM     text5        001D00
-__end_of_stop            text4        001ADC
-__end_of_turnLeft        text2        0018C6
-__end_of_turnRight       text1        0018FC
-__initialization         cinit        00183A
+__end_of___awdiv         text9        0019FE
+__end_of___wmul          text8        0017E2
+__end_of__initialization cinit        0017B6
+__end_of_delay_s         text10       00190A
+__end_of_fullSpeedAhead  text6        00197A
+__end_of_fullSpeedBack   text5        001842
+__end_of_initPWM         text4        00180C
+__end_of_main            text0        001D00
+__end_of_setMotorPWM     text7        001BC2
+__end_of_stop            text3        001A8E
+__end_of_turnLeft        text2        001878
+__end_of_turnRight       text1        0018AE
+__initialization         cinit        0017B6
 __mediumconst            mediumconst  000000
-__pcinit                 cinit        00183A
+__pcinit                 cinit        0017B6
 __pcstackCOMRAM          cstackCOMRAM 000001
-__ptext0                 text0        001ADC
-__ptext1                 text1        0018C6
-__ptext2                 text2        001890
-__ptext3                 text3        001958
-__ptext4                 text4        001A4C
-__ptext5                 text5        001BCC
-__ptext6                 text6        001840
-__ptext7                 text7        0019C8
-__ptext8                 text8        001866
-__ptext9                 text9        0018FC
+__ptext0                 text0        001BC2
+__ptext1                 text1        001878
+__ptext10                text10       0018AE
+__ptext2                 text2        001842
+__ptext3                 text3        0019FE
+__ptext4                 text4        0017E2
+__ptext5                 text5        00180C
+__ptext6                 text6        00190A
+__ptext7                 text7        001A8E
+__ptext8                 text8        0017BC
+__ptext9                 text9        00197A
 __ramtop                 ramtop       000300
 __size_of___awdiv        (abs)        000000
 __size_of___wmul         (abs)        000000
 __size_of_delay_s        (abs)        000000
 __size_of_fullSpeedAhead (abs)        000000
+__size_of_fullSpeedBack  (abs)        000000
 __size_of_initPWM        (abs)        000000
 __size_of_main           (abs)        000000
 __size_of_setMotorPWM    (abs)        000000
@@ -357,20 +365,23 @@ __size_of_stop           (abs)        000000
 __size_of_turnLeft       (abs)        000000
 __size_of_turnRight      (abs)        000000
 __smallconst             smallconst   000000
-_delay_s                 text9        0018FC
-_fullSpeedAhead          text3        001958
-_initPWM                 text8        001866
-_main                    text0        001ADC
-_setMotorPWM             text5        001BCC
-_stop                    text4        001A4C
-_turnLeft                text2        001890
-_turnRight               text1        0018C6
+_delay_s                 text10       0018AE
+_fullSpeedAhead          text6        00190A
+_fullSpeedBack           text5        00180C
+_initPWM                 text4        0017E2
+_main                    text0        001BC2
+_setMotorPWM             text7        001A8E
+_stop                    text3        0019FE
+_turnLeft                text2        001842
+_turnRight               text1        001878
 delay_s@i                cstackCOMRAM 000004
 delay_s@j                cstackCOMRAM 000006
 delay_s@seconds          cstackCOMRAM 000003
-end_of_initialization    cinit        00183A
+end_of_initialization    cinit        0017B6
 fullSpeedAhead@mL        cstackCOMRAM 000018
 fullSpeedAhead@mR        cstackCOMRAM 00001A
+fullSpeedBack@mL         cstackCOMRAM 00001D
+fullSpeedBack@mR         cstackCOMRAM 00001F
 intlevel0                text         000000
 intlevel1                text         000000
 intlevel2                text         000000
@@ -382,7 +393,7 @@ setMotorPWM@m            cstackCOMRAM 00000F
 stackhi                  (abs)        0002EE
 stacklo                  (abs)        000060
 start                    init         000002
-start_initialization     cinit        00183A
+start_initialization     cinit        0017B6
 stop@mL                  cstackCOMRAM 000018
 stop@mR                  cstackCOMRAM 00001A
 turnLeft@mL              cstackCOMRAM 00001D
@@ -419,6 +430,7 @@ Total ram usage:       18 bytes
  This function calls:
 		_delay_s
 		_fullSpeedAhead
+		_fullSpeedBack
 		_initPWM
 		_stop
 		_turnLeft
@@ -494,41 +506,6 @@ Total ram usage:        4 bytes
  This function uses a non-reentrant model
 
 
- *************** function _fullSpeedAhead *****************
- Defined at:
-		line 98 in file "dc_motor.c"
- Parameters:    Size  Location     Type
-  mL              2   23[COMRAM] PTR struct DC_motor
-		 -> main@motorL(9), 
-  mR              2   25[COMRAM] PTR struct DC_motor
-		 -> main@motorR(9), 
- Auto vars:     Size  Location     Type
-		None
- Return value:  Size  Location     Type
-		None               void
- Registers used:
-		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
- Tracked objects:
-		On entry : 
-		On exit  : 
-		Unchanged: 
- Data sizes:     COMRAM   BANK0   BANK1   BANK2
-      Params:         4       0       0       0
-      Locals:         0       0       0       0
-      Temps:          1       0       0       0
-      Totals:         5       0       0       0
-Total ram usage:        5 bytes
- Hardware stack levels used:    1
- Hardware stack levels required when called:    2
- This function calls:
-		_setMotorPWM
- This function is called by:
-		_turnLeft
-		_turnRight
-		_main
- This function uses a non-reentrant model
-
-
  *************** function _stop *****************
  Defined at:
 		line 61 in file "dc_motor.c"
@@ -559,6 +536,104 @@ Total ram usage:        4 bytes
 		_setMotorPWM
  This function is called by:
 		_main
+ This function uses a non-reentrant model
+
+
+ *************** function _initPWM *****************
+ Defined at:
+		line 4 in file "dc_motor.c"
+ Parameters:    Size  Location     Type
+		None
+ Auto vars:     Size  Location     Type
+		None
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg, status,2
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMRAM   BANK0   BANK1   BANK2
+      Params:         0       0       0       0
+      Locals:         0       0       0       0
+      Temps:          0       0       0       0
+      Totals:         0       0       0       0
+Total ram usage:        0 bytes
+ Hardware stack levels used:    1
+ This function calls:
+		Nothing
+ This function is called by:
+		_main
+ This function uses a non-reentrant model
+
+
+ *************** function _fullSpeedBack *****************
+ Defined at:
+		line 115 in file "dc_motor.c"
+ Parameters:    Size  Location     Type
+  mL              2   28[COMRAM] PTR struct DC_motor
+		 -> main@motorL(9), 
+  mR              2   30[COMRAM] PTR struct DC_motor
+		 -> main@motorR(9), 
+ Auto vars:     Size  Location     Type
+		None
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMRAM   BANK0   BANK1   BANK2
+      Params:         4       0       0       0
+      Locals:         0       0       0       0
+      Temps:          0       0       0       0
+      Totals:         4       0       0       0
+Total ram usage:        4 bytes
+ Hardware stack levels used:    1
+ Hardware stack levels required when called:    3
+ This function calls:
+		_fullSpeedAhead
+ This function is called by:
+		_main
+ This function uses a non-reentrant model
+
+
+ *************** function _fullSpeedAhead *****************
+ Defined at:
+		line 98 in file "dc_motor.c"
+ Parameters:    Size  Location     Type
+  mL              2   23[COMRAM] PTR struct DC_motor
+		 -> main@motorL(9), 
+  mR              2   25[COMRAM] PTR struct DC_motor
+		 -> main@motorR(9), 
+ Auto vars:     Size  Location     Type
+		None
+ Return value:  Size  Location     Type
+		None               void
+ Registers used:
+		wreg, fsr2l, fsr2h, status,2, status,0, prodl, prodh, cstack
+ Tracked objects:
+		On entry : 
+		On exit  : 
+		Unchanged: 
+ Data sizes:     COMRAM   BANK0   BANK1   BANK2
+      Params:         4       0       0       0
+      Locals:         0       0       0       0
+      Temps:          1       0       0       0
+      Totals:         5       0       0       0
+Total ram usage:        5 bytes
+ Hardware stack levels used:    1
+ Hardware stack levels required when called:    2
+ This function calls:
+		_setMotorPWM
+ This function is called by:
+		_main
+		_turnLeft
+		_turnRight
+		_fullSpeedBack
  This function uses a non-reentrant model
 
 
@@ -659,35 +734,6 @@ Total ram usage:        8 bytes
  This function uses a non-reentrant model
 
 
- *************** function _initPWM *****************
- Defined at:
-		line 4 in file "dc_motor.c"
- Parameters:    Size  Location     Type
-		None
- Auto vars:     Size  Location     Type
-		None
- Return value:  Size  Location     Type
-		None               void
- Registers used:
-		wreg, status,2
- Tracked objects:
-		On entry : 
-		On exit  : 
-		Unchanged: 
- Data sizes:     COMRAM   BANK0   BANK1   BANK2
-      Params:         0       0       0       0
-      Locals:         0       0       0       0
-      Temps:          0       0       0       0
-      Totals:         0       0       0       0
-Total ram usage:        0 bytes
- Hardware stack levels used:    1
- This function calls:
-		Nothing
- This function is called by:
-		_main
- This function uses a non-reentrant model
-
-
  *************** function _delay_s *****************
  Defined at:
 		line 10 in file "main.c"
@@ -724,33 +770,34 @@ MODULE INFORMATION
 
 Module		Function		Class		Link	Load	Size
 C:\Program Files (x86)\Microchip\xc8\v1.35\sources\common\awdiv.c
-		___awdiv       		CODE           	19C8	0000	133
+		___awdiv       		CODE           	197A	0000	133
 
 C:\Program Files (x86)\Microchip\xc8\v1.35\sources\common\awdiv.c estimated size: 133
 
 dc_motor.c
-		_fullSpeedAhead		CODE           	1958	0000	113
-		_turnLeft      		CODE           	1890	0000	55
-		_stop          		CODE           	1A4C	0000	145
-		_turnRight     		CODE           	18C6	0000	55
-		_setMotorPWM   		CODE           	1BCC	0000	309
-		_initPWM       		CODE           	1866	0000	43
+		_fullSpeedBack 		CODE           	180C	0000	55
+		_fullSpeedAhead		CODE           	190A	0000	113
+		_turnLeft      		CODE           	1842	0000	55
+		_stop          		CODE           	19FE	0000	145
+		_turnRight     		CODE           	1878	0000	55
+		_setMotorPWM   		CODE           	1A8E	0000	309
+		_initPWM       		CODE           	17E2	0000	43
 
-dc_motor.c estimated size: 720
+dc_motor.c estimated size: 775
 
 shared
-		__initialization		CODE           	183A	0000	1
+		__initialization		CODE           	17B6	0000	1
 
 shared estimated size: 1
 
 C:\Program Files (x86)\Microchip\xc8\v1.35\sources\common\Umul16.c
-		___wmul        		CODE           	1840	0000	39
+		___wmul        		CODE           	17BC	0000	39
 
 C:\Program Files (x86)\Microchip\xc8\v1.35\sources\common\Umul16.c estimated size: 39
 
 main.c
-		_main          		CODE           	1ADC	0000	241
-		_delay_s       		CODE           	18FC	0000	93
+		_main          		CODE           	1BC2	0000	319
+		_delay_s       		CODE           	18AE	0000	93
 
-main.c estimated size: 334
+main.c estimated size: 412
 

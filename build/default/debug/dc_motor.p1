@@ -3525,6 +3525,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 23: void turnLeft(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 24: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
+[; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 "4 dc_motor.c
 [v _initPWM `(v ~T0 @X0 1 ef ]
 {
@@ -3870,4 +3871,29 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 112: }
 "112
 [e :UE 428 ]
+}
+"115
+[v _fullSpeedBack `(v ~T0 @X0 1 ef2`*S405`*S405 ]
+"116
+{
+[; ;dc_motor.c: 115: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR)
+[; ;dc_motor.c: 116: {
+[e :U _fullSpeedBack ]
+"115
+[v _mL `*S405 ~T0 @X0 1 r1 ]
+[v _mR `*S405 ~T0 @X0 1 r2 ]
+"116
+[f ]
+[; ;dc_motor.c: 118: mL->direction=0;
+"118
+[e = . *U _mL 1 -> -> 0 `i `uc ]
+[; ;dc_motor.c: 119: mR->direction=0;
+"119
+[e = . *U _mR 1 -> -> 0 `i `uc ]
+[; ;dc_motor.c: 120: fullSpeedAhead(mL, mR);
+"120
+[e ( _fullSpeedAhead (2 , _mL _mR ]
+[; ;dc_motor.c: 121: }
+"121
+[e :UE 434 ]
 }

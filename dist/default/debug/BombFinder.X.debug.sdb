@@ -39,6 +39,8 @@
 [v _turnRight turnRight `(v  1 e 0 0 ]
 "98
 [v _fullSpeedAhead fullSpeedAhead `(v  1 e 0 0 ]
+"115
+[v _fullSpeedBack fullSpeedBack `(v  1 e 0 0 ]
 "10 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _delay_s delay_s `(v  1 e 0 0 ]
 "20
@@ -65,7 +67,7 @@
 [v _PTCON0 PTCON0 `VEuc  1 e 1 @3967 ]
 "1972
 [v _LATB LATB `VEuc  1 e 1 @3978 ]
-[s S191 . 1 `uc 1 TRISA0 1 0 :1:0 
+[s S78 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
 `uc 1 TRISA3 1 0 :1:3 
@@ -75,7 +77,7 @@
 `uc 1 TRISA7 1 0 :1:7 
 ]
 "2520
-[s S200 . 1 `uc 1 RA0 1 0 :1:0 
+[s S87 . 1 `uc 1 RA0 1 0 :1:0 
 `uc 1 RA1 1 0 :1:1 
 `uc 1 RA2 1 0 :1:2 
 `uc 1 RA3 1 0 :1:3 
@@ -84,9 +86,9 @@
 `uc 1 RA6 1 0 :1:6 
 `uc 1 RA7 1 0 :1:7 
 ]
-[u S209 . 1 `S191 1 . 1 0 `S200 1 . 1 0 ]
-[v _TRISAbits TRISAbits `VES209  1 e 1 @3986 ]
-[s S151 . 1 `uc 1 TRISB0 1 0 :1:0 
+[u S96 . 1 `S78 1 . 1 0 `S87 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES96  1 e 1 @3986 ]
+[s S38 . 1 `uc 1 TRISB0 1 0 :1:0 
 `uc 1 TRISB1 1 0 :1:1 
 `uc 1 TRISB2 1 0 :1:2 
 `uc 1 TRISB3 1 0 :1:3 
@@ -96,7 +98,7 @@
 `uc 1 TRISB7 1 0 :1:7 
 ]
 "2741
-[s S160 . 1 `uc 1 RB0 1 0 :1:0 
+[s S47 . 1 `uc 1 RB0 1 0 :1:0 
 `uc 1 RB1 1 0 :1:1 
 `uc 1 RB2 1 0 :1:2 
 `uc 1 RB3 1 0 :1:3 
@@ -105,9 +107,9 @@
 `uc 1 RB6 1 0 :1:6 
 `uc 1 RB7 1 0 :1:7 
 ]
-[u S169 . 1 `S151 1 . 1 0 `S160 1 . 1 0 ]
-[v _TRISBbits TRISBbits `VES169  1 e 1 @3987 ]
-[s S231 . 1 `uc 1 ANS0 1 0 :1:0 
+[u S56 . 1 `S38 1 . 1 0 `S47 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES56  1 e 1 @3987 ]
+[s S118 . 1 `uc 1 ANS0 1 0 :1:0 
 `uc 1 ANS1 1 0 :1:1 
 `uc 1 ANS2 1 0 :1:2 
 `uc 1 ANS3 1 0 :1:3 
@@ -117,8 +119,8 @@
 `uc 1 ANS7 1 0 :1:7 
 ]
 "5433
-[u S240 . 1 `S231 1 . 1 0 ]
-[v _ANSEL0bits ANSEL0bits `VES240  1 e 1 @4024 ]
+[u S127 . 1 `S118 1 . 1 0 ]
+[v _ANSEL0bits ANSEL0bits `VES127  1 e 1 @4024 ]
 "5688
 [v _ADCON2 ADCON2 `VEuc  1 e 1 @4032 ]
 "5763
@@ -127,74 +129,87 @@
 [v _ADCON0 ADCON0 `VEuc  1 e 1 @4034 ]
 "6964
 [v _OSCCON OSCCON `VEuc  1 e 1 @4051 ]
-[s S256 . 1 `uc 1 SCS 1 0 :2:0 
+[s S143 . 1 `uc 1 SCS 1 0 :2:0 
 `uc 1 IOFS 1 0 :1:2 
 `uc 1 OSTS 1 0 :1:3 
 `uc 1 IRCF 1 0 :3:4 
 `uc 1 IDLEN 1 0 :1:7 
 ]
 "6990
-[s S262 . 1 `uc 1 SCS0 1 0 :1:0 
+[s S149 . 1 `uc 1 SCS0 1 0 :1:0 
 `uc 1 SCS1 1 0 :1:1 
 `uc 1 . 1 0 :2:2 
 `uc 1 IRCF0 1 0 :1:4 
 `uc 1 IRCF1 1 0 :1:5 
 `uc 1 IRCF2 1 0 :1:6 
 ]
-[s S269 . 1 `uc 1 . 1 0 :2:0 
+[s S156 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 FLTS 1 0 :1:2 
 ]
-[u S272 . 1 `S256 1 . 1 0 `S262 1 . 1 0 `S269 1 . 1 0 ]
-[v _OSCCONbits OSCCONbits `VES272  1 e 1 @4051 ]
+[u S159 . 1 `S143 1 . 1 0 `S149 1 . 1 0 `S156 1 . 1 0 ]
+[v _OSCCONbits OSCCONbits `VES159  1 e 1 @4051 ]
 "20 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _main main `(v  1 e 0 0 ]
 {
-[s S31 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
 "22
-[v main@motorR motorR `S31  1 a 9 41 ]
-[v main@motorL motorL `S31  1 a 9 32 ]
-"76
+[v main@motorR motorR `S27  1 a 9 41 ]
+[v main@motorL motorL `S27  1 a 9 32 ]
+"85
 } 0
 "89 H:\MPLABXProjects\ECM\BombFinder.X\dc_motor.c
 [v _turnRight turnRight `(v  1 e 0 0 ]
 {
-[s S31 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
-[v turnRight@mL mL `*.39S31  1 p 2 28 ]
-[v turnRight@mR mR `*.39S31  1 p 2 30 ]
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[v turnRight@mL mL `*.39S27  1 p 2 28 ]
+[v turnRight@mR mR `*.39S27  1 p 2 30 ]
 "95
 } 0
 "80
 [v _turnLeft turnLeft `(v  1 e 0 0 ]
 {
-[s S31 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
-[v turnLeft@mL mL `*.39S31  1 p 2 28 ]
-[v turnLeft@mR mR `*.39S31  1 p 2 30 ]
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[v turnLeft@mL mL `*.39S27  1 p 2 28 ]
+[v turnLeft@mR mR `*.39S27  1 p 2 30 ]
 "86
-} 0
-"98
-[v _fullSpeedAhead fullSpeedAhead `(v  1 e 0 0 ]
-{
-[s S31 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
-[v fullSpeedAhead@mL mL `*.39S31  1 p 2 23 ]
-[v fullSpeedAhead@mR mR `*.39S31  1 p 2 25 ]
-"112
 } 0
 "61
 [v _stop stop `(v  1 e 0 0 ]
 {
-[s S31 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
-[v stop@mL mL `*.39S31  1 p 2 23 ]
-[v stop@mR mR `*.39S31  1 p 2 25 ]
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[v stop@mL mL `*.39S27  1 p 2 23 ]
+[v stop@mR mR `*.39S27  1 p 2 25 ]
 "77
+} 0
+"4
+[v _initPWM initPWM `(v  1 e 0 0 ]
+{
+"17
+} 0
+"115
+[v _fullSpeedBack fullSpeedBack `(v  1 e 0 0 ]
+{
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[v fullSpeedBack@mL mL `*.39S27  1 p 2 28 ]
+[v fullSpeedBack@mR mR `*.39S27  1 p 2 30 ]
+"121
+} 0
+"98
+[v _fullSpeedAhead fullSpeedAhead `(v  1 e 0 0 ]
+{
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[v fullSpeedAhead@mL mL `*.39S27  1 p 2 23 ]
+[v fullSpeedAhead@mR mR `*.39S27  1 p 2 25 ]
+"112
 } 0
 "20
 [v _setMotorPWM setMotorPWM `(v  1 e 0 0 ]
 {
 "22
 [v setMotorPWM@PWMduty PWMduty `i  1 a 2 21 ]
-[s S31 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
+[s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
 "20
-[v setMotorPWM@m m `*.39S31  1 p 2 14 ]
+[v setMotorPWM@m m `*.39S27  1 p 2 14 ]
 "39
 } 0
 "15 C:\Program Files (x86)\Microchip\xc8\v1.35\sources\common\Umul16.c
@@ -219,11 +234,6 @@
 [v ___awdiv@dividend dividend `i  1 p 2 6 ]
 [v ___awdiv@divisor divisor `i  1 p 2 8 ]
 "42
-} 0
-"4 H:\MPLABXProjects\ECM\BombFinder.X\dc_motor.c
-[v _initPWM initPWM `(v  1 e 0 0 ]
-{
-"17
 } 0
 "10 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _delay_s delay_s `(v  1 e 0 0 ]
