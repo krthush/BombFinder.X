@@ -1,8 +1,12 @@
 #include "dc_motor.h"
+//#include "LCD.h"
 
 #pragma config OSC = IRCIO  // internal oscillator
 
 #define PWMcycle 1 //need to calculate this
+
+volatile unsigned char ReceivedString[16]; //Global variable to read from RFID
+volatile unsigned char i=0;
 
 // function to delay in seconds
 //__delay_ms() is limited to a maximum delay of 89ms with an 8Mhz
@@ -17,8 +21,33 @@ void delay_s(char seconds) {
     }
 }
 
-void main(void){
+// High priority interrupt routine
+void interrupt InterruptHandlerHigh ()
+{
+    if (PIR1bits.RCIF) {
+        ReceivedString[i]=RCREG;
+        if (i==15){
+            i=0;
+        }else{
+            i++;  
+        }
+        //No need to clear the interrupt flag as reading RCREG does this automatically
+    }
+}
 
+void main(void){
+    // Enable interrupts
+    INTCONbits.GIEH = 1; // Global Interrupt Enable bit
+    RCONbits.IPEN = 1; // Enable interrupt priority
+    INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
+    // Set the button on RC3 to trigger an
+    // interrupt. It is always high priority
+    
+    PIE1bits.RCIE=1; //Enable interrupt on serial reception
+    IPR1bits.RCIP=1; //High Priority
+    
+    
+    // Initialise Motor Structures
     struct DC_motor motorL, motorR; //declare 2 motor structures
     motorL.power=0; //zero power to start
     motorL.direction=1; //set default motor direction
@@ -34,7 +63,7 @@ void main(void){
     motorR.dir_pin=2; //pin RB0/PWM0 controls direction
     motorR.PWMperiod=199; //store PWMperiod for motor
 
-    // set bits as outputs
+    // set bits as outputs (Used for motors!) 
     TRISBbits.RB0=0;
     TRISBbits.RB1=0;
     TRISBbits.RB2=0;
@@ -52,11 +81,12 @@ void main(void){
     while(!OSCCONbits.IOFS); //wait until stable
 
     initPWM();  //setup PWM registers
-
+//    LCD_Init(); //Initialise LCD screen
     //some code to set inital values of each structure
-
+    
    while(1){
 	//call your control functions, i.e. fullSpeedAhead(&motorL,&motorR);
+       
         delay_s(2);
         stop(&motorL, &motorR);
         

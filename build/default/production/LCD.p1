@@ -1,31 +1,104 @@
 Version 3.2 HI-TECH Software Intermediate Code
+"2110 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
+[s S106 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S106 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
+"2120
+[s S107 :1 `uc 1 ]
+[n S107 . LC0 ]
+"2123
+[s S108 :1 `uc 1 :1 `uc 1 ]
+[n S108 . . LC1 ]
+"2127
+[s S109 :2 `uc 1 :1 `uc 1 ]
+[n S109 . . LC2 ]
+"2131
+[s S110 :3 `uc 1 :1 `uc 1 ]
+[n S110 . . LC3 ]
+"2135
+[s S111 :4 `uc 1 :1 `uc 1 ]
+[n S111 . . LC4 ]
+"2139
+[s S112 :5 `uc 1 :1 `uc 1 ]
+[n S112 . . LC5 ]
+"2143
+[s S113 :6 `uc 1 :1 `uc 1 ]
+[n S113 . . LC6 ]
+"2147
+[s S114 :7 `uc 1 :1 `uc 1 ]
+[n S114 . . LC7 ]
+"2109
+[u S105 `S106 1 `S107 1 `S108 1 `S109 1 `S110 1 `S111 1 `S112 1 `S113 1 `S114 1 ]
+[n S105 . . . . . . . . . . ]
+"2152
+[v _LATCbits `VS105 ~T0 @X0 0 e@3979 ]
 [v F3644 `(v ~T0 @X0 1 tf1`ul ]
 "152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
 [v __delay `JF3644 ~T0 @X0 0 e ]
 [p i __delay ]
-[p mainexit ]
-"8 dc_motor.h
-[s S405 `uc 1 `uc 1 `*uc 1 `*uc 1 `uc 1 `i 1 ]
-[n S405 DC_motor power direction dutyLowByte dutyHighByte dir_pin PWMperiod ]
-"864 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
-[v _PDC0L `Vuc ~T0 @X0 0 e@3961 ]
-"858
-[v _PDC0H `Vuc ~T0 @X0 0 e@3960 ]
-"852
-[v _PDC1L `Vuc ~T0 @X0 0 e@3959 ]
-"846
-[v _PDC1H `Vuc ~T0 @X0 0 e@3958 ]
-"2720
-[s S142 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S142 . TRISB0 TRISB1 TRISB2 TRISB3 TRISB4 TRISB5 TRISB6 TRISB7 ]
-"2730
-[s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S143 . RB0 RB1 RB2 RB3 RB4 RB5 RB6 RB7 ]
-"2719
-[u S141 `S142 1 `S143 1 ]
-[n S141 . . . ]
-"2741
-[v _TRISBbits `VS141 ~T0 @X0 0 e@3987 ]
+"2242 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
+[s S116 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S116 . LATD0 LATD1 LATD2 LATD3 LATD4 LATD5 LATD6 LATD7 ]
+"2252
+[s S117 :1 `uc 1 ]
+[n S117 . LD0 ]
+"2255
+[s S118 :1 `uc 1 :1 `uc 1 ]
+[n S118 . . LD1 ]
+"2259
+[s S119 :2 `uc 1 :1 `uc 1 ]
+[n S119 . . LD2 ]
+"2263
+[s S120 :3 `uc 1 :1 `uc 1 ]
+[n S120 . . LD3 ]
+"2267
+[s S121 :4 `uc 1 :1 `uc 1 ]
+[n S121 . . LD4 ]
+"2271
+[s S122 :5 `uc 1 :1 `uc 1 ]
+[n S122 . . LD5 ]
+"2275
+[s S123 :6 `uc 1 :1 `uc 1 ]
+[n S123 . . LD6 ]
+"2279
+[s S124 :7 `uc 1 :1 `uc 1 ]
+[n S124 . . LD7 ]
+"2241
+[u S115 `S116 1 `S117 1 `S118 1 `S119 1 `S120 1 `S121 1 `S122 1 `S123 1 `S124 1 ]
+[n S115 . . . . . . . . . . ]
+"2284
+[v _LATDbits `VS115 ~T0 @X0 0 e@3980 ]
+"1846
+[s S86 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S86 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"1856
+[s S87 :1 `uc 1 ]
+[n S87 . LA0 ]
+"1859
+[s S88 :1 `uc 1 :1 `uc 1 ]
+[n S88 . . LA1 ]
+"1863
+[s S89 :2 `uc 1 :1 `uc 1 ]
+[n S89 . . LA2 ]
+"1867
+[s S90 :3 `uc 1 :1 `uc 1 ]
+[n S90 . . LA3 ]
+"1871
+[s S91 :4 `uc 1 :1 `uc 1 ]
+[n S91 . . LA4 ]
+"1875
+[s S92 :5 `uc 1 :1 `uc 1 ]
+[n S92 . . LA5 ]
+"1879
+[s S93 :6 `uc 1 :1 `uc 1 ]
+[n S93 . . LA6 ]
+"1883
+[s S94 :7 `uc 1 :1 `uc 1 ]
+[n S94 . . LA7 ]
+"1845
+[u S85 `S86 1 `S87 1 `S88 1 `S89 1 `S90 1 `S91 1 `S92 1 `S93 1 `S94 1 ]
+[n S85 . . . . . . . . . . ]
+"1888
+[v _LATAbits `VS85 ~T0 @X0 0 e@3977 ]
 "2499
 [s S136 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S136 . TRISA0 TRISA1 TRISA2 TRISA3 TRISA4 TRISA5 TRISA6 TRISA7 ]
@@ -37,52 +110,28 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S135 . . . ]
 "2520
 [v _TRISAbits `VS135 ~T0 @X0 0 e@3986 ]
-"5422
-[s S284 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S284 . ANS0 ANS1 ANS2 ANS3 ANS4 ANS5 ANS6 ANS7 ]
-"5421
-[u S283 `S284 1 ]
-[n S283 . . ]
-"5433
-[v _ANSEL0bits `VS283 ~T0 @X0 0 e@4024 ]
-"5861
-[v _ADCON0 `Vuc ~T0 @X0 0 e@4034 ]
-"5763
-[v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
-"5688
-[v _ADCON2 `Vuc ~T0 @X0 0 e@4032 ]
-"6964
-[v _OSCCON `Vuc ~T0 @X0 0 e@4051 ]
-"6970
-[s S377 :2 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 :1 `uc 1 ]
-[n S377 . SCS IOFS OSTS IRCF IDLEN ]
-"6977
-[s S378 :1 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S378 . SCS0 SCS1 . IRCF0 IRCF1 IRCF2 ]
-"6985
-[s S379 :2 `uc 1 :1 `uc 1 ]
-[n S379 . . FLTS ]
-"6969
-[u S376 `S377 1 `S378 1 `S379 1 ]
-[n S376 . . . . ]
-"6990
-[v _OSCCONbits `VS376 ~T0 @X0 0 e@4051 ]
-"18 dc_motor.h
-[v _initPWM `(v ~T0 @X0 0 ef ]
-"25 LCD.h
-[v _LCD_Init `(v ~T0 @X0 0 ef ]
-"28
-[v _SendLCD `(v ~T0 @X0 0 ef2`uc`uc ]
-"22 dc_motor.h
-[v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"25
-[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"26
-[v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"23
-[v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"24
-[v _turnRight `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"2941
+[s S148 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S148 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
+"2951
+[s S149 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S149 . RC0 RC1 RC2 RC3 RC4 RC5 RC6 RC7 ]
+"2940
+[u S147 `S148 1 `S149 1 ]
+[n S147 . . . ]
+"2962
+[v _TRISCbits `VS147 ~T0 @X0 0 e@3988 ]
+"3162
+[s S154 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S154 . TRISD0 TRISD1 TRISD2 TRISD3 TRISD4 TRISD5 TRISD6 TRISD7 ]
+"3172
+[s S155 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S155 . RD0 RD1 RD2 RD3 RD4 RD5 RD6 RD7 ]
+"3161
+[u S153 `S154 1 `S155 1 ]
+[n S153 . . . ]
+"3183
+[v _TRISDbits `VS153 ~T0 @X0 0 e@3989 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3562,23 +3611,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 152: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 154: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 156: extern __nonreentrant void _delay3(unsigned char);
-[; ;dc_motor.h: 8: struct DC_motor {
-[; ;dc_motor.h: 9: char power;
-[; ;dc_motor.h: 10: char direction;
-[; ;dc_motor.h: 11: unsigned char *dutyLowByte;
-[; ;dc_motor.h: 12: unsigned char *dutyHighByte;
-[; ;dc_motor.h: 13: char dir_pin;
-[; ;dc_motor.h: 14: int PWMperiod;
-[; ;dc_motor.h: 15: };
-[; ;dc_motor.h: 18: void initPWM();
-[; ;dc_motor.h: 19: void setMotorPWM(struct DC_motor *m);
-[; ;dc_motor.h: 20: void setMotorFullSpeed(struct DC_motor *m);
-[; ;dc_motor.h: 21: void stopMotor(struct DC_motor *m);
-[; ;dc_motor.h: 22: void stop(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 23: void turnLeft(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 24: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 [; ;__size_t.h: 4: typedef unsigned size_t;
 [; ;string.h: 14: extern void * memcpy(void *, const void *, size_t);
 [; ;string.h: 15: extern void * memmove(void *, const void *, size_t);
@@ -3644,214 +3676,228 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;LCD.h: 28: void SendLCD(unsigned char Byte, char type);
 [; ;LCD.h: 29: void SetLine (char line);
 [; ;LCD.h: 30: void LCD_String(char *string);
-"11 main.c
-[v _delay_s `(v ~T0 @X0 1 ef1`uc ]
+"5 LCD.c
+[v _E_TOG `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 11: void delay_s(char seconds) {
-[e :U _delay_s ]
-[v _seconds `uc ~T0 @X0 1 r1 ]
+[; ;LCD.c: 5: void E_TOG(void){
+[e :U _E_TOG ]
 [f ]
-"12
-[v _i `ui ~T0 @X0 1 a ]
-[; ;main.c: 12: unsigned int i=0;
-[e = _i -> -> 0 `i `ui ]
-"13
-[v _j `ui ~T0 @X0 1 a ]
-[; ;main.c: 13: unsigned int j=0;
-[e = _j -> -> 0 `i `ui ]
-[; ;main.c: 14: for (i=1; i<=seconds; i++) {
-"14
-{
-[e = _i -> -> 1 `i `ui ]
-[e $U 411  ]
-[e :U 408 ]
-{
-[; ;main.c: 15: for (j=1; j<=20; j++) {
-"15
-{
-[e = _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 20 `i `ui 412  ]
-[e $U 413  ]
-[e :U 412 ]
-{
-[; ;main.c: 16: _delay((unsigned long)((50)*(8000000/4000.0)));
-"16
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"17
-}
-"15
-[e ++ _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 20 `i `ui 412  ]
-[e :U 413 ]
-"17
-}
-"18
+[; ;LCD.c: 8: LATCbits.LATC0=1;
+"8
+[e = . . _LATCbits 0 0 -> -> 1 `i `uc ]
+[; ;LCD.c: 9: _delay((unsigned long)((5)*(8000000/4000000.0)));
+"9
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 10: LATCbits.LATC0=0;
+"10
+[e = . . _LATCbits 0 0 -> -> 0 `i `uc ]
+[; ;LCD.c: 11: }
+"11
+[e :UE 406 ]
 }
 "14
-[e ++ _i -> -> 1 `i `ui ]
-[e :U 411 ]
-[e $ <= _i -> _seconds `ui 408  ]
-[e :U 409 ]
+[v _LCDout `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;LCD.c: 14: void LCDout(unsigned char number){
+[e :U _LCDout ]
+[v _number `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;LCD.c: 17: LATCbits.LATC1 = (number<<7)>>7;
+"17
+[e = . . _LATCbits 0 1 -> >> << -> _number `i -> 7 `i -> 7 `i `uc ]
+[; ;LCD.c: 18: LATCbits.LATC2 = (number<<6)>>7;
 "18
-}
-[; ;main.c: 17: }
-[; ;main.c: 18: }
-[; ;main.c: 19: }
+[e = . . _LATCbits 0 2 -> >> << -> _number `i -> 6 `i -> 7 `i `uc ]
+[; ;LCD.c: 19: LATDbits.LATD0 = (number<<5)>>7;
 "19
+[e = . . _LATDbits 0 0 -> >> << -> _number `i -> 5 `i -> 7 `i `uc ]
+[; ;LCD.c: 20: LATDbits.LATD1 = (number<<4)>>7;
+"20
+[e = . . _LATDbits 0 1 -> >> << -> _number `i -> 4 `i -> 7 `i `uc ]
+[; ;LCD.c: 21: E_TOG();
+"21
+[e ( _E_TOG ..  ]
+[; ;LCD.c: 22: _delay((unsigned long)((5)*(8000000/4000000.0)));
+"22
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 24: }
+"24
 [e :UE 407 ]
 }
-"21
-[v _main `(v ~T0 @X0 1 ef ]
-{
-[; ;main.c: 21: void main(void){
-[e :U _main ]
-[f ]
-"23
-[v _motorL `S405 ~T0 @X0 1 a ]
-[v _motorR `S405 ~T0 @X0 1 a ]
-[; ;main.c: 23: struct DC_motor motorL, motorR;
-[; ;main.c: 24: motorL.power=0;
-"24
-[e = . _motorL 0 -> -> 0 `i `uc ]
-[; ;main.c: 25: motorL.direction=1;
-"25
-[e = . _motorL 1 -> -> 1 `i `uc ]
-[; ;main.c: 26: motorL.dutyLowByte=(unsigned char *)(&PDC0L);
-"26
-[e = . _motorL 2 -> &U _PDC0L `*uc ]
-[; ;main.c: 27: motorL.dutyHighByte=(unsigned char *)(&PDC0H);
 "27
-[e = . _motorL 3 -> &U _PDC0H `*uc ]
-[; ;main.c: 28: motorL.dir_pin=0;
-"28
-[e = . _motorL 4 -> -> 0 `i `uc ]
-[; ;main.c: 29: motorL.PWMperiod=199;
-"29
-[e = . _motorL 5 -> 199 `i ]
-[; ;main.c: 31: motorR.power=0;
-"31
-[e = . _motorR 0 -> -> 0 `i `uc ]
-[; ;main.c: 32: motorR.direction=1;
-"32
-[e = . _motorR 1 -> -> 1 `i `uc ]
-[; ;main.c: 33: motorR.dutyLowByte=(unsigned char *)(&PDC1L);
-"33
-[e = . _motorR 2 -> &U _PDC1L `*uc ]
-[; ;main.c: 34: motorR.dutyHighByte=(unsigned char *)(&PDC1H);
-"34
-[e = . _motorR 3 -> &U _PDC1H `*uc ]
-[; ;main.c: 35: motorR.dir_pin=2;
-"35
-[e = . _motorR 4 -> -> 2 `i `uc ]
-[; ;main.c: 36: motorR.PWMperiod=199;
-"36
-[e = . _motorR 5 -> 199 `i ]
-[; ;main.c: 39: TRISBbits.RB0=0;
-"39
-[e = . . _TRISBbits 1 0 -> -> 0 `i `uc ]
-[; ;main.c: 40: TRISBbits.RB1=0;
-"40
-[e = . . _TRISBbits 1 1 -> -> 0 `i `uc ]
-[; ;main.c: 41: TRISBbits.RB2=0;
-"41
-[e = . . _TRISBbits 1 2 -> -> 0 `i `uc ]
-[; ;main.c: 42: TRISBbits.RB3=0;
-"42
-[e = . . _TRISBbits 1 3 -> -> 0 `i `uc ]
-[; ;main.c: 44: TRISAbits.RA3=1;
-"44
-[e = . . _TRISAbits 1 3 -> -> 1 `i `uc ]
-[; ;main.c: 45: ANSEL0bits.ANS3=1;
-"45
-[e = . . _ANSEL0bits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 47: ADCON0=0b00001101;
-"47
-[e = _ADCON0 -> -> 13 `i `uc ]
-[; ;main.c: 48: ADCON1=0b00000000;
-"48
-[e = _ADCON1 -> -> 0 `i `uc ]
-[; ;main.c: 50: ADCON2=0b10101011;
-"50
-[e = _ADCON2 -> -> 171 `i `uc ]
-[; ;main.c: 52: OSCCON = 0x72;
-"52
-[e = _OSCCON -> -> 114 `i `uc ]
-[; ;main.c: 53: while(!OSCCONbits.IOFS);
-"53
-[e $U 416  ]
-[e :U 417 ]
-[e :U 416 ]
-[e $ ! != -> . . _OSCCONbits 0 1 `i -> -> -> 0 `i `Vuc `i 417  ]
-[e :U 418 ]
-[; ;main.c: 55: initPWM();
-"55
-[e ( _initPWM ..  ]
-[; ;main.c: 56: LCD_Init();
-"56
-[e ( _LCD_Init ..  ]
-[; ;main.c: 59: while(1){
-"59
-[e :U 420 ]
+[v _SendLCD `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;main.c: 61: SendLCD('h',1);
-"61
-[e ( _SendLCD (2 , -> -> 104 `ui `uc -> -> 1 `i `uc ]
-[; ;main.c: 63: delay_s(2);
-"63
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 64: stop(&motorL, &motorR);
-"64
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 66: delay_s(2);
-"66
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 67: fullSpeedAhead(&motorL, &motorR);
-"67
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-[; ;main.c: 69: delay_s(2);
-"69
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 70: stop(&motorL, &motorR);
-"70
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 72: delay_s(2);
-"72
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 73: fullSpeedBack(&motorL, &motorR);
-"73
-[e ( _fullSpeedBack (2 , &U _motorL &U _motorR ]
-[; ;main.c: 75: delay_s(2);
-"75
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 76: stop(&motorL, &motorR);
-"76
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 78: delay_s(2);
-"78
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 79: turnLeft(&motorL, &motorR);
-"79
-[e ( _turnLeft (2 , &U _motorL &U _motorR ]
-[; ;main.c: 81: delay_s(2);
-"81
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 82: stop(&motorL, &motorR);
-"82
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 84: delay_s(2);
-"84
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;main.c: 85: turnRight(&motorL, &motorR);
-"85
-[e ( _turnRight (2 , &U _motorL &U _motorR ]
-"86
+[; ;LCD.c: 27: void SendLCD(unsigned char Byte, char type){
+[e :U _SendLCD ]
+[v _Byte `uc ~T0 @X0 1 r1 ]
+[v _type `uc ~T0 @X0 1 r2 ]
+[f ]
+[; ;LCD.c: 30: LATAbits.LATA6=type;
+"30
+[e = . . _LATAbits 0 6 _type ]
+[; ;LCD.c: 32: LCDout((Byte&0xF0)>>4);
+"32
+[e ( _LCDout (1 -> >> & -> _Byte `i -> 240 `i -> 4 `i `uc ]
+[; ;LCD.c: 33: _delay((unsigned long)((10)*(8000000/4000000.0)));
+"33
+[e ( __delay (1 -> * -> -> 10 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 35: LCDout(Byte&0x0F);
+"35
+[e ( _LCDout (1 -> & -> _Byte `i -> 15 `i `uc ]
+[; ;LCD.c: 36: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"36
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 37: }
+"37
+[e :UE 408 ]
 }
-[e :U 419 ]
+"38
+[v _LCD_Init `(v ~T0 @X0 1 ef ]
+{
+[; ;LCD.c: 38: void LCD_Init(void){
+[e :U _LCD_Init ]
+[f ]
+[; ;LCD.c: 44: TRISAbits.RA6=0;
+"44
+[e = . . _TRISAbits 1 6 -> -> 0 `i `uc ]
+[; ;LCD.c: 45: TRISCbits.RC0=0;
+"45
+[e = . . _TRISCbits 1 0 -> -> 0 `i `uc ]
+[; ;LCD.c: 46: TRISCbits.RC1=0;
+"46
+[e = . . _TRISCbits 1 1 -> -> 0 `i `uc ]
+[; ;LCD.c: 47: TRISCbits.RC2=0;
+"47
+[e = . . _TRISCbits 1 2 -> -> 0 `i `uc ]
+[; ;LCD.c: 48: TRISDbits.RD0=0;
+"48
+[e = . . _TRISDbits 1 0 -> -> 0 `i `uc ]
+[; ;LCD.c: 49: TRISDbits.RD1=0;
+"49
+[e = . . _TRISDbits 1 1 -> -> 0 `i `uc ]
+[; ;LCD.c: 51: _delay((unsigned long)((15)*(8000000/4000.0)));
+"51
+[e ( __delay (1 -> * -> -> 15 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;LCD.c: 52: LCDout(0b0011);
+"52
+[e ( _LCDout (1 -> -> 3 `i `uc ]
+[; ;LCD.c: 53: _delay((unsigned long)((5)*(8000000/4000.0)));
+"53
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;LCD.c: 54: LCDout(0b0011);
+"54
+[e ( _LCDout (1 -> -> 3 `i `uc ]
+[; ;LCD.c: 55: _delay((unsigned long)((200)*(8000000/4000000.0)));
+"55
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 56: LCDout(0b0011);
+"56
+[e ( _LCDout (1 -> -> 3 `i `uc ]
+[; ;LCD.c: 57: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"57
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 58: LCDout(0b0010);
+"58
+[e ( _LCDout (1 -> -> 2 `i `uc ]
+[; ;LCD.c: 59: _delay((unsigned long)((50)*(8000000/4000000.0)));
 "59
-[e $U 420  ]
-[e :U 421 ]
-[; ;main.c: 86: }
-[; ;main.c: 88: }
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 62: SendLCD(0b00101000,0);
+"62
+[e ( _SendLCD (2 , -> -> 40 `i `uc -> -> 0 `i `uc ]
+[; ;LCD.c: 63: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"63
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 64: SendLCD(0b00001000,0);
+"64
+[e ( _SendLCD (2 , -> -> 8 `i `uc -> -> 0 `i `uc ]
+[; ;LCD.c: 65: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"65
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 66: SendLCD(0b00000001,0);
+"66
+[e ( _SendLCD (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;LCD.c: 67: _delay((unsigned long)((5)*(8000000/4000.0)));
+"67
+[e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;LCD.c: 68: SendLCD(0b00000110,0);
+"68
+[e ( _SendLCD (2 , -> -> 6 `i `uc -> -> 0 `i `uc ]
+[; ;LCD.c: 69: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"69
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 70: SendLCD(0b00001100,0);
+"70
+[e ( _SendLCD (2 , -> -> 12 `i `uc -> -> 0 `i `uc ]
+[; ;LCD.c: 71: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"71
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 72: }
+"72
+[e :UE 409 ]
+}
+"74
+[v _SetLine `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;LCD.c: 74: void SetLine (char line) {
+[e :U _SetLine ]
+[v _line `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;LCD.c: 75: if (line==1) {
+"75
+[e $ ! == -> _line `i -> 1 `i 411  ]
+{
+[; ;LCD.c: 76: SendLCD(0x80,0);
+"76
+[e ( _SendLCD (2 , -> -> 128 `i `uc -> -> 0 `i `uc ]
+"77
+}
+[; ;LCD.c: 77: } else if (line==2) {
+[e $U 412  ]
+[e :U 411 ]
+[e $ ! == -> _line `i -> 2 `i 413  ]
+{
+[; ;LCD.c: 78: SendLCD(0xC0,0);
+"78
+[e ( _SendLCD (2 , -> -> 192 `i `uc -> -> 0 `i `uc ]
+"79
+}
+[e :U 413 ]
+"80
+[e :U 412 ]
+[; ;LCD.c: 79: }
+[; ;LCD.c: 80: _delay((unsigned long)((50)*(8000000/4000000.0)));
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;LCD.c: 81: }
+"81
+[e :UE 410 ]
+}
+"83
+[v _LCD_String `(v ~T0 @X0 1 ef1`*uc ]
+{
+[; ;LCD.c: 83: void LCD_String(char *string){
+[e :U _LCD_String ]
+[v _string `*uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;LCD.c: 85: while(*string != 0){
+"85
+[e $U 415  ]
+[e :U 416 ]
+{
+[; ;LCD.c: 88: SendLCD(*string++,1);
 "88
-[e :UE 415 ]
+[e ( _SendLCD (2 , *U ++ _string * -> -> 1 `i `x -> -> # *U _string `i `x -> -> 1 `i `uc ]
+[; ;LCD.c: 89: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"89
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+"92
+}
+[e :U 415 ]
+"85
+[e $ != -> *U _string `i -> 0 `i 416  ]
+[e :U 417 ]
+[; ;LCD.c: 92: }
+[; ;LCD.c: 93: }
+"93
+[e :UE 414 ]
 }

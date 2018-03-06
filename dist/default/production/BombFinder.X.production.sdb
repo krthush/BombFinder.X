@@ -41,9 +41,17 @@
 [v _fullSpeedAhead fullSpeedAhead `(v  1 e 0 0 ]
 "115
 [v _fullSpeedBack fullSpeedBack `(v  1 e 0 0 ]
-"10 H:\MPLABXProjects\ECM\BombFinder.X\main.c
+"5 H:\MPLABXProjects\ECM\BombFinder.X\LCD.c
+[v _E_TOG E_TOG `(v  1 e 0 0 ]
+"14
+[v _LCDout LCDout `(v  1 e 0 0 ]
+"27
+[v _SendLCD SendLCD `(v  1 e 0 0 ]
+"38
+[v _LCD_Init LCD_Init `(v  1 e 0 0 ]
+"11 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _delay_s delay_s `(v  1 e 0 0 ]
-"20
+"21
 [v _main main `(v  1 e 0 0 ]
 "676 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
 [v _PWMCON1 PWMCON1 `VEuc  1 e 1 @3950 ]
@@ -65,8 +73,113 @@
 [v _PTCON1 PTCON1 `VEuc  1 e 1 @3966 ]
 "920
 [v _PTCON0 PTCON0 `VEuc  1 e 1 @3967 ]
+[s S548 . 1 `uc 1 LATA0 1 0 :1:0 
+`uc 1 LATA1 1 0 :1:1 
+`uc 1 LATA2 1 0 :1:2 
+`uc 1 LATA3 1 0 :1:3 
+`uc 1 LATA4 1 0 :1:4 
+`uc 1 LATA5 1 0 :1:5 
+`uc 1 LATA6 1 0 :1:6 
+`uc 1 LATA7 1 0 :1:7 
+]
+"1888
+[s S557 . 1 `uc 1 LA0 1 0 :1:0 
+]
+[s S559 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 LA1 1 0 :1:1 
+]
+[s S562 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 LA2 1 0 :1:2 
+]
+[s S565 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 LA3 1 0 :1:3 
+]
+[s S568 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 LA4 1 0 :1:4 
+]
+[s S571 . 1 `uc 1 . 1 0 :5:0 
+`uc 1 LA5 1 0 :1:5 
+]
+[s S574 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 LA6 1 0 :1:6 
+]
+[s S577 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 LA7 1 0 :1:7 
+]
+[u S580 . 1 `S548 1 . 1 0 `S557 1 . 1 0 `S559 1 . 1 0 `S562 1 . 1 0 `S565 1 . 1 0 `S568 1 . 1 0 `S571 1 . 1 0 `S574 1 . 1 0 `S577 1 . 1 0 ]
+[v _LATAbits LATAbits `VES580  1 e 1 @3977 ]
 "1972
 [v _LATB LATB `VEuc  1 e 1 @3978 ]
+[s S396 . 1 `uc 1 LATC0 1 0 :1:0 
+`uc 1 LATC1 1 0 :1:1 
+`uc 1 LATC2 1 0 :1:2 
+`uc 1 LATC3 1 0 :1:3 
+`uc 1 LATC4 1 0 :1:4 
+`uc 1 LATC5 1 0 :1:5 
+`uc 1 LATC6 1 0 :1:6 
+`uc 1 LATC7 1 0 :1:7 
+]
+"2152
+[s S405 . 1 `uc 1 LC0 1 0 :1:0 
+]
+[s S407 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 LC1 1 0 :1:1 
+]
+[s S410 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 LC2 1 0 :1:2 
+]
+[s S413 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 LC3 1 0 :1:3 
+]
+[s S416 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 LC4 1 0 :1:4 
+]
+[s S419 . 1 `uc 1 . 1 0 :5:0 
+`uc 1 LC5 1 0 :1:5 
+]
+[s S422 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 LC6 1 0 :1:6 
+]
+[s S425 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 LC7 1 0 :1:7 
+]
+[u S428 . 1 `S396 1 . 1 0 `S405 1 . 1 0 `S407 1 . 1 0 `S410 1 . 1 0 `S413 1 . 1 0 `S416 1 . 1 0 `S419 1 . 1 0 `S422 1 . 1 0 `S425 1 . 1 0 ]
+[v _LATCbits LATCbits `VES428  1 e 1 @3979 ]
+[s S473 . 1 `uc 1 LATD0 1 0 :1:0 
+`uc 1 LATD1 1 0 :1:1 
+`uc 1 LATD2 1 0 :1:2 
+`uc 1 LATD3 1 0 :1:3 
+`uc 1 LATD4 1 0 :1:4 
+`uc 1 LATD5 1 0 :1:5 
+`uc 1 LATD6 1 0 :1:6 
+`uc 1 LATD7 1 0 :1:7 
+]
+"2284
+[s S482 . 1 `uc 1 LD0 1 0 :1:0 
+]
+[s S484 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 LD1 1 0 :1:1 
+]
+[s S487 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 LD2 1 0 :1:2 
+]
+[s S490 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 LD3 1 0 :1:3 
+]
+[s S493 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 LD4 1 0 :1:4 
+]
+[s S496 . 1 `uc 1 . 1 0 :5:0 
+`uc 1 LD5 1 0 :1:5 
+]
+[s S499 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 LD6 1 0 :1:6 
+]
+[s S502 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 LD7 1 0 :1:7 
+]
+[u S505 . 1 `S473 1 . 1 0 `S482 1 . 1 0 `S484 1 . 1 0 `S487 1 . 1 0 `S490 1 . 1 0 `S493 1 . 1 0 `S496 1 . 1 0 `S499 1 . 1 0 `S502 1 . 1 0 ]
+[v _LATDbits LATDbits `VES505  1 e 1 @3980 ]
 [s S78 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
@@ -109,6 +222,48 @@
 ]
 [u S56 . 1 `S38 1 . 1 0 `S47 1 . 1 0 ]
 [v _TRISBbits TRISBbits `VES56  1 e 1 @3987 ]
+[s S645 . 1 `uc 1 TRISC0 1 0 :1:0 
+`uc 1 TRISC1 1 0 :1:1 
+`uc 1 TRISC2 1 0 :1:2 
+`uc 1 TRISC3 1 0 :1:3 
+`uc 1 TRISC4 1 0 :1:4 
+`uc 1 TRISC5 1 0 :1:5 
+`uc 1 TRISC6 1 0 :1:6 
+`uc 1 TRISC7 1 0 :1:7 
+]
+"2962
+[s S654 . 1 `uc 1 RC0 1 0 :1:0 
+`uc 1 RC1 1 0 :1:1 
+`uc 1 RC2 1 0 :1:2 
+`uc 1 RC3 1 0 :1:3 
+`uc 1 RC4 1 0 :1:4 
+`uc 1 RC5 1 0 :1:5 
+`uc 1 RC6 1 0 :1:6 
+`uc 1 RC7 1 0 :1:7 
+]
+[u S663 . 1 `S645 1 . 1 0 `S654 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES663  1 e 1 @3988 ]
+[s S685 . 1 `uc 1 TRISD0 1 0 :1:0 
+`uc 1 TRISD1 1 0 :1:1 
+`uc 1 TRISD2 1 0 :1:2 
+`uc 1 TRISD3 1 0 :1:3 
+`uc 1 TRISD4 1 0 :1:4 
+`uc 1 TRISD5 1 0 :1:5 
+`uc 1 TRISD6 1 0 :1:6 
+`uc 1 TRISD7 1 0 :1:7 
+]
+"3183
+[s S694 . 1 `uc 1 RD0 1 0 :1:0 
+`uc 1 RD1 1 0 :1:1 
+`uc 1 RD2 1 0 :1:2 
+`uc 1 RD3 1 0 :1:3 
+`uc 1 RD4 1 0 :1:4 
+`uc 1 RD5 1 0 :1:5 
+`uc 1 RD6 1 0 :1:6 
+`uc 1 RD7 1 0 :1:7 
+]
+[u S703 . 1 `S685 1 . 1 0 `S694 1 . 1 0 ]
+[v _TRISDbits TRISDbits `VES703  1 e 1 @3989 ]
 [s S118 . 1 `uc 1 ANS0 1 0 :1:0 
 `uc 1 ANS1 1 0 :1:1 
 `uc 1 ANS2 1 0 :1:2 
@@ -148,14 +303,14 @@
 ]
 [u S159 . 1 `S143 1 . 1 0 `S149 1 . 1 0 `S156 1 . 1 0 ]
 [v _OSCCONbits OSCCONbits `VES159  1 e 1 @4051 ]
-"20 H:\MPLABXProjects\ECM\BombFinder.X\main.c
+"21 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _main main `(v  1 e 0 0 ]
 {
 [s S27 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
-"22
+"23
 [v main@motorR motorR `S27  1 a 9 41 ]
 [v main@motorL motorL `S27  1 a 9 32 ]
-"85
+"88
 } 0
 "89 H:\MPLABXProjects\ECM\BombFinder.X\dc_motor.c
 [v _turnRight turnRight `(v  1 e 0 0 ]
@@ -235,16 +390,45 @@
 [v ___awdiv@divisor divisor `i  1 p 2 8 ]
 "42
 } 0
-"10 H:\MPLABXProjects\ECM\BombFinder.X\main.c
+"11 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _delay_s delay_s `(v  1 e 0 0 ]
 {
 [v delay_s@seconds seconds `uc  1 a 1 wreg ]
-"12
+"13
 [v delay_s@j j `ui  1 a 2 5 ]
-"11
+"12
 [v delay_s@i i `ui  1 a 2 3 ]
-"10
+"11
 [v delay_s@seconds seconds `uc  1 a 1 wreg ]
 [v delay_s@seconds seconds `uc  1 a 1 2 ]
-"18
+"19
+} 0
+"38 H:\MPLABXProjects\ECM\BombFinder.X\LCD.c
+[v _LCD_Init LCD_Init `(v  1 e 0 0 ]
+{
+"72
+} 0
+"27
+[v _SendLCD SendLCD `(v  1 e 0 0 ]
+{
+[v SendLCD@Byte Byte `uc  1 a 1 wreg ]
+[v SendLCD@Byte Byte `uc  1 a 1 wreg ]
+[v SendLCD@type type `uc  1 p 1 4 ]
+"30
+[v SendLCD@Byte Byte `uc  1 a 1 5 ]
+"37
+} 0
+"14
+[v _LCDout LCDout `(v  1 e 0 0 ]
+{
+[v LCDout@number number `uc  1 a 1 wreg ]
+[v LCDout@number number `uc  1 a 1 wreg ]
+"17
+[v LCDout@number number `uc  1 a 1 3 ]
+"24
+} 0
+"5
+[v _E_TOG E_TOG `(v  1 e 0 0 ]
+{
+"11
 } 0
