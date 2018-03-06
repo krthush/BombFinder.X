@@ -72,6 +72,8 @@ void stop(struct DC_motor *mL, struct DC_motor *mR)
         setMotorPWM(mR);
         __delay_us(50);
     }
+    mL->direction=1;
+    mR->direction=1;
 }
 
 //function to make the robot turn left 
@@ -107,4 +109,13 @@ void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR)
         setMotorPWM(mR);
         __delay_us(50);
     }    
+}
+
+//function to make the robot go backward
+void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //remember to change the power gradually
+    mL->direction=0;
+    mR->direction=0;
+    fullSpeedAhead(mL, mR);
 }

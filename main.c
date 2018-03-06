@@ -57,17 +57,29 @@ void main(void){
 
    while(1){
 	//call your control functions, i.e. fullSpeedAhead(&motorL,&motorR);
-       delay_s(5);
-        fullSpeedAhead(&motorL, &motorR);
-        
-        delay_s(5);
+        delay_s(2);
         stop(&motorL, &motorR);
         
-        delay_s(5);
+        delay_s(2);
+        fullSpeedAhead(&motorL, &motorR);
+        
+        delay_s(2);
+        stop(&motorL, &motorR);
+        
+        delay_s(2);
+        fullSpeedBack(&motorL, &motorR);
+        
+        delay_s(2);
+        stop(&motorL, &motorR);
+        
+        delay_s(2);
         turnLeft(&motorL, &motorR);
         
-        delay_s(5);
-        turnRight(&motorL, &motorR);  
+        delay_s(2);
+        stop(&motorL, &motorR);
+        
+        delay_s(2);
+        turnRight(&motorL, &motorR);
    }
 
 }
