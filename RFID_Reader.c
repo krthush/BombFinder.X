@@ -1,4 +1,6 @@
 #include "RFID_Reader.h"
+#include <xc.h>
+#define _XTAL_FREQ 8000000
 
 void initRFID(void){
     TRISC = TRISC || 0b11000000; //set data direction registers
@@ -41,3 +43,6 @@ void Serial_String(char *string){
     }
 }
 
+unsigned char VerifySignal(unsigned char *Signal){
+    return 1;
+}

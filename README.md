@@ -4,12 +4,12 @@ Working:
 -Motor Control
 -LCD Control
 
-TODO:
+TODO: (listed in priority)
+-IR Signal
+-Movement Algorithm
 -RFID Reading
 -Distance Tracking (and path storage)
 -Rotation Tracking
--IR Signal
--Movement Algorithm
 
 RFID CHECKSUM:
 String can be divided into 5 pairs of Hex numbers, e.g.

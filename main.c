@@ -1,4 +1,6 @@
+#include <xc.h>
 #include "dc_motor.h"
+#include "RFID_Reader.h"
 //#include "LCD.h"
 
 #pragma config OSC = IRCIO  // internal oscillator
@@ -40,11 +42,9 @@ void main(void){
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
     RCONbits.IPEN = 1; // Enable interrupt priority
     INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
-    // Set the button on RC3 to trigger an
-    // interrupt. It is always high priority
     
-    PIE1bits.RCIE=1; //Enable interrupt on serial reception
     IPR1bits.RCIP=1; //High Priority
+    PIE1bits.RCIE=1; //Enable interrupt on serial reception
     
     
     // Initialise Motor Structures
@@ -85,31 +85,38 @@ void main(void){
     //some code to set inital values of each structure
     
    while(1){
+       PIR1bits.RCIF=1;
 	//call your control functions, i.e. fullSpeedAhead(&motorL,&motorR);
        
-        delay_s(2);
-        stop(&motorL, &motorR);
-        
-        delay_s(2);
-        fullSpeedAhead(&motorL, &motorR);
-        
-        delay_s(2);
-        stop(&motorL, &motorR);
-        
-        delay_s(2);
-        fullSpeedBack(&motorL, &motorR);
-        
-        delay_s(2);
-        stop(&motorL, &motorR);
-        
-        delay_s(2);
-        turnLeft(&motorL, &motorR);
-        
-        delay_s(2);
-        stop(&motorL, &motorR);
-        
-        delay_s(2);
-        turnRight(&motorL, &motorR);
+//        delay_s(2);
+//        stop(&motorL, &motorR);
+//        
+//        delay_s(2);
+//        fullSpeedAhead(&motorL, &motorR);
+//        
+//        delay_s(2);
+//        stop(&motorL, &motorR);
+//        
+//        delay_s(2);
+//        fullSpeedBack(&motorL, &motorR);
+//        
+//        delay_s(2);
+//        stop(&motorL, &motorR);
+//        
+//        delay_s(2);
+//        turnLeft(&motorL, &motorR);
+//        
+//        delay_s(2);
+//        stop(&motorL, &motorR); 
+//        
+//        delay_s(2);
+//        turnRight(&motorL, &motorR);
+       if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+           if (VerifySignal(ReceivedString)){
+               
+           }
+               
+       }
    }
 
 }

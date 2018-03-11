@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>dc_motor.h</itemPath>
       <itemPath>LCD.h</itemPath>
+      <itemPath>RFID_Reader.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -24,7 +25,6 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>RFID_Reader.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>

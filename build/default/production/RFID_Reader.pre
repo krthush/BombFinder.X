@@ -1,0 +1,51 @@
+
+# 1 "RFID_Reader.c"
+
+# 11 "RFID_Reader.h"
+void initRFID(void);
+void sendCharToSerial(char charToSend);
+char getCharSerial(void);
+void Serial_String(char *string);
+
+# 3 "RFID_Reader.c"
+void initRFID(void){
+TRISC = TRISC || 0b11000000;
+
+
+
+
+SPBRG=205;
+SPBRGH=0;
+BAUDCONbits.BRG16=1;
+TXSTAbits.BRGH=1;
+RCSTAbits.CREN=1;
+RCSTAbits.SPEN=1;
+TXSTAbits.TXEN=1;
+TXSTAbits.SYNC=0;
+RCSTAbits.RX9=0;
+
+
+}
+
+void sendCharToSerial(char charToSend){
+while (!PIR1bits.TXIF);
+TXREG=charToSend;
+}
+
+char getCharSerial(void){
+while (!PIR1bits.RCIF);
+return RCREG;
+}
+
+void Serial_String(char *string){
+
+while(*string != 0){
+
+
+sendCharToSerial(*string++);
+__delay_us(50);
+
+
+}
+}
+
