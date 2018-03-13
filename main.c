@@ -40,7 +40,7 @@ void interrupt InterruptHandlerHigh ()
 void main(void){
 
     unsigned char Message[10];
-
+    unsigned char i=0;
     // Enable interrupts
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
     RCONbits.IPEN = 1; // Enable interrupt priority
@@ -116,10 +116,15 @@ void main(void){
 //        turnRight(&motorL, &motorR);
        if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
            if (VerifySignal(ReceivedString)){ //and if the checksum is correct
+               //Put the RFID data into the Message variable
                for (i=0; i<10; i++){
-                   Message[i] = ReceivedString[i+1]; //Put the RFID data into the Message variable
+                   Message[i] = ReceivedString[i+1]; 
                }
-               ReceivedString
+               //Clear the recieved string
+               for (i=0; i<16; i++) {
+                   ReceivedString[i]=0;
+               }
+
            }
                
        }
