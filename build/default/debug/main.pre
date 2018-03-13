@@ -4661,8 +4661,15 @@ unsigned char VerifySignal(unsigned char *Signal);
 # 11 "Movement.h"
 void delay_s(char seconds);
 
+void delay_tenth_s(char tenth_seconds);
+
 
 void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+
+
+
+
+void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 
 # 15 "IR_Reading.h"
 void initIR(void);
@@ -4743,9 +4750,13 @@ break;
 
 case 1 :
 
-initIR();
-test=grabIR();
-ScanIR(&motorL, &motorR, *SignalStrength);
+
+
+
+delay_s(1);
+stop(&motorL, &motorR);
+
+
 break;
 
 case 2 :

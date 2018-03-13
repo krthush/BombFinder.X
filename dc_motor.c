@@ -82,18 +82,22 @@ void stop(struct DC_motor *mL, struct DC_motor *mR)
     mR->direction=1;
 }
 
-//function to make the robot turn left 
+//function to make the robot turn left
+// PLEASE NOTE: stop(motors) needs to called be correct use of this, WHY?!
 void turnLeft(struct DC_motor *mL, struct DC_motor *mR)
 {
+    stop(mL, mR);
 	//remember to change the power gradually
     mL->direction=0;
     mR->direction=1;
     fullSpeedAhead(mL, mR);
 }
 
-//function to make the robot turn right 
+//function to make the robot turn right
+// PLEASE NOTE: stop(motors) needs to called be correct use of this, WHY?!
 void turnRight(struct DC_motor *mL, struct DC_motor *mR)
 {
+    stop(mL, mR);
 	//remember to change the power gradually
     mL->direction=1;
     mR->direction=0;

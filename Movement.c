@@ -4,16 +4,23 @@
 #include "IR_Reading.h"
 #include "Movement.h"
 
-// function to delay in seconds
+// Function to delay in seconds
 //__delay_ms() is limited to a maximum delay of 89ms with an 8Mhz
 //clock so you need to write a function to make longer delays
 void delay_s(char seconds) {
     unsigned int i=0;
-    unsigned int j=0;
-    for (i=1; i<=seconds; i++) {
-        for (j=1; j<=20; j++) {
-            __delay_ms(50);
-        }
+    for (i=1; i<=seconds*20; i++) {
+        // repeat 50ms delay 20 times to match no. of seconds
+        __delay_ms(50);
+    }
+}
+
+// Function similar to delay in seconds, but for a 1/10th of a second
+void delay_tenth_s(char tenth_seconds) {
+    unsigned int i=0;
+    for (i=1; i<=tenth_seconds*2; i++) {
+        // repeat 50ms delay 20 times to match no. of tenth seconds
+        __delay_ms(50);
     }
 }
 
@@ -60,3 +67,35 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 //        //Go right then try again
 //    }
 //}
+
+// Scans IR strength for 3 points (left, centre, right),
+// within two times the given range.
+// The range is given in twice the number of tenth seconds the robot turns for
+// Finally the robot positions facing the direction of highest IR strength
+void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
+    
+    // Scan Data
+    stop(mL,mR);
+    delay_tenth_s(tenth_seconds);
+    
+    // Turn left
+    turnLeft(mL,mR);
+    delay_tenth_s(tenth_seconds);
+    
+    // Then Scan Data
+    stop(mL,mR);
+    delay_tenth_s(tenth_seconds);
+    
+    // Turn right (note you must turn for twice as long)
+    turnRight(mL,mR);
+    // PLEASE CHECK: IS THIS THE CORRECT WAY TO x2?!
+    delay_tenth_s(tenth_seconds+tenth_seconds);
+    
+    // Then Scan Data
+    stop(mL,mR);
+    delay_tenth_s(tenth_seconds);
+    
+    // Return to position of highest IR strength
+    turnLeft(mL,mR);
+    delay_tenth_s(tenth_seconds);
+}

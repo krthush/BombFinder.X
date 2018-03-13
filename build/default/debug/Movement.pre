@@ -4658,17 +4658,31 @@ unsigned int grabIR(void);
 # 11 "Movement.h"
 void delay_s(char seconds);
 
+void delay_tenth_s(char tenth_seconds);
+
 
 void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+
+
+
+
+void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 
 # 10 "Movement.c"
 void delay_s(char seconds) {
 unsigned int i=0;
-unsigned int j=0;
-for (i=1; i<=seconds; i++) {
-for (j=1; j<=20; j++) {
+for (i=1; i<=seconds*20; i++) {
+
 _delay((unsigned long)((50)*(8000000/4000.0)));
 }
+}
+
+
+void delay_tenth_s(char tenth_seconds) {
+unsigned int i=0;
+for (i=1; i<=tenth_seconds*2; i++) {
+
+_delay((unsigned long)((50)*(8000000/4000.0)));
 }
 }
 
@@ -4699,3 +4713,20 @@ delay_s(1);
 stop(mL,mR);
 }
 
+# 75
+void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
+
+
+
+turnLeft(mL,mR);
+delay_s(tenth_seconds);
+
+
+turnRight(mL,mR);
+
+delay_s(tenth_seconds+tenth_seconds);
+
+
+turnLeft(mL,mR);
+delay_s(tenth_seconds);
+}

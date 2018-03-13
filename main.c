@@ -78,9 +78,21 @@ void main(void){
                
            case 1 : //Search Mode
                //Search for strongest signal
-               initIR();
-               test=grabIR();
-               ScanIR(&motorL, &motorR, *SignalStrength);
+//               initIR();
+//               test=grabIR();
+                
+//                delay_s(1);
+//                turnLeft(&motorL, &motorR);
+//
+//                delay_s(1);
+//                turnRight(&motorL, &motorR);
+//               ScanIR(&motorL, &motorR, *SignalStrength);
+               
+               // WHY DOES THIS NOT WORK IF CALLED ALONE.. SHIT DOESNT STOP
+//               stop(&motorL, &motorR);
+               
+               ScanWithRange(&motorL, &motorR, 3);
+               
                break;
                
             case 2 : //Move Mode

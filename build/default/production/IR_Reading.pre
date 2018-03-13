@@ -4634,10 +4634,10 @@ extern __nonreentrant void _delay3(unsigned char);
 void initIR(void);
 unsigned int grabIR(void);
 
-# 29 "IR_Reading.c"
+# 30 "IR_Reading.c"
 void initIR(void){
 
-# 35
+# 36
 LATAbits.LA2=0;
 
 TRISAbits.RA2=1;
@@ -4649,21 +4649,21 @@ ANSEL0bits.ANS2=0;
 
 CAP1CON=0b00000110;
 
-
-T5CON=0b01000001;
+# 55
+T5CON=0b01011001;
 }
 
 
 
 unsigned int grabIR(void){
 
-unsigned int IR_signal;
-unsigned char i;
+unsigned int IR_signal=0;
+unsigned char i=0;
 
 for (i=0; i<4; i++) {
 
 IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
-_delay((unsigned long)((50)*(_XTAL_FREQ/4000.0)));
+_delay((unsigned long)((50)*(8000000/4000.0)));
 }
 
 return IR_signal<<2;

@@ -3513,7 +3513,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabIR(void);
 [; ;Movement.h: 11: void delay_s(char seconds);
-[; ;Movement.h: 14: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+[; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
+[; ;Movement.h: 16: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+[; ;Movement.h: 21: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 "10 Movement.c
 [v _delay_s `(v ~T0 @X0 1 ef1`uc ]
 {
@@ -3525,103 +3527,148 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _i `ui ~T0 @X0 1 a ]
 [; ;Movement.c: 11: unsigned int i=0;
 [e = _i -> -> 0 `i `ui ]
+[; ;Movement.c: 12: for (i=1; i<=seconds*20; i++) {
 "12
-[v _j `ui ~T0 @X0 1 a ]
-[; ;Movement.c: 12: unsigned int j=0;
-[e = _j -> -> 0 `i `ui ]
-[; ;Movement.c: 13: for (i=1; i<=seconds; i++) {
-"13
 {
 [e = _i -> -> 1 `i `ui ]
 [e $U 410  ]
 [e :U 407 ]
 {
-[; ;Movement.c: 14: for (j=1; j<=20; j++) {
+[; ;Movement.c: 14: _delay((unsigned long)((50)*(8000000/4000.0)));
 "14
-{
-[e = _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 20 `i `ui 411  ]
-[e $U 412  ]
-[e :U 411 ]
-{
-[; ;Movement.c: 15: _delay((unsigned long)((50)*(8000000/4000.0)));
-"15
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"16
+"15
 }
-"14
-[e ++ _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 20 `i `ui 411  ]
-[e :U 412 ]
-"16
-}
-"17
-}
-"13
+"12
 [e ++ _i -> -> 1 `i `ui ]
 [e :U 410 ]
-[e $ <= _i -> _seconds `ui 407  ]
+[e $ <= _i -> * -> _seconds `i -> 20 `i `ui 407  ]
 [e :U 408 ]
-"17
+"15
 }
+[; ;Movement.c: 15: }
 [; ;Movement.c: 16: }
-[; ;Movement.c: 17: }
-[; ;Movement.c: 18: }
-"18
+"16
 [e :UE 406 ]
 }
+"19
+[v _delay_tenth_s `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;Movement.c: 19: void delay_tenth_s(char tenth_seconds) {
+[e :U _delay_tenth_s ]
+[v _tenth_seconds `uc ~T0 @X0 1 r1 ]
+[f ]
 "20
+[v _i `ui ~T0 @X0 1 a ]
+[; ;Movement.c: 20: unsigned int i=0;
+[e = _i -> -> 0 `i `ui ]
+[; ;Movement.c: 21: for (i=1; i<=tenth_seconds*2; i++) {
+"21
+{
+[e = _i -> -> 1 `i `ui ]
+[e $U 415  ]
+[e :U 412 ]
+{
+[; ;Movement.c: 23: _delay((unsigned long)((50)*(8000000/4000.0)));
+"23
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"24
+}
+"21
+[e ++ _i -> -> 1 `i `ui ]
+[e :U 415 ]
+[e $ <= _i -> * -> _tenth_seconds `i -> 2 `i `ui 412  ]
+[e :U 413 ]
+"24
+}
+[; ;Movement.c: 24: }
+[; ;Movement.c: 25: }
+"25
+[e :UE 411 ]
+}
+"27
 [v _ScanIR `(v ~T0 @X0 1 ef3`*S405`*S405`*uc ]
 {
-[; ;Movement.c: 20: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
+[; ;Movement.c: 27: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 [e :U _ScanIR ]
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
 [v _buf `*uc ~T0 @X0 1 r3 ]
 [f ]
-[; ;Movement.c: 23: stop(mL,mR);
-"23
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 24: _delay((unsigned long)((50)*(8000000/4000.0)));
-"24
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Movement.c: 27: buf[1] = grabIR();
-"27
-[e = *U + _buf * -> -> 1 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
-[; ;Movement.c: 30: turnLeft(mL,mR);
+[; ;Movement.c: 30: stop(mL,mR);
 "30
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 31: delay_s(1);
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 31: _delay((unsigned long)((50)*(8000000/4000.0)));
 "31
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;Movement.c: 32: stop(mL,mR);
-"32
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 33: buf[0] = grabIR();
-"33
-[e = *U + _buf * -> -> 0 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
-[; ;Movement.c: 36: turnRight(mL,mR);
-"36
-[e ( _turnRight (2 , _mL _mR ]
-[; ;Movement.c: 37: delay_s(2);
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;Movement.c: 34: buf[1] = grabIR();
+"34
+[e = *U + _buf * -> -> 1 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 37: turnLeft(mL,mR);
 "37
-[e ( _delay_s (1 -> -> 2 `i `uc ]
-[; ;Movement.c: 38: stop(mL,mR);
-"38
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 39: buf[2] = grabIR();
-"39
-[e = *U + _buf * -> -> 2 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
-[; ;Movement.c: 42: turnLeft(mL,mR);
-"42
 [e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 43: delay_s(1);
-"43
+[; ;Movement.c: 38: delay_s(1);
+"38
 [e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;Movement.c: 44: stop(mL,mR);
-"44
+[; ;Movement.c: 39: stop(mL,mR);
+"39
 [e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 45: }
+[; ;Movement.c: 40: buf[0] = grabIR();
+"40
+[e = *U + _buf * -> -> 0 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 43: turnRight(mL,mR);
+"43
+[e ( _turnRight (2 , _mL _mR ]
+[; ;Movement.c: 44: delay_s(2);
+"44
+[e ( _delay_s (1 -> -> 2 `i `uc ]
+[; ;Movement.c: 45: stop(mL,mR);
 "45
-[e :UE 414 ]
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 46: buf[2] = grabIR();
+"46
+[e = *U + _buf * -> -> 2 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 49: turnLeft(mL,mR);
+"49
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 50: delay_s(1);
+"50
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;Movement.c: 51: stop(mL,mR);
+"51
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 52: }
+"52
+[e :UE 416 ]
+}
+"75
+[v _ScanWithRange `(v ~T0 @X0 1 ef3`*S405`*S405`uc ]
+{
+[; ;Movement.c: 75: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
+[e :U _ScanWithRange ]
+[v _mL `*S405 ~T0 @X0 1 r1 ]
+[v _mR `*S405 ~T0 @X0 1 r2 ]
+[v _tenth_seconds `uc ~T0 @X0 1 r3 ]
+[f ]
+[; ;Movement.c: 79: turnLeft(mL,mR);
+"79
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 80: delay_s(tenth_seconds);
+"80
+[e ( _delay_s (1 _tenth_seconds ]
+[; ;Movement.c: 83: turnRight(mL,mR);
+"83
+[e ( _turnRight (2 , _mL _mR ]
+[; ;Movement.c: 85: delay_s(tenth_seconds+tenth_seconds);
+"85
+[e ( _delay_s (1 -> + -> _tenth_seconds `i -> _tenth_seconds `i `uc ]
+[; ;Movement.c: 88: turnLeft(mL,mR);
+"88
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 89: delay_s(tenth_seconds);
+"89
+[e ( _delay_s (1 _tenth_seconds ]
+[; ;Movement.c: 90: }
+"90
+[e :UE 417 ]
 }
