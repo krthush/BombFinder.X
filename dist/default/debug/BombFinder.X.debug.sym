@@ -1,5 +1,5 @@
 _i 24 0 COMRAM 1
-_VerifySignal 194 0 CODE 0
+_VerifySignal 196 0 CODE 0
 __S0 30000E 0 ABS 0
 __S1 36 0 ABS 0
 __S2 0 0 ABS 0
@@ -98,11 +98,11 @@ __Linit A6 0 CODE 0
 __Hintcodelo A6 0 CODE 0
 __Lintcodelo A6 0 CODE 0
 __Hrbss 0 0 COMRAM 1
-__end_of_main 154 0 CODE 0
+__end_of_main 156 0 CODE 0
 __Lrbss 0 0 COMRAM 1
 __Htext 0 0 ABS 0
 __Ltext 0 0 ABS 0
-end_of_initialization 18A 0 CODE 0
+end_of_initialization 18C 0 CODE 0
 _PWMCON0 F6F 0 ABS 0
 _PWMCON1 F6E 0 ABS 0
 _TRISAbits F92 0 ABS 0
@@ -123,7 +123,7 @@ __Hbank2 0 0 ABS 0
 __Lbank2 0 0 ABS 0
 __Hpowerup A6 0 CODE 0
 __Lpowerup A6 0 CODE 0
-__end_of_VerifySignal 198 0 CODE 0
+__end_of_VerifySignal 19A 0 CODE 0
 __Htext0 0 0 ABS 0
 __Ltext0 0 0 ABS 0
 __Htext1 0 0 ABS 0
@@ -131,16 +131,16 @@ __Ltext1 0 0 ABS 0
 __ptext0 AA 0 CODE 0
 __Htext2 0 0 ABS 0
 __Ltext2 0 0 ABS 0
-__ptext1 154 0 CODE 0
-__ptext2 194 0 CODE 0
-_initPWM 154 0 CODE 0
+__ptext1 156 0 CODE 0
+__ptext2 196 0 CODE 0
+_initPWM 156 0 CODE 0
 __HbssCOMRAM 0 0 ABS 0
 __LbssCOMRAM 0 0 ABS 0
 __pbssCOMRAM 24 0 COMRAM 1
 __Hclrtext 0 0 ABS 0
 __Lclrtext 0 0 ABS 0
 __size_of_initPWM 0 0 ABS 0
-__end_of__initialization 18A 0 CODE 0
+__end_of__initialization 18C 0 CODE 0
 _BAUDCONbits FAA 0 ABS 0
 ___rparam_used 1 0 ABS 0
 _InterruptHandlerHigh 8 0 CODE 0
@@ -170,14 +170,14 @@ __Hnvbit 0 0 COMRAM 1
 __Lnvbit 0 0 COMRAM 1
 __Hcinit 0 0 ABS 0
 __Lcinit 0 0 ABS 0
-__pcinit 17E 0 CODE 0
+__pcinit 180 0 CODE 0
 __ramtop 300 0 RAM 0
 __mediumconst 0 0 MEDIUMCONST 0
 __size_of_main 0 0 ABS 0
 __Hconst 0 0 CODE 0
 __Lconst 0 0 CODE 0
 __size_of_VerifySignal 0 0 ABS 0
-__end_of_initPWM 17E 0 CODE 0
+__end_of_initPWM 180 0 CODE 0
 _ANSEL0bits FB8 0 ABS 0
 ___inthi_sp 0 0 STACK 2
 __CFG_WDTEN$OFF 0 0 ABS 0
@@ -200,84 +200,85 @@ intlevel0 0 0 CODE 0
 intlevel1 0 0 CODE 0
 intlevel2 0 0 CODE 0
 intlevel3 0 0 CODE 0
-start_initialization 17E 0 CODE 0
-__initialization 17E 0 CODE 0
+start_initialization 180 0 CODE 0
+__initialization 180 0 CODE 0
 __activetblptr 0 0 ABS 0
 %segments
 reset_vec 0 5 CODE 0 0
-intcode 8 197 CODE 8 0
+intcode 8 199 CODE 8 0
 config 300000 30000D CONFIG 300000 0
 idloc 200000 200007 IDLOC 200000 0
 cstackCOMRAM 1 35 COMRAM 1 1
 %locals
 dist/default/debug\BombFinder.X.debug.obj
 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
-C:\Users\tr514\AppData\Local\Temp\s2b4.
-1678 17E 0 CODE 0
-1680 17E 0 CODE 0
-1683 17E 0 CODE 0
-1698 17E 0 CODE 0
-1699 182 0 CODE 0
-1700 184 0 CODE 0
-1701 184 0 CODE 0
-1702 186 0 CODE 0
-1703 188 0 CODE 0
-1709 18A 0 CODE 0
-1711 18A 0 CODE 0
-1712 18C 0 CODE 0
-1713 18E 0 CODE 0
-1714 190 0 CODE 0
+C:\Users\tr514\AppData\Local\Temp\s84c.
+1678 180 0 CODE 0
+1680 180 0 CODE 0
+1683 180 0 CODE 0
+1698 180 0 CODE 0
+1699 184 0 CODE 0
+1700 186 0 CODE 0
+1701 186 0 CODE 0
+1702 188 0 CODE 0
+1703 18A 0 CODE 0
+1709 18C 0 CODE 0
+1711 18C 0 CODE 0
+1712 18E 0 CODE 0
+1713 190 0 CODE 0
+1714 192 0 CODE 0
 main.c
 40 AA 0 CODE 0
 42 AA 0 CODE 0
 43 AC 0 CODE 0
 44 AE 0 CODE 0
-46 B0 0 CODE 0
+45 B0 0 CODE 0
 47 B2 0 CODE 0
-52 B4 0 CODE 0
-53 B8 0 CODE 0
-54 BC 0 CODE 0
-55 C4 0 CODE 0
-56 CC 0 CODE 0
-57 D0 0 CODE 0
-59 D8 0 CODE 0
-60 DC 0 CODE 0
-61 E0 0 CODE 0
-62 E8 0 CODE 0
-63 F0 0 CODE 0
-64 F4 0 CODE 0
-67 FC 0 CODE 0
+48 B4 0 CODE 0
+53 B6 0 CODE 0
+54 BA 0 CODE 0
+55 BE 0 CODE 0
+56 C6 0 CODE 0
+57 CE 0 CODE 0
+58 D2 0 CODE 0
+60 DA 0 CODE 0
+61 DE 0 CODE 0
+62 E2 0 CODE 0
+63 EA 0 CODE 0
+64 F2 0 CODE 0
+65 F6 0 CODE 0
 68 FE 0 CODE 0
 69 100 0 CODE 0
 70 102 0 CODE 0
-72 104 0 CODE 0
+71 104 0 CODE 0
 73 106 0 CODE 0
-75 108 0 CODE 0
-76 10C 0 CODE 0
-78 110 0 CODE 0
-80 114 0 CODE 0
-81 118 0 CODE 0
-83 11C 0 CODE 0
-88 120 0 CODE 0
-114 122 0 CODE 0
-115 146 0 CODE 0
-87 152 0 CODE 0
+74 108 0 CODE 0
+76 10A 0 CODE 0
+77 10E 0 CODE 0
+79 112 0 CODE 0
+81 116 0 CODE 0
+82 11A 0 CODE 0
+84 11E 0 CODE 0
+89 122 0 CODE 0
+115 124 0 CODE 0
+116 148 0 CODE 0
+88 154 0 CODE 0
 dc_motor.c
-4 154 0 CODE 0
-6 154 0 CODE 0
-7 158 0 CODE 0
-8 15C 0 CODE 0
-9 160 0 CODE 0
-11 164 0 CODE 0
-12 168 0 CODE 0
-13 16C 0 CODE 0
-14 170 0 CODE 0
-15 174 0 CODE 0
-16 178 0 CODE 0
-17 17C 0 CODE 0
+4 156 0 CODE 0
+6 156 0 CODE 0
+7 15A 0 CODE 0
+8 15E 0 CODE 0
+9 162 0 CODE 0
+11 166 0 CODE 0
+12 16A 0 CODE 0
+13 16E 0 CODE 0
+14 172 0 CODE 0
+15 176 0 CODE 0
+16 17A 0 CODE 0
+17 17E 0 CODE 0
 RFID_Reader.c
-46 194 0 CODE 0
-47 194 0 CODE 0
+46 196 0 CODE 0
+47 196 0 CODE 0
 RFID_Reader.c
 48 8 0 CODE 0
 main.c

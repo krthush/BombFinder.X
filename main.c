@@ -42,6 +42,7 @@ void main(void){
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
     RCONbits.IPEN = 1; // Enable interrupt priority
     INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
+    INTCONbits.INT0IE = 1; // INT0 External Interrupt Enables bit
     
     IPR1bits.RCIP=1; //High Priority
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
