@@ -1,7 +1,7 @@
 #include <xc.h>
 #include "dc_motor.h"
 
-void initPWM(){
+void initMotorPWM(){
 	// your code to set up the PWM module
     PTCON0 = 0b00000000; // free running mode, 1:1 prescaler
     PTCON1 = 0b10000000; // enable PWM timer
@@ -14,6 +14,12 @@ void initPWM(){
     PDC0H = 0>>6;
     PDC1L = 0<<2;
     PDC1H = 0>>6;
+    
+    // set bits as outputs (Used for motors!) 
+    TRISBbits.RB0=0;
+    TRISBbits.RB1=0;
+    TRISBbits.RB2=0;
+    TRISBbits.RB3=0;
 }
 
 // function to set PWM output from the values in the motor structure

@@ -1,5 +1,8 @@
 
-# 1 "RFID_Reader.c"
+# 1 "IR_Reading.c"
+
+# 15 "IR_Reading.h"
+unsigned char grabIR(void);
 
 # 26 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -4630,73 +4633,3 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 12 "RFID_Reader.h"
-void initRFID(void);
-void sendCharToSerial(char charToSend);
-char getCharSerial(void);
-void Serial_String(char *string);
-unsigned char VerifySignal(unsigned char *Signal);
-
-# 5 "RFID_Reader.c"
-void initRFID(void){
-TRISC = TRISC || 0b11000000;
-
-
-
-
-SPBRG=205;
-SPBRGH=0;
-BAUDCONbits.BRG16=1;
-TXSTAbits.BRGH=1;
-RCSTAbits.CREN=1;
-RCSTAbits.SPEN=1;
-TXSTAbits.TXEN=1;
-TXSTAbits.SYNC=0;
-RCSTAbits.RX9=0;
-
-
-}
-
-void sendCharToSerial(char charToSend){
-while (!PIR1bits.TXIF);
-TXREG=charToSend;
-}
-
-char getCharSerial(void){
-while (!PIR1bits.RCIF);
-return RCREG;
-}
-
-void Serial_String(char *string){
-
-while(*string != 0){
-
-
-sendCharToSerial(*string++);
-_delay((unsigned long)((50)*(8000000/4000000.0)));
-
-
-}
-}
-
-unsigned char VerifySignal(unsigned char *Signal){
-unsigned char checksum=0;
-unsigned int hexByte=0;
-unsigned char i=0;
-
-
-hexByte = (Signal[3]<<8) + Signal[4];
-checksum = ((Signal[1]<<8) + Signal[2]) ^ hexByte;
-
-
-for (i=5; i<10; i+=2){
-hexByte = (Signal[i]<<8) + Signal[i+1];
-checksum = checksum ^ hexByte;
-}
-
-
-return 1;
-
-
-
-}

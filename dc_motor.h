@@ -15,7 +15,7 @@ struct DC_motor { //definition of DC_motor structure
 };
 
 //function prototypes
-void initPWM(); // function to setup PWM
+void initMotorPWM(); // function to setup PWM
 void setMotorPWM(struct DC_motor *m);
 void setMotorFullSpeed(struct DC_motor *m);
 void stopMotor(struct DC_motor *m);

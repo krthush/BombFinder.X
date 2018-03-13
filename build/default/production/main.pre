@@ -4651,8 +4651,15 @@ void turnRight(struct DC_motor *mL, struct DC_motor *mR);
 void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
 void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 
+# 12 "RFID_Reader.h"
+void initRFID(void);
+void sendCharToSerial(char charToSend);
+char getCharSerial(void);
+void Serial_String(char *string);
+unsigned char VerifySignal(unsigned char *Signal);
 
-# 4 "main.c"
+
+# 6 "main.c"
 #pragma config OSC = IRCIO
 
 
@@ -4683,20 +4690,32 @@ i=0;
 }else{
 i++;
 }
-
+PIR1bits.RCIF=0;
 }
 }
 
 void main(void){
 
+unsigned char Message[10];
+unsigned char i=0;
+
 INTCONbits.GIEH = 1;
-RCONbits.IPEN = 1;
+
 INTCONbits.GIEL = 1;
+INTCONbits.INT0IE = 1;
 
 
 
 PIE1bits.RCIE=1;
-IPR1bits.RCIP=1;
+
+SPBRG=205;
+SPBRGH=0;
+BAUDCONbits.BRG16=1;
+TXSTAbits.BRGH=1;
+RCSTAbits.CREN=1;
+RCSTAbits.SPEN=1;
+TXSTAbits.SYNC=0;
+
 
 
 
@@ -4737,31 +4756,46 @@ initPWM();
 
 
 while(1){
+PIR1bits.RCIF=1;
 
 
-delay_s(2);
+delay_s(1);
 stop(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 fullSpeedAhead(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 stop(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 fullSpeedBack(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 stop(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 turnLeft(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 stop(&motorL, &motorR);
 
-delay_s(2);
+delay_s(1);
 turnRight(&motorL, &motorR);
+if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+if (VerifySignal(ReceivedString)){
+
+for (i=0; i<10; i++){
+Message[i] = ReceivedString[i+1];
+}
+
+for (i=0; i<16; i++) {
+ReceivedString[i]=0;
+}
+
+}
+
+}
 }
 
 }

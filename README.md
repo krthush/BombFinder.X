@@ -3,13 +3,22 @@
 Working:
 -Motor Control
 -LCD Control
+-RFID Reading (including checksum verification)
 
 TODO: (listed in priority)
--IR Signal
+-IR Signal (almost there - some odd behaviour) - Thush Focus
 -Movement Algorithm
--RFID Reading
--Distance Tracking (and path storage)
+-Distance Tracking (and path storage) - Owen Focus
 -Rotation Tracking
+-Rewire IR reader so it can turn off and on -> note LCD screen does vice versa
+
+Robot Modes:
+0 - Start-up: Initialisation, etc. Should initialise state variables (RDIF read, etc.)
+1 - Search Mode: Checks signal ahead and to left and right. Determines region of strongest signal
+2 - Move Mode: Moves set distance forward in optimum direction, then returns to search mode unless
+	RFID detected, in which case goes to return mode. 
+3 - Return Mode: Retraces its steps to return to start point. (Disable CCP and turn on LCD)
+
 
 RFID CHECKSUM:
 String can be divided into 5 pairs of Hex numbers, e.g.

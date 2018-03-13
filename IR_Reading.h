@@ -7,17 +7,13 @@
 
 #ifndef IR_READING_H
 #define	IR_READING_H
+#include <xc.h>
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
+void getTimerVal();
 unsigned char grabIR(void);
 
 
-#ifdef	__cplusplus
-}
-#endif
+
 
 #endif	/* IR_READING_H */
 

@@ -33,23 +33,27 @@ void interrupt InterruptHandlerHigh ()
         }else{
             i++;  
         }
-        //No need to clear the interrupt flag as reading RCREG does this automatically
+        PIR1bits.RCIF=0;
     }
 }
 
 void main(void){
-
+    
+    //Initialise Variables
     unsigned char Message[10];
     unsigned char i=0;
+    unsigned char mode=0;
+    unsigned char SignalStrength[3]; 
+    
     // Enable interrupts
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
     RCONbits.IPEN = 1; // Enable interrupt priority
     INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
     INTCONbits.INT0IE = 1; // INT0 External Interrupt Enables bit
+    INTCONbits.PEIE = 1;    // Enable peripheral  interrupts
     
-    IPR1bits.RCIP=1; //High Priority
+    IPR1bits.RCIP=1; //High Priority+
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
-    
     
     // Initialise Motor Structures
     struct DC_motor motorL, motorR; //declare 2 motor structures
@@ -67,68 +71,46 @@ void main(void){
     motorR.dir_pin=2; //pin RB0/PWM0 controls direction
     motorR.PWMperiod=199; //store PWMperiod for motor
 
-    // set bits as outputs (Used for motors!) 
-    TRISBbits.RB0=0;
-    TRISBbits.RB1=0;
-    TRISBbits.RB2=0;
-    TRISBbits.RB3=0;
-
-    TRISAbits.RA3=1;
-    ANSEL0bits.ANS3=1;
-    /* Initialise ADC */
-    ADCON0=0b00001101; // Single shot, ADC port channel 3 (AN3), Enable ADC
-    ADCON1=0b00000000; // Use Internal Voltage Reference
-    // (Vdd and Vss)
-    ADCON2=0b10101011; // Right justify result and timing settings
-
     OSCCON = 0x72; //8MHz clock
     while(!OSCCONbits.IOFS); //wait until stable
-
-    initPWM();  //setup PWM registers
-//    LCD_Init(); //Initialise LCD screen
-    //some code to set inital values of each structure
     
    while(1){
-       PIR1bits.RCIF=1;
-	//call your control functions, i.e. fullSpeedAhead(&motorL,&motorR);
        
-//        delay_s(2);
-//        stop(&motorL, &motorR);
-//        
-//        delay_s(2);
-//        fullSpeedAhead(&motorL, &motorR);
-//        
-//        delay_s(2);
-//        stop(&motorL, &motorR);
-//        
-//        delay_s(2);
-//        fullSpeedBack(&motorL, &motorR);
-//        
-//        delay_s(2);
-//        stop(&motorL, &motorR);
-//        
-//        delay_s(2);
-//        turnLeft(&motorL, &motorR);
-//        
-//        delay_s(2);
-//        stop(&motorL, &motorR); 
-//        
-//        delay_s(2);
-//        turnRight(&motorL, &motorR);
-       if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
-           if (VerifySignal(ReceivedString)){ //and if the checksum is correct
-               //Put the RFID data into the Message variable
-               for (i=0; i<10; i++){
-                   Message[i] = ReceivedString[i+1]; 
-               }
-               //Clear the recieved string
-               for (i=0; i<16; i++) {
-                   ReceivedString[i]=0;
-               }
-
-           }
+       switch (mode) {
+           case 0 : //Start-up Mode
+               //Initialise EVERYTHING
+               initMotorPWM();  //setup PWM registers
+               initRFID();
                
-       }
+               mode = 1;
+               break;
+               
+           case 1 : //Search Mode
+               //Search for strongest signal
+               SignalStrength = ScanIR(&motorL, &motorR, SignalStrength);
+               break;
+               
+            case 2 : //Move Mode
+               //Move forward until RFID read and verified or a certain time
+               //has elapsed
+                if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
+                    if (VerifySignal(ReceivedString)){ //and if the checksum is correct
+                        //Put the RFID data into the Message variable
+                         for (i=0; i<10; i++){
+                             Message[i] = ReceivedString[i+1]; 
+                         }
+                        //Clear the received string 
+                         for (i=0; i<16; i++) {
+                             ReceivedString[i]=0;
+                         }
+                     }   
+                }
+               break;
+               
+            case 3 : //Return Mode
+               //Return to original position
+               break;
+                                      
+       }      
    }
-
 }
