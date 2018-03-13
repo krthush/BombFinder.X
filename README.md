@@ -7,6 +7,7 @@ Working:
 
 TODO: (listed in priority)
 -IR Signal (almost there - some odd behaviour) - Thush Focus
+	Need a function which reads the IR value and returns an int of some kind
 -Movement Algorithm
 -Distance Tracking (and path storage) - Owen Focus
 -Rotation Tracking

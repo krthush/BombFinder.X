@@ -40,10 +40,11 @@ void interrupt InterruptHandlerHigh ()
 void main(void){
     
     //Initialise Variables
-    unsigned char Message[10];
-    unsigned char i=0;
-    unsigned char mode=0;
+    unsigned char Message[10]; //Code on RFID Card
+    unsigned char i=0; //Counter variable
+    unsigned char mode=0; //Robot mode - see switch case tree in main loop
     unsigned char SignalStrength[3]; 
+    char PathTaken[100]; //Buffer for retaining movement instructions
     
     // Enable interrupts
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
