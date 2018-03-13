@@ -1,9 +1,6 @@
 
 # 1 "IR_Reading.c"
 
-# 15 "IR_Reading.h"
-unsigned char grabIR(void);
-
 # 26 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
 
@@ -4633,3 +4630,41 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
+# 15 "IR_Reading.h"
+void initIR(void);
+unsigned int grabIR(void);
+
+# 29 "IR_Reading.c"
+void initIR(void){
+
+# 35
+LATAbits.LA2=0;
+
+TRISAbits.RA2=1;
+
+ANSEL0bits.ANS2=0;
+
+
+
+
+CAP1CON=0b00000110;
+
+
+T5CON=0b01000001;
+}
+
+
+
+unsigned int grabIR(void){
+
+unsigned int IR_signal;
+unsigned char i;
+
+for (i=0; i<4; i++) {
+
+IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
+_delay((unsigned long)((50)*(_XTAL_FREQ/4000.0)));
+}
+
+return IR_signal<<2;
+}

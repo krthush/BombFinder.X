@@ -2,6 +2,20 @@
 #include "dc_motor.h"
 #define _XTAL_FREQ 8000000
 #include "IR_Reading.h"
+#include "Movement.h"
+
+// function to delay in seconds
+//__delay_ms() is limited to a maximum delay of 89ms with an 8Mhz
+//clock so you need to write a function to make longer delays
+void delay_s(char seconds) {
+    unsigned int i=0;
+    unsigned int j=0;
+    for (i=1; i<=seconds; i++) {
+        for (j=1; j<=20; j++) {
+            __delay_ms(50);
+        }
+    }
+}
 
 void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 
@@ -14,19 +28,19 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 
     //Move a bit to the left
     turnLeft(mL,mR);
-    __delay_s(1);
+    delay_s(1);
     stop(mL,mR);
     buf[0] = grabIR();
 
     //Move a bit to the right
     turnRight(mL,mR);
-    __delay_s(2); //Twice as long so same angle to the right as was left
+    delay_s(2); //Twice as long so same angle to the right as was left
     stop(mL,mR);
     buf[2] = grabIR();
 
     //Move back to starting position and stop
     turnLeft(mL,mR);
-    __delay_s(1);
+    delay_s(1);
     stop(mL,mR);
 }
 

@@ -9,8 +9,11 @@
 #define	IR_READING_H
 #include <xc.h>
 
-void getTimerVal();
-unsigned char grabIR(void);
+// PLEASE NOTE: Decided to not use CCP module, using motion capture module instead for IR tracking
+// void getTimerVal();
+
+void initIR(void);
+unsigned int grabIR(void);
 
 
 

@@ -4643,17 +4643,14 @@ TRISC = TRISC || 0b11000000;
 
 
 
-
 SPBRG=205;
 SPBRGH=0;
 BAUDCONbits.BRG16=1;
 TXSTAbits.BRGH=1;
 RCSTAbits.CREN=1;
 RCSTAbits.SPEN=1;
-TXSTAbits.TXEN=1;
 TXSTAbits.SYNC=0;
 RCSTAbits.RX9=0;
-
 
 }
 
@@ -4679,6 +4676,7 @@ _delay((unsigned long)((50)*(8000000/4000000.0)));
 }
 }
 
+# 56
 unsigned char VerifySignal(unsigned char *Signal){
 unsigned char checksum=0;
 unsigned int hexByte=0;

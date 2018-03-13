@@ -1,5 +1,67 @@
 Version 3.2 HI-TECH Software Intermediate Code
-[; ;IR_Reading.h: 15: unsigned char grabIR(void);
+"1846 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
+[s S86 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S86 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"1856
+[s S87 :1 `uc 1 ]
+[n S87 . LA0 ]
+"1859
+[s S88 :1 `uc 1 :1 `uc 1 ]
+[n S88 . . LA1 ]
+"1863
+[s S89 :2 `uc 1 :1 `uc 1 ]
+[n S89 . . LA2 ]
+"1867
+[s S90 :3 `uc 1 :1 `uc 1 ]
+[n S90 . . LA3 ]
+"1871
+[s S91 :4 `uc 1 :1 `uc 1 ]
+[n S91 . . LA4 ]
+"1875
+[s S92 :5 `uc 1 :1 `uc 1 ]
+[n S92 . . LA5 ]
+"1879
+[s S93 :6 `uc 1 :1 `uc 1 ]
+[n S93 . . LA6 ]
+"1883
+[s S94 :7 `uc 1 :1 `uc 1 ]
+[n S94 . . LA7 ]
+"1845
+[u S85 `S86 1 `S87 1 `S88 1 `S89 1 `S90 1 `S91 1 `S92 1 `S93 1 `S94 1 ]
+[n S85 . . . . . . . . . . ]
+"1888
+[v _LATAbits `VS85 ~T0 @X0 0 e@3977 ]
+"2499
+[s S136 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S136 . TRISA0 TRISA1 TRISA2 TRISA3 TRISA4 TRISA5 TRISA6 TRISA7 ]
+"2509
+[s S137 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S137 . RA0 RA1 RA2 RA3 RA4 RA5 RA6 RA7 ]
+"2498
+[u S135 `S136 1 `S137 1 ]
+[n S135 . . . ]
+"2520
+[v _TRISAbits `VS135 ~T0 @X0 0 e@3986 ]
+"5422
+[s S284 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S284 . ANS0 ANS1 ANS2 ANS3 ANS4 ANS5 ANS6 ANS7 ]
+"5421
+[u S283 `S284 1 ]
+[n S283 . . ]
+"5433
+[v _ANSEL0bits `VS283 ~T0 @X0 0 e@4024 ]
+"228
+[v _CAP1CON `Vuc ~T0 @X0 0 e@3939 ]
+"5297
+[v _T5CON `Vuc ~T0 @X0 0 e@4023 ]
+"341
+[v _CAP1BUFH `Vuc ~T0 @X0 0 e@3945 ]
+"330
+[v _CAP1BUFL `Vuc ~T0 @X0 0 e@3944 ]
+[v F3644 `(v ~T0 @X0 1 tf1`ul ]
+"152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
+[v __delay `JF3644 ~T0 @X0 0 e ]
+[p i __delay ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3479,3 +3541,75 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 152: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 154: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 156: extern __nonreentrant void _delay3(unsigned char);
+[; ;IR_Reading.h: 15: void initIR(void);
+[; ;IR_Reading.h: 16: unsigned int grabIR(void);
+"30 IR_Reading.c
+[v _initIR `(v ~T0 @X0 1 ef ]
+{
+[; ;IR_Reading.c: 30: void initIR(void){
+[e :U _initIR ]
+[f ]
+[; ;IR_Reading.c: 36: LATAbits.LA2=0;
+"36
+[e = . . _LATAbits 3 1 -> -> 0 `i `uc ]
+[; ;IR_Reading.c: 38: TRISAbits.RA2=1;
+"38
+[e = . . _TRISAbits 1 2 -> -> 1 `i `uc ]
+[; ;IR_Reading.c: 40: ANSEL0bits.ANS2=0;
+"40
+[e = . . _ANSEL0bits 0 2 -> -> 0 `i `uc ]
+[; ;IR_Reading.c: 45: CAP1CON=0b00000110;
+"45
+[e = _CAP1CON -> -> 6 `i `uc ]
+[; ;IR_Reading.c: 48: T5CON=0b01000001;
+"48
+[e = _T5CON -> -> 65 `i `uc ]
+[; ;IR_Reading.c: 49: }
+"49
+[e :UE 405 ]
+}
+"53
+[v _grabIR `(ui ~T0 @X0 1 ef ]
+{
+[; ;IR_Reading.c: 53: unsigned int grabIR(void){
+[e :U _grabIR ]
+[f ]
+"55
+[v _IR_signal `ui ~T0 @X0 1 a ]
+[; ;IR_Reading.c: 55: unsigned int IR_signal=0;
+[e = _IR_signal -> -> 0 `i `ui ]
+"56
+[v _i `uc ~T0 @X0 1 a ]
+[; ;IR_Reading.c: 56: unsigned char i=0;
+[e = _i -> -> 0 `i `uc ]
+[; ;IR_Reading.c: 58: for (i=0; i<4; i++) {
+"58
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 4 `i 407  ]
+[e $U 408  ]
+[e :U 407 ]
+{
+[; ;IR_Reading.c: 60: IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
+"60
+[e =+ _IR_signal -> | << -> _CAP1BUFH `i -> 8 `i -> _CAP1BUFL `i `ui ]
+[; ;IR_Reading.c: 61: _delay((unsigned long)((50)*(8000000/4000.0)));
+"61
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"62
+}
+"58
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 4 `i 407  ]
+[e :U 408 ]
+"62
+}
+[; ;IR_Reading.c: 62: }
+[; ;IR_Reading.c: 64: return IR_signal<<2;
+"64
+[e ) << _IR_signal -> 2 `i ]
+[e $UE 406  ]
+[; ;IR_Reading.c: 65: }
+"65
+[e :UE 406 ]
+}

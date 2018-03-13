@@ -1,6 +1,8 @@
 #include <xc.h>
 #include "dc_motor.h"
 #include "RFID_Reader.h"
+#include "Movement.h"
+#include "IR_Reading.h"
 //#include "LCD.h"
 
 #pragma config OSC = IRCIO  // internal oscillator
@@ -9,19 +11,6 @@
 
 volatile unsigned char ReceivedString[16]; //Global variable to read from RFID
 volatile unsigned char i=0;
-
-// function to delay in seconds
-//__delay_ms() is limited to a maximum delay of 89ms with an 8Mhz
-//clock so you need to write a function to make longer delays
-void delay_s(char seconds) {
-    unsigned int i=0;
-    unsigned int j=0;
-    for (i=1; i<=seconds; i++) {
-        for (j=1; j<=20; j++) {
-            __delay_ms(50);
-        }
-    }
-}
 
 // High priority interrupt routine
 void interrupt InterruptHandlerHigh ()
@@ -45,6 +34,7 @@ void main(void){
     unsigned char mode=0; //Robot mode - see switch case tree in main loop
     unsigned char SignalStrength[3]; 
     char PathTaken[100]; //Buffer for retaining movement instructions
+    unsigned int test=0;
     
     // Enable interrupts
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
@@ -88,7 +78,9 @@ void main(void){
                
            case 1 : //Search Mode
                //Search for strongest signal
-               SignalStrength = ScanIR(&motorL, &motorR, SignalStrength);
+               initIR();
+               test=grabIR();
+               ScanIR(&motorL, &motorR, *SignalStrength);
                break;
                
             case 2 : //Move Mode

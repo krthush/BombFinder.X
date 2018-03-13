@@ -4641,7 +4641,7 @@ int PWMperiod;
 };
 
 
-void initPWM();
+void initMotorPWM();
 void setMotorPWM(struct DC_motor *m);
 void setMotorFullSpeed(struct DC_motor *m);
 void stopMotor(struct DC_motor *m);
@@ -4652,7 +4652,7 @@ void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
 void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 
 # 4 "dc_motor.c"
-void initPWM(){
+void initMotorPWM(){
 
 PTCON0 = 0b00000000;
 PTCON1 = 0b10000000;
@@ -4665,6 +4665,12 @@ PDC0L = 0<<2;
 PDC0H = 0>>6;
 PDC1L = 0<<2;
 PDC1H = 0>>6;
+
+
+TRISBbits.RB0=0;
+TRISBbits.RB1=0;
+TRISBbits.RB2=0;
+TRISBbits.RB3=0;
 }
 
 

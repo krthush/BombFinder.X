@@ -1,20 +1,18 @@
 Version 3.2 HI-TECH Software Intermediate Code
+[v F3644 `(v ~T0 @X0 1 tf1`ul ]
+"152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
+[v __delay `JF3644 ~T0 @X0 0 e ]
+[p i __delay ]
 "8 dc_motor.h
 [s S405 `uc 1 `uc 1 `*uc 1 `*uc 1 `uc 1 `i 1 ]
 [n S405 DC_motor power direction dutyLowByte dutyHighByte dir_pin PWMperiod ]
 "22
 [v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-[v F3644 `(v ~T0 @X0 1 tf1`ul ]
-"152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
-[v __delay `JF3644 ~T0 @X0 0 e ]
-[p i __delay ]
-"15 IR_Reading.h
-[v _grabIR `(uc ~T0 @X0 0 ef ]
+"16 IR_Reading.h
+[v _grabIR `(ui ~T0 @X0 0 ef ]
 "23 dc_motor.h
 [v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"17 Movement.c
-[v ___delay_s `(i ~T0 @X0 0 ef ]
-"24 dc_motor.h
+"24
 [v _turnRight `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
@@ -3503,7 +3501,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 13: char dir_pin;
 [; ;dc_motor.h: 14: int PWMperiod;
 [; ;dc_motor.h: 15: };
-[; ;dc_motor.h: 18: void initPWM();
+[; ;dc_motor.h: 18: void initMotorPWM();
 [; ;dc_motor.h: 19: void setMotorPWM(struct DC_motor *m);
 [; ;dc_motor.h: 20: void setMotorFullSpeed(struct DC_motor *m);
 [; ;dc_motor.h: 21: void stopMotor(struct DC_motor *m);
@@ -3512,59 +3510,118 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 24: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
-[; ;IR_Reading.h: 15: unsigned char grabIR(void);
-"6 Movement.c
+[; ;IR_Reading.h: 15: void initIR(void);
+[; ;IR_Reading.h: 16: unsigned int grabIR(void);
+[; ;Movement.h: 11: void delay_s(char seconds);
+[; ;Movement.h: 14: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+"10 Movement.c
+[v _delay_s `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;Movement.c: 10: void delay_s(char seconds) {
+[e :U _delay_s ]
+[v _seconds `uc ~T0 @X0 1 r1 ]
+[f ]
+"11
+[v _i `ui ~T0 @X0 1 a ]
+[; ;Movement.c: 11: unsigned int i=0;
+[e = _i -> -> 0 `i `ui ]
+"12
+[v _j `ui ~T0 @X0 1 a ]
+[; ;Movement.c: 12: unsigned int j=0;
+[e = _j -> -> 0 `i `ui ]
+[; ;Movement.c: 13: for (i=1; i<=seconds; i++) {
+"13
+{
+[e = _i -> -> 1 `i `ui ]
+[e $U 410  ]
+[e :U 407 ]
+{
+[; ;Movement.c: 14: for (j=1; j<=20; j++) {
+"14
+{
+[e = _j -> -> 1 `i `ui ]
+[e $ <= _j -> -> 20 `i `ui 411  ]
+[e $U 412  ]
+[e :U 411 ]
+{
+[; ;Movement.c: 15: _delay((unsigned long)((50)*(8000000/4000.0)));
+"15
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+"16
+}
+"14
+[e ++ _j -> -> 1 `i `ui ]
+[e $ <= _j -> -> 20 `i `ui 411  ]
+[e :U 412 ]
+"16
+}
+"17
+}
+"13
+[e ++ _i -> -> 1 `i `ui ]
+[e :U 410 ]
+[e $ <= _i -> _seconds `ui 407  ]
+[e :U 408 ]
+"17
+}
+[; ;Movement.c: 16: }
+[; ;Movement.c: 17: }
+[; ;Movement.c: 18: }
+"18
+[e :UE 406 ]
+}
+"20
 [v _ScanIR `(v ~T0 @X0 1 ef3`*S405`*S405`*uc ]
 {
-[; ;Movement.c: 6: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
+[; ;Movement.c: 20: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 [e :U _ScanIR ]
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
 [v _buf `*uc ~T0 @X0 1 r3 ]
 [f ]
-[; ;Movement.c: 9: stop(mL,mR);
-"9
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 10: _delay((unsigned long)((50)*(8000000/4000.0)));
-"10
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Movement.c: 13: buf[1] = grabIR();
-"13
-[e = *U + _buf * -> -> 1 `i `x -> -> # *U _buf `i `x ( _grabIR ..  ]
-[; ;Movement.c: 16: turnLeft(mL,mR);
-"16
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 17: __delay_s(1);
-"17
-[e ( ___delay_s -> 1 `i ]
-[; ;Movement.c: 18: stop(mL,mR);
-"18
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 19: buf[0] = grabIR();
-"19
-[e = *U + _buf * -> -> 0 `i `x -> -> # *U _buf `i `x ( _grabIR ..  ]
-[; ;Movement.c: 22: turnRight(mL,mR);
-"22
-[e ( _turnRight (2 , _mL _mR ]
-[; ;Movement.c: 23: __delay_s(2);
+[; ;Movement.c: 23: stop(mL,mR);
 "23
-[e ( ___delay_s -> 2 `i ]
-[; ;Movement.c: 24: stop(mL,mR);
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 24: _delay((unsigned long)((50)*(8000000/4000.0)));
 "24
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 25: buf[2] = grabIR();
-"25
-[e = *U + _buf * -> -> 2 `i `x -> -> # *U _buf `i `x ( _grabIR ..  ]
-[; ;Movement.c: 28: turnLeft(mL,mR);
-"28
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 29: __delay_s(1);
-"29
-[e ( ___delay_s -> 1 `i ]
-[; ;Movement.c: 30: stop(mL,mR);
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;Movement.c: 27: buf[1] = grabIR();
+"27
+[e = *U + _buf * -> -> 1 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 30: turnLeft(mL,mR);
 "30
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 31: }
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 31: delay_s(1);
 "31
-[e :UE 406 ]
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;Movement.c: 32: stop(mL,mR);
+"32
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 33: buf[0] = grabIR();
+"33
+[e = *U + _buf * -> -> 0 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 36: turnRight(mL,mR);
+"36
+[e ( _turnRight (2 , _mL _mR ]
+[; ;Movement.c: 37: delay_s(2);
+"37
+[e ( _delay_s (1 -> -> 2 `i `uc ]
+[; ;Movement.c: 38: stop(mL,mR);
+"38
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 39: buf[2] = grabIR();
+"39
+[e = *U + _buf * -> -> 2 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 42: turnLeft(mL,mR);
+"42
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 43: delay_s(1);
+"43
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;Movement.c: 44: stop(mL,mR);
+"44
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 45: }
+"45
+[e :UE 414 ]
 }

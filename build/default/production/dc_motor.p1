@@ -19,6 +19,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _PDC1L `Vuc ~T0 @X0 0 e@3959 ]
 "846
 [v _PDC1H `Vuc ~T0 @X0 0 e@3958 ]
+"2720
+[s S142 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S142 . TRISB0 TRISB1 TRISB2 TRISB3 TRISB4 TRISB5 TRISB6 TRISB7 ]
+"2730
+[s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S143 . RB0 RB1 RB2 RB3 RB4 RB5 RB6 RB7 ]
+"2719
+[u S141 `S142 1 `S143 1 ]
+[n S141 . . . ]
+"2741
+[v _TRISBbits `VS141 ~T0 @X0 0 e@3987 ]
 "8 dc_motor.h
 [s S405 `uc 1 `uc 1 `*uc 1 `*uc 1 `uc 1 `i 1 ]
 [n S405 DC_motor power direction dutyLowByte dutyHighByte dir_pin PWMperiod ]
@@ -3517,7 +3528,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 13: char dir_pin;
 [; ;dc_motor.h: 14: int PWMperiod;
 [; ;dc_motor.h: 15: };
-[; ;dc_motor.h: 18: void initPWM();
+[; ;dc_motor.h: 18: void initMotorPWM();
 [; ;dc_motor.h: 19: void setMotorPWM(struct DC_motor *m);
 [; ;dc_motor.h: 20: void setMotorFullSpeed(struct DC_motor *m);
 [; ;dc_motor.h: 21: void stopMotor(struct DC_motor *m);
@@ -3527,10 +3538,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 "4 dc_motor.c
-[v _initPWM `(v ~T0 @X0 1 ef ]
+[v _initMotorPWM `(v ~T0 @X0 1 ef ]
 {
-[; ;dc_motor.c: 4: void initPWM(){
-[e :U _initPWM ]
+[; ;dc_motor.c: 4: void initMotorPWM(){
+[e :U _initMotorPWM ]
 [f ]
 [; ;dc_motor.c: 6: PTCON0 = 0b00000000;
 "6
@@ -3562,338 +3573,350 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 16: PDC1H = 0>>6;
 "16
 [e = _PDC1H -> >> -> 0 `i -> 6 `i `uc ]
-[; ;dc_motor.c: 17: }
-"17
+[; ;dc_motor.c: 19: TRISBbits.RB0=0;
+"19
+[e = . . _TRISBbits 1 0 -> -> 0 `i `uc ]
+[; ;dc_motor.c: 20: TRISBbits.RB1=0;
+"20
+[e = . . _TRISBbits 1 1 -> -> 0 `i `uc ]
+[; ;dc_motor.c: 21: TRISBbits.RB2=0;
+"21
+[e = . . _TRISBbits 1 2 -> -> 0 `i `uc ]
+[; ;dc_motor.c: 22: TRISBbits.RB3=0;
+"22
+[e = . . _TRISBbits 1 3 -> -> 0 `i `uc ]
+[; ;dc_motor.c: 23: }
+"23
 [e :UE 406 ]
 }
-"20
-[v _setMotorPWM `(v ~T0 @X0 1 ef1`*S405 ]
-"21
-{
-[; ;dc_motor.c: 20: void setMotorPWM(struct DC_motor *m)
-[; ;dc_motor.c: 21: {
-[e :U _setMotorPWM ]
-"20
-[v _m `*S405 ~T0 @X0 1 r1 ]
-"21
-[f ]
-"22
-[v _PWMduty `i ~T0 @X0 1 a ]
-[; ;dc_motor.c: 22: int PWMduty;
-[; ;dc_motor.c: 24: PWMduty = (m->power*m->PWMperiod)/100;
-"24
-[e = _PWMduty / * -> . *U _m 0 `i . *U _m 5 -> 100 `i ]
-[; ;dc_motor.c: 26: if (m->direction)
 "26
-[e $ ! != -> . *U _m 1 `i -> -> -> 0 `i `uc `i 408  ]
-[; ;dc_motor.c: 27: {
+[v _setMotorPWM `(v ~T0 @X0 1 ef1`*S405 ]
 "27
 {
-[; ;dc_motor.c: 28: LATB=LATB|(1<<(m->dir_pin));
+[; ;dc_motor.c: 26: void setMotorPWM(struct DC_motor *m)
+[; ;dc_motor.c: 27: {
+[e :U _setMotorPWM ]
+"26
+[v _m `*S405 ~T0 @X0 1 r1 ]
+"27
+[f ]
 "28
-[e = _LATB -> | -> _LATB `i << -> 1 `i . *U _m 4 `uc ]
-[; ;dc_motor.c: 29: PWMduty=m->PWMperiod-PWMduty;
-"29
-[e = _PWMduty - . *U _m 5 _PWMduty ]
+[v _PWMduty `i ~T0 @X0 1 a ]
+[; ;dc_motor.c: 28: int PWMduty;
+[; ;dc_motor.c: 30: PWMduty = (m->power*m->PWMperiod)/100;
 "30
-}
-[; ;dc_motor.c: 30: }
-[e $U 409  ]
-"31
-[e :U 408 ]
-[; ;dc_motor.c: 31: else
-[; ;dc_motor.c: 32: {
+[e = _PWMduty / * -> . *U _m 0 `i . *U _m 5 -> 100 `i ]
+[; ;dc_motor.c: 32: if (m->direction)
 "32
-{
-[; ;dc_motor.c: 33: LATB=LATB&(~(1<<(m->dir_pin)));
+[e $ ! != -> . *U _m 1 `i -> -> -> 0 `i `uc `i 408  ]
+[; ;dc_motor.c: 33: {
 "33
-[e = _LATB -> & -> _LATB `i ~ << -> 1 `i . *U _m 4 `uc ]
+{
+[; ;dc_motor.c: 34: LATB=LATB|(1<<(m->dir_pin));
 "34
+[e = _LATB -> | -> _LATB `i << -> 1 `i . *U _m 4 `uc ]
+[; ;dc_motor.c: 35: PWMduty=m->PWMperiod-PWMduty;
+"35
+[e = _PWMduty - . *U _m 5 _PWMduty ]
+"36
+}
+[; ;dc_motor.c: 36: }
+[e $U 409  ]
+"37
+[e :U 408 ]
+[; ;dc_motor.c: 37: else
+[; ;dc_motor.c: 38: {
+"38
+{
+[; ;dc_motor.c: 39: LATB=LATB&(~(1<<(m->dir_pin)));
+"39
+[e = _LATB -> & -> _LATB `i ~ << -> 1 `i . *U _m 4 `uc ]
+"40
 }
 [e :U 409 ]
-[; ;dc_motor.c: 34: }
-[; ;dc_motor.c: 37: *(m->dutyLowByte)=PWMduty<<2;
-"37
+[; ;dc_motor.c: 40: }
+[; ;dc_motor.c: 43: *(m->dutyLowByte)=PWMduty<<2;
+"43
 [e = *U . *U _m 2 -> << _PWMduty -> 2 `i `uc ]
-[; ;dc_motor.c: 38: *(m->dutyHighByte)=PWMduty>>6;
-"38
+[; ;dc_motor.c: 44: *(m->dutyHighByte)=PWMduty>>6;
+"44
 [e = *U . *U _m 3 -> >> _PWMduty -> 6 `i `uc ]
-[; ;dc_motor.c: 39: }
-"39
+[; ;dc_motor.c: 45: }
+"45
 [e :UE 407 ]
 }
-"42
+"48
 [v _setMotorFullSpeed `(v ~T0 @X0 1 ef1`*S405 ]
-"43
+"49
 {
-[; ;dc_motor.c: 42: void setMotorFullSpeed(struct DC_motor *m)
-[; ;dc_motor.c: 43: {
+[; ;dc_motor.c: 48: void setMotorFullSpeed(struct DC_motor *m)
+[; ;dc_motor.c: 49: {
 [e :U _setMotorFullSpeed ]
-"42
+"48
 [v _m `*S405 ~T0 @X0 1 r1 ]
-"43
+"49
 [f ]
-[; ;dc_motor.c: 44: for (m->power; (m->power)<=100; m->power++){
-"44
+[; ;dc_motor.c: 50: for (m->power; (m->power)<=100; m->power++){
+"50
 {
 [e . *U _m 0 ]
 [e $U 414  ]
 [e :U 411 ]
 {
-[; ;dc_motor.c: 45: setMotorPWM(m);
-"45
+[; ;dc_motor.c: 51: setMotorPWM(m);
+"51
 [e ( _setMotorPWM (1 _m ]
-[; ;dc_motor.c: 46: _delay((unsigned long)((1)*(8000000/4000.0)));
-"46
+[; ;dc_motor.c: 52: _delay((unsigned long)((1)*(8000000/4000.0)));
+"52
 [e ( __delay (1 -> * -> -> 1 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"47
+"53
 }
-"44
+"50
 [e ++ . *U _m 0 -> -> 1 `i `uc ]
 [e :U 414 ]
 [e $ <= -> . *U _m 0 `i -> 100 `i 411  ]
 [e :U 412 ]
-"47
+"53
 }
-[; ;dc_motor.c: 47: }
-[; ;dc_motor.c: 48: }
-"48
+[; ;dc_motor.c: 53: }
+[; ;dc_motor.c: 54: }
+"54
 [e :UE 410 ]
 }
-"51
+"57
 [v _stopMotor `(v ~T0 @X0 1 ef1`*S405 ]
-"52
+"58
 {
-[; ;dc_motor.c: 51: void stopMotor(struct DC_motor *m)
-[; ;dc_motor.c: 52: {
+[; ;dc_motor.c: 57: void stopMotor(struct DC_motor *m)
+[; ;dc_motor.c: 58: {
 [e :U _stopMotor ]
-"51
+"57
 [v _m `*S405 ~T0 @X0 1 r1 ]
-"52
+"58
 [f ]
-[; ;dc_motor.c: 54: for (m->power; (m->power)>0; m->power--){
-"54
+[; ;dc_motor.c: 60: for (m->power; (m->power)>0; m->power--){
+"60
 {
 [e . *U _m 0 ]
 [e $U 419  ]
 [e :U 416 ]
 {
-[; ;dc_motor.c: 55: setMotorPWM(m);
-"55
+[; ;dc_motor.c: 61: setMotorPWM(m);
+"61
 [e ( _setMotorPWM (1 _m ]
-[; ;dc_motor.c: 56: _delay((unsigned long)((5)*(8000000/4000.0)));
-"56
+[; ;dc_motor.c: 62: _delay((unsigned long)((5)*(8000000/4000.0)));
+"62
 [e ( __delay (1 -> * -> -> 5 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"57
+"63
 }
-"54
+"60
 [e -- . *U _m 0 -> -> 1 `i `uc ]
 [e :U 419 ]
 [e $ > -> . *U _m 0 `i -> 0 `i 416  ]
 [e :U 417 ]
-"57
+"63
 }
-[; ;dc_motor.c: 57: }
-[; ;dc_motor.c: 58: }
-"58
+[; ;dc_motor.c: 63: }
+[; ;dc_motor.c: 64: }
+"64
 [e :UE 415 ]
 }
-"61
+"67
 [v _stop `(v ~T0 @X0 1 ef2`*S405`*S405 ]
-"62
+"68
 {
-[; ;dc_motor.c: 61: void stop(struct DC_motor *mL, struct DC_motor *mR)
-[; ;dc_motor.c: 62: {
+[; ;dc_motor.c: 67: void stop(struct DC_motor *mL, struct DC_motor *mR)
+[; ;dc_motor.c: 68: {
 [e :U _stop ]
-"61
+"67
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
-"62
+"68
 [f ]
-[; ;dc_motor.c: 64: while(mL->power>0 || mR->power>0){
-"64
+[; ;dc_motor.c: 70: while(mL->power>0 || mR->power>0){
+"70
 [e $U 421  ]
 [e :U 422 ]
 {
-[; ;dc_motor.c: 65: if(mL->power>0){
-"65
+[; ;dc_motor.c: 71: if(mL->power>0){
+"71
 [e $ ! > -> . *U _mL 0 `i -> 0 `i 424  ]
 {
-[; ;dc_motor.c: 66: mL->power--;
-"66
+[; ;dc_motor.c: 72: mL->power--;
+"72
 [e -- . *U _mL 0 -> -> 1 `i `uc ]
-"67
+"73
 }
 [e :U 424 ]
-[; ;dc_motor.c: 67: }
-[; ;dc_motor.c: 68: if(mR->power>0){
-"68
+[; ;dc_motor.c: 73: }
+[; ;dc_motor.c: 74: if(mR->power>0){
+"74
 [e $ ! > -> . *U _mR 0 `i -> 0 `i 425  ]
 {
-[; ;dc_motor.c: 69: mR->power--;
-"69
+[; ;dc_motor.c: 75: mR->power--;
+"75
 [e -- . *U _mR 0 -> -> 1 `i `uc ]
-"70
+"76
 }
 [e :U 425 ]
-[; ;dc_motor.c: 70: }
-[; ;dc_motor.c: 71: setMotorPWM(mL);
-"71
+[; ;dc_motor.c: 76: }
+[; ;dc_motor.c: 77: setMotorPWM(mL);
+"77
 [e ( _setMotorPWM (1 _mL ]
-[; ;dc_motor.c: 72: setMotorPWM(mR);
-"72
+[; ;dc_motor.c: 78: setMotorPWM(mR);
+"78
 [e ( _setMotorPWM (1 _mR ]
-[; ;dc_motor.c: 73: _delay((unsigned long)((50)*(8000000/4000000.0)));
-"73
+[; ;dc_motor.c: 79: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"79
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
-"74
+"80
 }
 [e :U 421 ]
-"64
+"70
 [e $ || > -> . *U _mL 0 `i -> 0 `i > -> . *U _mR 0 `i -> 0 `i 422  ]
 [e :U 423 ]
-[; ;dc_motor.c: 74: }
-[; ;dc_motor.c: 75: mL->direction=1;
-"75
+[; ;dc_motor.c: 80: }
+[; ;dc_motor.c: 81: mL->direction=1;
+"81
 [e = . *U _mL 1 -> -> 1 `i `uc ]
-[; ;dc_motor.c: 76: mR->direction=1;
-"76
+[; ;dc_motor.c: 82: mR->direction=1;
+"82
 [e = . *U _mR 1 -> -> 1 `i `uc ]
-[; ;dc_motor.c: 77: }
-"77
+[; ;dc_motor.c: 83: }
+"83
 [e :UE 420 ]
 }
-"80
+"86
 [v _turnLeft `(v ~T0 @X0 1 ef2`*S405`*S405 ]
-"81
+"87
 {
-[; ;dc_motor.c: 80: void turnLeft(struct DC_motor *mL, struct DC_motor *mR)
-[; ;dc_motor.c: 81: {
+[; ;dc_motor.c: 86: void turnLeft(struct DC_motor *mL, struct DC_motor *mR)
+[; ;dc_motor.c: 87: {
 [e :U _turnLeft ]
-"80
+"86
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
-"81
+"87
 [f ]
-[; ;dc_motor.c: 83: mL->direction=0;
-"83
+[; ;dc_motor.c: 89: mL->direction=0;
+"89
 [e = . *U _mL 1 -> -> 0 `i `uc ]
-[; ;dc_motor.c: 84: mR->direction=1;
-"84
+[; ;dc_motor.c: 90: mR->direction=1;
+"90
 [e = . *U _mR 1 -> -> 1 `i `uc ]
-[; ;dc_motor.c: 85: fullSpeedAhead(mL, mR);
-"85
+[; ;dc_motor.c: 91: fullSpeedAhead(mL, mR);
+"91
 [e ( _fullSpeedAhead (2 , _mL _mR ]
-[; ;dc_motor.c: 86: }
-"86
+[; ;dc_motor.c: 92: }
+"92
 [e :UE 426 ]
 }
-"89
+"95
 [v _turnRight `(v ~T0 @X0 1 ef2`*S405`*S405 ]
-"90
+"96
 {
-[; ;dc_motor.c: 89: void turnRight(struct DC_motor *mL, struct DC_motor *mR)
-[; ;dc_motor.c: 90: {
+[; ;dc_motor.c: 95: void turnRight(struct DC_motor *mL, struct DC_motor *mR)
+[; ;dc_motor.c: 96: {
 [e :U _turnRight ]
-"89
+"95
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
-"90
+"96
 [f ]
-[; ;dc_motor.c: 92: mL->direction=1;
-"92
+[; ;dc_motor.c: 98: mL->direction=1;
+"98
 [e = . *U _mL 1 -> -> 1 `i `uc ]
-[; ;dc_motor.c: 93: mR->direction=0;
-"93
+[; ;dc_motor.c: 99: mR->direction=0;
+"99
 [e = . *U _mR 1 -> -> 0 `i `uc ]
-[; ;dc_motor.c: 94: fullSpeedAhead(mL, mR);
-"94
+[; ;dc_motor.c: 100: fullSpeedAhead(mL, mR);
+"100
 [e ( _fullSpeedAhead (2 , _mL _mR ]
-[; ;dc_motor.c: 95: }
-"95
+[; ;dc_motor.c: 101: }
+"101
 [e :UE 427 ]
 }
-"98
+"104
 [v _fullSpeedAhead `(v ~T0 @X0 1 ef2`*S405`*S405 ]
-"99
+"105
 {
-[; ;dc_motor.c: 98: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR)
-[; ;dc_motor.c: 99: {
+[; ;dc_motor.c: 104: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR)
+[; ;dc_motor.c: 105: {
 [e :U _fullSpeedAhead ]
-"98
+"104
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
-"99
+"105
 [f ]
-[; ;dc_motor.c: 101: while(mL->power<100 || mR->power<100){
-"101
+[; ;dc_motor.c: 107: while(mL->power<100 || mR->power<100){
+"107
 [e $U 429  ]
 [e :U 430 ]
 {
-[; ;dc_motor.c: 102: if(mL->power<100){
-"102
+[; ;dc_motor.c: 108: if(mL->power<100){
+"108
 [e $ ! < -> . *U _mL 0 `i -> 100 `i 432  ]
 {
-[; ;dc_motor.c: 103: mL->power++;
-"103
+[; ;dc_motor.c: 109: mL->power++;
+"109
 [e ++ . *U _mL 0 -> -> 1 `i `uc ]
-"104
+"110
 }
 [e :U 432 ]
-[; ;dc_motor.c: 104: }
-[; ;dc_motor.c: 105: if(mR->power<100){
-"105
+[; ;dc_motor.c: 110: }
+[; ;dc_motor.c: 111: if(mR->power<100){
+"111
 [e $ ! < -> . *U _mR 0 `i -> 100 `i 433  ]
 {
-[; ;dc_motor.c: 106: mR->power++;
-"106
+[; ;dc_motor.c: 112: mR->power++;
+"112
 [e ++ . *U _mR 0 -> -> 1 `i `uc ]
-"107
+"113
 }
 [e :U 433 ]
-[; ;dc_motor.c: 107: }
-[; ;dc_motor.c: 108: setMotorPWM(mL);
-"108
+[; ;dc_motor.c: 113: }
+[; ;dc_motor.c: 114: setMotorPWM(mL);
+"114
 [e ( _setMotorPWM (1 _mL ]
-[; ;dc_motor.c: 109: setMotorPWM(mR);
-"109
+[; ;dc_motor.c: 115: setMotorPWM(mR);
+"115
 [e ( _setMotorPWM (1 _mR ]
-[; ;dc_motor.c: 110: _delay((unsigned long)((50)*(8000000/4000000.0)));
-"110
+[; ;dc_motor.c: 116: _delay((unsigned long)((50)*(8000000/4000000.0)));
+"116
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
-"111
+"117
 }
 [e :U 429 ]
-"101
+"107
 [e $ || < -> . *U _mL 0 `i -> 100 `i < -> . *U _mR 0 `i -> 100 `i 430  ]
 [e :U 431 ]
-[; ;dc_motor.c: 111: }
-[; ;dc_motor.c: 112: }
-"112
+[; ;dc_motor.c: 117: }
+[; ;dc_motor.c: 118: }
+"118
 [e :UE 428 ]
 }
-"115
+"121
 [v _fullSpeedBack `(v ~T0 @X0 1 ef2`*S405`*S405 ]
-"116
+"122
 {
-[; ;dc_motor.c: 115: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR)
-[; ;dc_motor.c: 116: {
+[; ;dc_motor.c: 121: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR)
+[; ;dc_motor.c: 122: {
 [e :U _fullSpeedBack ]
-"115
+"121
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
-"116
+"122
 [f ]
-[; ;dc_motor.c: 118: mL->direction=0;
-"118
+[; ;dc_motor.c: 124: mL->direction=0;
+"124
 [e = . *U _mL 1 -> -> 0 `i `uc ]
-[; ;dc_motor.c: 119: mR->direction=0;
-"119
+[; ;dc_motor.c: 125: mR->direction=0;
+"125
 [e = . *U _mR 1 -> -> 0 `i `uc ]
-[; ;dc_motor.c: 120: fullSpeedAhead(mL, mR);
-"120
+[; ;dc_motor.c: 126: fullSpeedAhead(mL, mR);
+"126
 [e ( _fullSpeedAhead (2 , _mL _mR ]
-[; ;dc_motor.c: 121: }
-"121
+[; ;dc_motor.c: 127: }
+"127
 [e :UE 434 ]
 }

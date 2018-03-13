@@ -8,6 +8,7 @@
       <itemPath>LCD.h</itemPath>
       <itemPath>RFID_Reader.h</itemPath>
       <itemPath>IR_Reading.h</itemPath>
+      <itemPath>Movement.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

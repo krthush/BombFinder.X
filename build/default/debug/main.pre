@@ -4641,7 +4641,7 @@ int PWMperiod;
 };
 
 
-void initPWM();
+void initMotorPWM();
 void setMotorPWM(struct DC_motor *m);
 void setMotorFullSpeed(struct DC_motor *m);
 void stopMotor(struct DC_motor *m);
@@ -4658,27 +4658,24 @@ char getCharSerial(void);
 void Serial_String(char *string);
 unsigned char VerifySignal(unsigned char *Signal);
 
+# 11 "Movement.h"
+void delay_s(char seconds);
 
-# 6 "main.c"
+
+void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+
+# 15 "IR_Reading.h"
+void initIR(void);
+unsigned int grabIR(void);
+
+
+# 8 "main.c"
 #pragma config OSC = IRCIO
 
 
 
 volatile unsigned char ReceivedString[16];
 volatile unsigned char i=0;
-
-
-
-
-void delay_s(char seconds) {
-unsigned int i=0;
-unsigned int j=0;
-for (i=1; i<=seconds; i++) {
-for (j=1; j<=20; j++) {
-_delay((unsigned long)((50)*(8000000/4000.0)));
-}
-}
-}
 
 
 void interrupt InterruptHandlerHigh ()
@@ -4696,27 +4693,23 @@ PIR1bits.RCIF=0;
 
 void main(void){
 
+
 unsigned char Message[10];
 unsigned char i=0;
+unsigned char mode=0;
+unsigned char SignalStrength[3];
+char PathTaken[100];
+unsigned int test=0;
+
 
 INTCONbits.GIEH = 1;
-
+RCONbits.IPEN = 1;
 INTCONbits.GIEL = 1;
 INTCONbits.INT0IE = 1;
+INTCONbits.PEIE = 1;
 
-
-
+IPR1bits.RCIP=1;
 PIE1bits.RCIE=1;
-
-SPBRG=205;
-SPBRGH=0;
-BAUDCONbits.BRG16=1;
-TXSTAbits.BRGH=1;
-RCSTAbits.CREN=1;
-RCSTAbits.SPEN=1;
-TXSTAbits.SYNC=0;
-
-
 
 
 struct DC_motor motorL, motorR;
@@ -4734,54 +4727,30 @@ motorR.dutyHighByte=(unsigned char *)(&PDC1H);
 motorR.dir_pin=2;
 motorR.PWMperiod=199;
 
-
-TRISBbits.RB0=0;
-TRISBbits.RB1=0;
-TRISBbits.RB2=0;
-TRISBbits.RB3=0;
-
-TRISAbits.RA3=1;
-ANSEL0bits.ANS3=1;
-
-ADCON0=0b00001101;
-ADCON1=0b00000000;
-
-ADCON2=0b10101011;
-
 OSCCON = 0x72;
 while(!OSCCONbits.IOFS);
 
-initPWM();
-
-
-
 while(1){
-PIR1bits.RCIF=1;
+
+switch (mode) {
+case 0 :
+
+initMotorPWM();
+initRFID();
+
+mode = 1;
+break;
+
+case 1 :
+
+initIR();
+test=grabIR();
+ScanIR(&motorL, &motorR, *SignalStrength);
+break;
+
+case 2 :
 
 
-delay_s(1);
-stop(&motorL, &motorR);
-
-delay_s(1);
-fullSpeedAhead(&motorL, &motorR);
-
-delay_s(1);
-stop(&motorL, &motorR);
-
-delay_s(1);
-fullSpeedBack(&motorL, &motorR);
-
-delay_s(1);
-stop(&motorL, &motorR);
-
-delay_s(1);
-turnLeft(&motorL, &motorR);
-
-delay_s(1);
-stop(&motorL, &motorR);
-
-delay_s(1);
-turnRight(&motorL, &motorR);
 if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
 if (VerifySignal(ReceivedString)){
 
@@ -4792,10 +4761,14 @@ Message[i] = ReceivedString[i+1];
 for (i=0; i<16; i++) {
 ReceivedString[i]=0;
 }
-
-}
-
 }
 }
+break;
 
+case 3 :
+
+break;
+
+}
+}
 }

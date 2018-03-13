@@ -1,8 +1,4 @@
 Version 3.2 HI-TECH Software Intermediate Code
-[v F3644 `(v ~T0 @X0 1 tf1`ul ]
-"152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
-[v __delay `JF3644 ~T0 @X0 0 e ]
-[p i __delay ]
 "3826 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
 [s S181 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S181 . TMR1IF TMR2IF CCP1IF SSPIF TXIF RCIF ADIF ]
@@ -43,6 +39,52 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S396 . . . . . . ]
 "7595
 [v _INTCONbits `VS396 ~T0 @X0 0 e@4082 ]
+"6738
+[s S363 :1 `uc 1 ]
+[n S363 . NOT_BOR ]
+"6741
+[s S364 :1 `uc 1 :1 `uc 1 ]
+[n S364 . . NOT_POR ]
+"6745
+[s S365 :2 `uc 1 :1 `uc 1 ]
+[n S365 . . NOT_PD ]
+"6749
+[s S366 :3 `uc 1 :1 `uc 1 ]
+[n S366 . . NOT_TO ]
+"6753
+[s S367 :4 `uc 1 :1 `uc 1 ]
+[n S367 . . NOT_RI ]
+"6757
+[s S368 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S368 . nBOR nPOR nPD nTO nRI . IPEN ]
+"6766
+[s S369 :7 `uc 1 :1 `uc 1 ]
+[n S369 . . NOT_IPEN ]
+"6770
+[s S370 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S370 . BOR POR PD TO RI . nIPEN ]
+"6737
+[u S362 `S363 1 `S364 1 `S365 1 `S366 1 `S367 1 `S368 1 `S369 1 `S370 1 ]
+[n S362 . . . . . . . . . ]
+"6780
+[v _RCONbits `VS362 ~T0 @X0 0 e@4048 ]
+"3908
+[s S186 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S186 . TMR1IP TMR2IP CCP1IP SSPIP TXIP RCIP ADIP ]
+"3917
+[s S187 :4 `uc 1 :1 `uc 1 ]
+[n S187 . . TBIP ]
+"3921
+[s S188 :5 `uc 1 :1 `uc 1 ]
+[n S188 . . RC1IP ]
+"3925
+[s S189 :4 `uc 1 :1 `uc 1 ]
+[n S189 . . TX1IP ]
+"3907
+[u S185 `S186 1 `S187 1 `S188 1 `S189 1 ]
+[n S185 . . . . . ]
+"3930
+[v _IPR1bits `VS185 ~T0 @X0 0 e@3999 ]
 "3744
 [s S176 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S176 . TMR1IE TMR2IE CCP1IE SSPIE TXIE RCIE ADIE ]
@@ -60,88 +102,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S175 . . . . . ]
 "3766
 [v _PIE1bits `VS175 ~T0 @X0 0 e@3997 ]
-"5121
-[v _SPBRG `Vuc ~T0 @X0 0 e@4015 ]
-"5132
-[v _SPBRGH `Vuc ~T0 @X0 0 e@4016 ]
-"4425
-[s S217 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S217 . ABDEN WUE . BRG16 TXCKP RXDTP RCIDL ABDOVF ]
-"4435
-[s S218 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S218 . . SCKP . RCMT ]
-"4441
-[s S219 :5 `uc 1 :1 `uc 1 ]
-[n S219 . . RXCKP ]
-"4445
-[s S220 :1 `uc 1 :1 `uc 1 ]
-[n S220 . . W4E ]
-"4424
-[u S216 `S217 1 `S218 1 `S219 1 `S220 1 ]
-[n S216 . . . . . ]
-"4450
-[v _BAUDCONbits `VS216 ~T0 @X0 0 e@4010 ]
-"4813
-[s S241 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S241 . TX9D TRMT BRGH SENDB SYNC TXEN TX9 CSRC ]
-"4823
-[s S242 :2 `uc 1 :1 `uc 1 ]
-[n S242 . . BRGH1 ]
-"4827
-[s S243 :7 `uc 1 :1 `uc 1 ]
-[n S243 . . CSRC1 ]
-"4831
-[s S244 :3 `uc 1 :1 `uc 1 ]
-[n S244 . . SENDB1 ]
-"4835
-[s S245 :4 `uc 1 :1 `uc 1 ]
-[n S245 . . SYNC1 ]
-"4839
-[s S246 :1 `uc 1 :1 `uc 1 ]
-[n S246 . . TRMT1 ]
-"4843
-[s S247 :6 `uc 1 :1 `uc 1 ]
-[n S247 . . TX91 ]
-"4847
-[s S248 :1 `uc 1 ]
-[n S248 . TX9D1 ]
-"4850
-[s S249 :5 `uc 1 :1 `uc 1 ]
-[n S249 . . TXEN1 ]
-"4854
-[s S250 :6 `uc 1 :1 `uc 1 ]
-[n S250 . . TX8_9 ]
-"4858
-[s S251 :1 `uc 1 ]
-[n S251 . TXD8 ]
-"4812
-[u S240 `S241 1 `S242 1 `S243 1 `S244 1 `S245 1 `S246 1 `S247 1 `S248 1 `S249 1 `S250 1 `S251 1 ]
-[n S240 . . . . . . . . . . . . ]
-"4862
-[v _TXSTAbits `VS240 ~T0 @X0 0 e@4012 ]
-"4604
-[s S227 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S227 . RX9D OERR FERR ADDEN CREN SREN RX9 SPEN ]
-"4614
-[s S228 :3 `uc 1 :1 `uc 1 ]
-[n S228 . . ADEN ]
-"4618
-[s S229 :5 `uc 1 :1 `uc 1 ]
-[n S229 . . SRENA ]
-"4622
-[s S230 :6 `uc 1 :1 `uc 1 ]
-[n S230 . . RC8_9 ]
-"4626
-[s S231 :6 `uc 1 :1 `uc 1 ]
-[n S231 . . RC9 ]
-"4630
-[s S232 :1 `uc 1 ]
-[n S232 . RCD8 ]
-"4603
-[u S226 `S227 1 `S228 1 `S229 1 `S230 1 `S231 1 `S232 1 ]
-[n S226 . . . . . . . ]
-"4634
-[v _RCSTAbits `VS226 ~T0 @X0 0 e@4011 ]
 "8 dc_motor.h
 [s S405 `uc 1 `uc 1 `*uc 1 `*uc 1 `uc 1 `i 1 ]
 [n S405 DC_motor power direction dutyLowByte dutyHighByte dir_pin PWMperiod ]
@@ -153,42 +113,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _PDC1L `Vuc ~T0 @X0 0 e@3959 ]
 "846
 [v _PDC1H `Vuc ~T0 @X0 0 e@3958 ]
-"2720
-[s S142 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S142 . TRISB0 TRISB1 TRISB2 TRISB3 TRISB4 TRISB5 TRISB6 TRISB7 ]
-"2730
-[s S143 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S143 . RB0 RB1 RB2 RB3 RB4 RB5 RB6 RB7 ]
-"2719
-[u S141 `S142 1 `S143 1 ]
-[n S141 . . . ]
-"2741
-[v _TRISBbits `VS141 ~T0 @X0 0 e@3987 ]
-"2499
-[s S136 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S136 . TRISA0 TRISA1 TRISA2 TRISA3 TRISA4 TRISA5 TRISA6 TRISA7 ]
-"2509
-[s S137 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S137 . RA0 RA1 RA2 RA3 RA4 RA5 RA6 RA7 ]
-"2498
-[u S135 `S136 1 `S137 1 ]
-[n S135 . . . ]
-"2520
-[v _TRISAbits `VS135 ~T0 @X0 0 e@3986 ]
-"5422
-[s S284 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S284 . ANS0 ANS1 ANS2 ANS3 ANS4 ANS5 ANS6 ANS7 ]
-"5421
-[u S283 `S284 1 ]
-[n S283 . . ]
-"5433
-[v _ANSEL0bits `VS283 ~T0 @X0 0 e@4024 ]
-"5861
-[v _ADCON0 `Vuc ~T0 @X0 0 e@4034 ]
-"5763
-[v _ADCON1 `Vuc ~T0 @X0 0 e@4033 ]
-"5688
-[v _ADCON2 `Vuc ~T0 @X0 0 e@4032 ]
 "6964
 [v _OSCCON `Vuc ~T0 @X0 0 e@4051 ]
 "6970
@@ -206,17 +130,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 "6990
 [v _OSCCONbits `VS376 ~T0 @X0 0 e@4051 ]
 "18 dc_motor.h
-[v _initPWM `(v ~T0 @X0 0 ef ]
-"22
-[v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"25
-[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"26
-[v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"23
-[v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"24
-[v _turnRight `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+[v _initMotorPWM `(v ~T0 @X0 0 ef ]
+"12 RFID_Reader.h
+[v _initRFID `(v ~T0 @X0 0 ef ]
+"15 IR_Reading.h
+[v _initIR `(v ~T0 @X0 0 ef ]
+"16
+[v _grabIR `(ui ~T0 @X0 0 ef ]
+"14 Movement.h
+[v _ScanIR `(v ~T0 @X0 0 ef3`*S405`*S405`*uc ]
 "16 RFID_Reader.h
 [v _VerifySignal `(uc ~T0 @X0 0 ef1`*uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
@@ -3706,7 +3628,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 13: char dir_pin;
 [; ;dc_motor.h: 14: int PWMperiod;
 [; ;dc_motor.h: 15: };
-[; ;dc_motor.h: 18: void initPWM();
+[; ;dc_motor.h: 18: void initMotorPWM();
 [; ;dc_motor.h: 19: void setMotorPWM(struct DC_motor *m);
 [; ;dc_motor.h: 20: void setMotorFullSpeed(struct DC_motor *m);
 [; ;dc_motor.h: 21: void stopMotor(struct DC_motor *m);
@@ -3720,365 +3642,293 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RFID_Reader.h: 14: char getCharSerial(void);
 [; ;RFID_Reader.h: 15: void Serial_String(char *string);
 [; ;RFID_Reader.h: 16: unsigned char VerifySignal(unsigned char *Signal);
-"6 main.c
+[; ;Movement.h: 11: void delay_s(char seconds);
+[; ;Movement.h: 14: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+[; ;IR_Reading.h: 15: void initIR(void);
+[; ;IR_Reading.h: 16: unsigned int grabIR(void);
+"8 main.c
 [p x OSC=IRCIO ]
-"10
+"12
 [v _ReceivedString `Vuc ~T0 @X0 -> 16 `i e ]
-[; ;main.c: 10: volatile unsigned char ReceivedString[16];
-"11
+[; ;main.c: 12: volatile unsigned char ReceivedString[16];
+"13
 [v _i `Vuc ~T0 @X0 1 e ]
 [i _i
 -> -> 0 `i `uc
 ]
-[; ;main.c: 11: volatile unsigned char i=0;
+[; ;main.c: 13: volatile unsigned char i=0;
+[v F3703 `(v ~T0 @X0 1 tf ]
 "16
-[v _delay_s `(v ~T0 @X0 1 ef1`uc ]
-{
-[; ;main.c: 16: void delay_s(char seconds) {
-[e :U _delay_s ]
-[v _seconds `uc ~T0 @X0 1 r1 ]
-[f ]
-[v _i `ui ~T0 @X0 1 a ]
-[; ;main.c: 17: unsigned int i=0;
+[v _InterruptHandlerHigh `IF3703 ~T0 @X0 1 e ]
 "17
-[e = _i -> -> 0 `i `ui ]
-"18
-[v _j `ui ~T0 @X0 1 a ]
-[; ;main.c: 18: unsigned int j=0;
-[e = _j -> -> 0 `i `ui ]
-[; ;main.c: 19: for (i=1; i<=seconds; i++) {
-"19
 {
-[e = _i -> -> 1 `i `ui ]
-[e $U 410  ]
-[e :U 407 ]
-{
-[; ;main.c: 20: for (j=1; j<=20; j++) {
-"20
-{
-[e = _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 20 `i `ui 411  ]
-[e $U 412  ]
-[e :U 411 ]
-{
-[; ;main.c: 21: _delay((unsigned long)((50)*(8000000/4000.0)));
-"21
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"22
-}
-"20
-[e ++ _j -> -> 1 `i `ui ]
-[e $ <= _j -> -> 20 `i `ui 411  ]
-[e :U 412 ]
-"22
-}
-"23
-}
-"19
-[e ++ _i -> -> 1 `i `ui ]
-[e :U 410 ]
-[e $ <= _i -> _seconds `ui 407  ]
-[e :U 408 ]
-"23
-}
-[; ;main.c: 22: }
-[; ;main.c: 23: }
-[; ;main.c: 24: }
-"24
-[e :UE 406 ]
-}
-[v F3698 `(v ~T0 @X0 1 tf ]
-"27
-[v _InterruptHandlerHigh `IF3698 ~T0 @X0 1 e ]
-"28
-{
-[; ;main.c: 27: void interrupt InterruptHandlerHigh ()
-[; ;main.c: 28: {
+[; ;main.c: 16: void interrupt InterruptHandlerHigh ()
+[; ;main.c: 17: {
 [e :U _InterruptHandlerHigh ]
 [f ]
-[; ;main.c: 29: if (PIR1bits.RCIF) {
-"29
-[e $ ! != -> . . _PIR1bits 0 5 `i -> -> -> 0 `i `Vuc `i 415  ]
+[; ;main.c: 18: if (PIR1bits.RCIF) {
+"18
+[e $ ! != -> . . _PIR1bits 0 5 `i -> -> -> 0 `i `Vuc `i 407  ]
 {
-[; ;main.c: 30: ReceivedString[i]=RCREG;
-"30
+[; ;main.c: 19: ReceivedString[i]=RCREG;
+"19
 [e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux _RCREG ]
-[; ;main.c: 31: if (i==15){
-"31
-[e $ ! == -> _i `i -> 15 `i 416  ]
+[; ;main.c: 20: if (i==15){
+"20
+[e $ ! == -> _i `i -> 15 `i 408  ]
 {
-[; ;main.c: 32: i=0;
-"32
+[; ;main.c: 21: i=0;
+"21
 [e = _i -> -> 0 `i `uc ]
-"33
+"22
 }
-[; ;main.c: 33: }else{
-[e $U 417  ]
-[e :U 416 ]
+[; ;main.c: 22: }else{
+[e $U 409  ]
+[e :U 408 ]
 {
-[; ;main.c: 34: i++;
-"34
+[; ;main.c: 23: i++;
+"23
 [e ++ _i -> -> 1 `i `uc ]
-"35
+"24
 }
-[e :U 417 ]
-[; ;main.c: 35: }
-[; ;main.c: 36: PIR1bits.RCIF=0;
-"36
+[e :U 409 ]
+[; ;main.c: 24: }
+[; ;main.c: 25: PIR1bits.RCIF=0;
+"25
 [e = . . _PIR1bits 0 5 -> -> 0 `i `uc ]
-"37
+"26
 }
-[e :U 415 ]
-[; ;main.c: 37: }
-[; ;main.c: 38: }
-"38
-[e :UE 414 ]
+[e :U 407 ]
+[; ;main.c: 26: }
+[; ;main.c: 27: }
+"27
+[e :UE 406 ]
 }
-"40
+"29
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 40: void main(void){
+[; ;main.c: 29: void main(void){
 [e :U _main ]
 [f ]
-"42
+"32
 [v _Message `uc ~T0 @X0 -> 10 `i a ]
 [v _i `uc ~T0 @X0 1 a ]
-[; ;main.c: 42: unsigned char Message[10];
-[; ;main.c: 43: unsigned char i=0;
-"43
+[; ;main.c: 32: unsigned char Message[10];
+[; ;main.c: 33: unsigned char i=0;
+"33
 [e = _i -> -> 0 `i `uc ]
-[; ;main.c: 45: INTCONbits.GIEH = 1;
-"45
+"34
+[v _mode `uc ~T0 @X0 1 a ]
+[; ;main.c: 34: unsigned char mode=0;
+[e = _mode -> -> 0 `i `uc ]
+"35
+[v _SignalStrength `uc ~T0 @X0 -> 3 `i a ]
+"36
+[v _PathTaken `uc ~T0 @X0 -> 100 `i a ]
+"37
+[v _test `ui ~T0 @X0 1 a ]
+[; ;main.c: 35: unsigned char SignalStrength[3];
+[; ;main.c: 36: char PathTaken[100];
+[; ;main.c: 37: unsigned int test=0;
+[e = _test -> -> 0 `i `ui ]
+[; ;main.c: 40: INTCONbits.GIEH = 1;
+"40
 [e = . . _INTCONbits 2 7 -> -> 1 `i `uc ]
-[; ;main.c: 47: INTCONbits.GIEL = 1;
-"47
+[; ;main.c: 41: RCONbits.IPEN = 1;
+"41
+[e = . . _RCONbits 5 6 -> -> 1 `i `uc ]
+[; ;main.c: 42: INTCONbits.GIEL = 1;
+"42
 [e = . . _INTCONbits 2 6 -> -> 1 `i `uc ]
-[; ;main.c: 48: INTCONbits.INT0IE = 1;
-"48
+[; ;main.c: 43: INTCONbits.INT0IE = 1;
+"43
 [e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
-[; ;main.c: 52: PIE1bits.RCIE=1;
-"52
+[; ;main.c: 44: INTCONbits.PEIE = 1;
+"44
+[e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
+[; ;main.c: 46: IPR1bits.RCIP=1;
+"46
+[e = . . _IPR1bits 0 5 -> -> 1 `i `uc ]
+[; ;main.c: 47: PIE1bits.RCIE=1;
+"47
 [e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 54: SPBRG=205;
-"54
-[e = _SPBRG -> -> 205 `i `uc ]
-[; ;main.c: 55: SPBRGH=0;
-"55
-[e = _SPBRGH -> -> 0 `i `uc ]
-[; ;main.c: 56: BAUDCONbits.BRG16=1;
-"56
-[e = . . _BAUDCONbits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 57: TXSTAbits.BRGH=1;
-"57
-[e = . . _TXSTAbits 0 2 -> -> 1 `i `uc ]
-[; ;main.c: 58: RCSTAbits.CREN=1;
-"58
-[e = . . _RCSTAbits 0 4 -> -> 1 `i `uc ]
-[; ;main.c: 59: RCSTAbits.SPEN=1;
-"59
-[e = . . _RCSTAbits 0 7 -> -> 1 `i `uc ]
-[; ;main.c: 60: TXSTAbits.SYNC=0;
-"60
-[e = . . _TXSTAbits 0 4 -> -> 0 `i `uc ]
-"65
+"50
 [v _motorL `S405 ~T0 @X0 1 a ]
 [v _motorR `S405 ~T0 @X0 1 a ]
-[; ;main.c: 65: struct DC_motor motorL, motorR;
-[; ;main.c: 66: motorL.power=0;
-"66
+[; ;main.c: 50: struct DC_motor motorL, motorR;
+[; ;main.c: 51: motorL.power=0;
+"51
 [e = . _motorL 0 -> -> 0 `i `uc ]
-[; ;main.c: 67: motorL.direction=1;
-"67
+[; ;main.c: 52: motorL.direction=1;
+"52
 [e = . _motorL 1 -> -> 1 `i `uc ]
-[; ;main.c: 68: motorL.dutyLowByte=(unsigned char *)(&PDC0L);
-"68
+[; ;main.c: 53: motorL.dutyLowByte=(unsigned char *)(&PDC0L);
+"53
 [e = . _motorL 2 -> &U _PDC0L `*uc ]
-[; ;main.c: 69: motorL.dutyHighByte=(unsigned char *)(&PDC0H);
-"69
+[; ;main.c: 54: motorL.dutyHighByte=(unsigned char *)(&PDC0H);
+"54
 [e = . _motorL 3 -> &U _PDC0H `*uc ]
-[; ;main.c: 70: motorL.dir_pin=0;
-"70
+[; ;main.c: 55: motorL.dir_pin=0;
+"55
 [e = . _motorL 4 -> -> 0 `i `uc ]
-[; ;main.c: 71: motorL.PWMperiod=199;
-"71
+[; ;main.c: 56: motorL.PWMperiod=199;
+"56
 [e = . _motorL 5 -> 199 `i ]
-[; ;main.c: 73: motorR.power=0;
-"73
+[; ;main.c: 58: motorR.power=0;
+"58
 [e = . _motorR 0 -> -> 0 `i `uc ]
-[; ;main.c: 74: motorR.direction=1;
-"74
+[; ;main.c: 59: motorR.direction=1;
+"59
 [e = . _motorR 1 -> -> 1 `i `uc ]
-[; ;main.c: 75: motorR.dutyLowByte=(unsigned char *)(&PDC1L);
-"75
+[; ;main.c: 60: motorR.dutyLowByte=(unsigned char *)(&PDC1L);
+"60
 [e = . _motorR 2 -> &U _PDC1L `*uc ]
-[; ;main.c: 76: motorR.dutyHighByte=(unsigned char *)(&PDC1H);
-"76
+[; ;main.c: 61: motorR.dutyHighByte=(unsigned char *)(&PDC1H);
+"61
 [e = . _motorR 3 -> &U _PDC1H `*uc ]
-[; ;main.c: 77: motorR.dir_pin=2;
-"77
+[; ;main.c: 62: motorR.dir_pin=2;
+"62
 [e = . _motorR 4 -> -> 2 `i `uc ]
-[; ;main.c: 78: motorR.PWMperiod=199;
-"78
+[; ;main.c: 63: motorR.PWMperiod=199;
+"63
 [e = . _motorR 5 -> 199 `i ]
-[; ;main.c: 81: TRISBbits.RB0=0;
-"81
-[e = . . _TRISBbits 1 0 -> -> 0 `i `uc ]
-[; ;main.c: 82: TRISBbits.RB1=0;
-"82
-[e = . . _TRISBbits 1 1 -> -> 0 `i `uc ]
-[; ;main.c: 83: TRISBbits.RB2=0;
-"83
-[e = . . _TRISBbits 1 2 -> -> 0 `i `uc ]
-[; ;main.c: 84: TRISBbits.RB3=0;
-"84
-[e = . . _TRISBbits 1 3 -> -> 0 `i `uc ]
-[; ;main.c: 86: TRISAbits.RA3=1;
-"86
-[e = . . _TRISAbits 1 3 -> -> 1 `i `uc ]
-[; ;main.c: 87: ANSEL0bits.ANS3=1;
-"87
-[e = . . _ANSEL0bits 0 3 -> -> 1 `i `uc ]
-[; ;main.c: 89: ADCON0=0b00001101;
-"89
-[e = _ADCON0 -> -> 13 `i `uc ]
-[; ;main.c: 90: ADCON1=0b00000000;
-"90
-[e = _ADCON1 -> -> 0 `i `uc ]
-[; ;main.c: 92: ADCON2=0b10101011;
-"92
-[e = _ADCON2 -> -> 171 `i `uc ]
-[; ;main.c: 94: OSCCON = 0x72;
-"94
+[; ;main.c: 65: OSCCON = 0x72;
+"65
 [e = _OSCCON -> -> 114 `i `uc ]
-[; ;main.c: 95: while(!OSCCONbits.IOFS);
-"95
-[e $U 419  ]
-[e :U 420 ]
+[; ;main.c: 66: while(!OSCCONbits.IOFS);
+"66
+[e $U 411  ]
+[e :U 412 ]
+[e :U 411 ]
+[e $ ! != -> . . _OSCCONbits 0 1 `i -> -> -> 0 `i `Vuc `i 412  ]
+[e :U 413 ]
+[; ;main.c: 68: while(1){
+"68
+[e :U 415 ]
+{
+[; ;main.c: 70: switch (mode) {
+"70
+[e $U 418  ]
+{
+[; ;main.c: 71: case 0 :
+"71
 [e :U 419 ]
-[e $ ! != -> . . _OSCCONbits 0 1 `i -> -> -> 0 `i `Vuc `i 420  ]
+[; ;main.c: 73: initMotorPWM();
+"73
+[e ( _initMotorPWM ..  ]
+[; ;main.c: 74: initRFID();
+"74
+[e ( _initRFID ..  ]
+[; ;main.c: 76: mode = 1;
+"76
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 77: break;
+"77
+[e $U 417  ]
+[; ;main.c: 79: case 1 :
+"79
+[e :U 420 ]
+[; ;main.c: 81: initIR();
+"81
+[e ( _initIR ..  ]
+[; ;main.c: 82: test=grabIR();
+"82
+[e = _test ( _grabIR ..  ]
+[; ;main.c: 83: ScanIR(&motorL, &motorR, *SignalStrength);
+"83
+[e ( _ScanIR (3 , , &U _motorL &U _motorR -> *U &U _SignalStrength `*uc ]
+[; ;main.c: 84: break;
+"84
+[e $U 417  ]
+[; ;main.c: 86: case 2 :
+"86
 [e :U 421 ]
-[; ;main.c: 97: initPWM();
-"97
-[e ( _initPWM ..  ]
-[; ;main.c: 101: while(1){
-"101
-[e :U 423 ]
+[; ;main.c: 89: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+"89
+[e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 422  ]
 {
-[; ;main.c: 102: PIR1bits.RCIF=1;
-"102
-[e = . . _PIR1bits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 105: delay_s(1);
-"105
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 106: stop(&motorL, &motorR);
-"106
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 108: delay_s(1);
-"108
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 109: fullSpeedAhead(&motorL, &motorR);
-"109
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-[; ;main.c: 111: delay_s(1);
-"111
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 112: stop(&motorL, &motorR);
-"112
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 114: delay_s(1);
-"114
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 115: fullSpeedBack(&motorL, &motorR);
-"115
-[e ( _fullSpeedBack (2 , &U _motorL &U _motorR ]
-[; ;main.c: 117: delay_s(1);
-"117
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 118: stop(&motorL, &motorR);
-"118
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 120: delay_s(1);
-"120
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 121: turnLeft(&motorL, &motorR);
-"121
-[e ( _turnLeft (2 , &U _motorL &U _motorR ]
-[; ;main.c: 123: delay_s(1);
-"123
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 124: stop(&motorL, &motorR);
-"124
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 126: delay_s(1);
-"126
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 127: turnRight(&motorL, &motorR);
-"127
-[e ( _turnRight (2 , &U _motorL &U _motorR ]
-[; ;main.c: 128: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-"128
-[e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 425  ]
+[; ;main.c: 90: if (VerifySignal(ReceivedString)){
+"90
+[e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 423  ]
 {
-[; ;main.c: 129: if (VerifySignal(ReceivedString)){
-"129
-[e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 426  ]
-{
-[; ;main.c: 131: for (i=0; i<10; i++){
-"131
+[; ;main.c: 92: for (i=0; i<10; i++){
+"92
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 10 `i 427  ]
+[e $ < -> _i `i -> 10 `i 424  ]
+[e $U 425  ]
+[e :U 424 ]
+{
+[; ;main.c: 93: Message[i] = ReceivedString[i+1];
+"93
+[e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
+"94
+}
+"92
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 10 `i 424  ]
+[e :U 425 ]
+"94
+}
+[; ;main.c: 94: }
+[; ;main.c: 96: for (i=0; i<16; i++) {
+"96
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 16 `i 427  ]
 [e $U 428  ]
 [e :U 427 ]
 {
-[; ;main.c: 132: Message[i] = ReceivedString[i+1];
-"132
-[e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
-"133
-}
-"131
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 10 `i 427  ]
-[e :U 428 ]
-"133
-}
-[; ;main.c: 133: }
-[; ;main.c: 135: for (i=0; i<16; i++) {
-"135
-{
-[e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 16 `i 430  ]
-[e $U 431  ]
-[e :U 430 ]
-{
-[; ;main.c: 136: ReceivedString[i]=0;
-"136
+[; ;main.c: 97: ReceivedString[i]=0;
+"97
 [e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"137
+"98
 }
-"135
+"96
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 16 `i 430  ]
-[e :U 431 ]
-"137
+[e $ < -> _i `i -> 16 `i 427  ]
+[e :U 428 ]
+"98
 }
-"139
+"99
 }
-[e :U 426 ]
-"141
-}
-[e :U 425 ]
-"142
+[e :U 423 ]
+"100
 }
 [e :U 422 ]
+[; ;main.c: 98: }
+[; ;main.c: 99: }
+[; ;main.c: 100: }
+[; ;main.c: 101: break;
 "101
-[e $U 423  ]
-[e :U 424 ]
-[; ;main.c: 137: }
-[; ;main.c: 139: }
-[; ;main.c: 141: }
-[; ;main.c: 142: }
-[; ;main.c: 144: }
-"144
-[e :UE 418 ]
+[e $U 417  ]
+[; ;main.c: 103: case 3 :
+"103
+[e :U 430 ]
+[; ;main.c: 105: break;
+"105
+[e $U 417  ]
+"107
+}
+[; ;main.c: 107: }
+[e $U 417  ]
+"70
+[e :U 418 ]
+[e [\ _mode , $ -> -> 0 `i `uc 419
+ , $ -> -> 1 `i `uc 420
+ , $ -> -> 2 `i `uc 421
+ , $ -> -> 3 `i `uc 430
+ 417 ]
+"107
+[e :U 417 ]
+"108
+}
+[e :U 414 ]
+"68
+[e $U 415  ]
+[e :U 416 ]
+[; ;main.c: 108: }
+[; ;main.c: 109: }
+"109
+[e :UE 410 ]
 }

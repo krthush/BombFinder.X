@@ -8,11 +8,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 "152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
 [v __delay `JF3644 ~T0 @X0 0 e ]
 [p i __delay ]
-"15 IR_Reading.h
-[v _grabIR `(uc ~T0 @X0 0 ef ]
+"16 IR_Reading.h
+[v _grabIR `(ui ~T0 @X0 0 ef ]
 "23 dc_motor.h
 [v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"17 Movement.c
+"18 Movement.c
 [v ___delay_s `(i ~T0 @X0 0 ef ]
 "24 dc_motor.h
 [v _turnRight `(v ~T0 @X0 0 ef2`*S405`*S405 ]
@@ -3503,7 +3503,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 13: char dir_pin;
 [; ;dc_motor.h: 14: int PWMperiod;
 [; ;dc_motor.h: 15: };
-[; ;dc_motor.h: 18: void initPWM();
+[; ;dc_motor.h: 18: void initMotorPWM();
 [; ;dc_motor.h: 19: void setMotorPWM(struct DC_motor *m);
 [; ;dc_motor.h: 20: void setMotorFullSpeed(struct DC_motor *m);
 [; ;dc_motor.h: 21: void stopMotor(struct DC_motor *m);
@@ -3512,59 +3512,61 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 24: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
 [; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
-[; ;IR_Reading.h: 15: unsigned char grabIR(void);
-"6 Movement.c
+[; ;IR_Reading.h: 15: void initIR(void);
+[; ;IR_Reading.h: 16: unsigned int grabIR(void);
+[; ;Movement.h: 13: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+"7 Movement.c
 [v _ScanIR `(v ~T0 @X0 1 ef3`*S405`*S405`*uc ]
 {
-[; ;Movement.c: 6: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
+[; ;Movement.c: 7: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 [e :U _ScanIR ]
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
 [v _buf `*uc ~T0 @X0 1 r3 ]
 [f ]
-[; ;Movement.c: 9: stop(mL,mR);
-"9
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 10: _delay((unsigned long)((50)*(8000000/4000.0)));
+[; ;Movement.c: 10: stop(mL,mR);
 "10
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 11: _delay((unsigned long)((50)*(8000000/4000.0)));
+"11
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Movement.c: 13: buf[1] = grabIR();
-"13
-[e = *U + _buf * -> -> 1 `i `x -> -> # *U _buf `i `x ( _grabIR ..  ]
-[; ;Movement.c: 16: turnLeft(mL,mR);
-"16
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 17: __delay_s(1);
+[; ;Movement.c: 14: buf[1] = grabIR();
+"14
+[e = *U + _buf * -> -> 1 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 17: turnLeft(mL,mR);
 "17
-[e ( ___delay_s -> 1 `i ]
-[; ;Movement.c: 18: stop(mL,mR);
-"18
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 19: buf[0] = grabIR();
-"19
-[e = *U + _buf * -> -> 0 `i `x -> -> # *U _buf `i `x ( _grabIR ..  ]
-[; ;Movement.c: 22: turnRight(mL,mR);
-"22
-[e ( _turnRight (2 , _mL _mR ]
-[; ;Movement.c: 23: __delay_s(2);
-"23
-[e ( ___delay_s -> 2 `i ]
-[; ;Movement.c: 24: stop(mL,mR);
-"24
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 25: buf[2] = grabIR();
-"25
-[e = *U + _buf * -> -> 2 `i `x -> -> # *U _buf `i `x ( _grabIR ..  ]
-[; ;Movement.c: 28: turnLeft(mL,mR);
-"28
 [e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 29: __delay_s(1);
-"29
+[; ;Movement.c: 18: __delay_s(1);
+"18
 [e ( ___delay_s -> 1 `i ]
-[; ;Movement.c: 30: stop(mL,mR);
-"30
+[; ;Movement.c: 19: stop(mL,mR);
+"19
 [e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 31: }
+[; ;Movement.c: 20: buf[0] = grabIR();
+"20
+[e = *U + _buf * -> -> 0 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 23: turnRight(mL,mR);
+"23
+[e ( _turnRight (2 , _mL _mR ]
+[; ;Movement.c: 24: __delay_s(2);
+"24
+[e ( ___delay_s -> 2 `i ]
+[; ;Movement.c: 25: stop(mL,mR);
+"25
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 26: buf[2] = grabIR();
+"26
+[e = *U + _buf * -> -> 2 `i `x -> -> # *U _buf `i `x -> ( _grabIR ..  `uc ]
+[; ;Movement.c: 29: turnLeft(mL,mR);
+"29
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 30: __delay_s(1);
+"30
+[e ( ___delay_s -> 1 `i ]
+[; ;Movement.c: 31: stop(mL,mR);
 "31
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 32: }
+"32
 [e :UE 406 ]
 }
