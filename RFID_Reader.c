@@ -44,5 +44,22 @@ void Serial_String(char *string){
 }
 
 unsigned char VerifySignal(unsigned char *Signal){
-    return 1;
+    unsigned char checksum=0;
+    unsigned int hexByte=0;
+
+    //First run through - XOR first two hex bytes
+    hexByte = (Signal[3]<<8) + Signal[4];
+    checksum = ((Signal[1]<<8) + Signal[2]) ^ hexByte; //First 2 chars XOR second 2
+
+    //Loop through, XORing the previous result with the next hex byte in turn
+    for (i=5; i<10; i+=2){
+        hexByte = (Signal[i]<<8) + Signal[i+1];
+        checksum = checksum ^ hexByte;
+    }
+
+    if ((checksum[0]==Signal[11]) & (checksum[1]==Signal[12])){
+        return 1;
+    } else{
+        return 0;
+    }
 }
