@@ -4655,7 +4655,9 @@ void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 
 # 15 "IR_Reading.h"
 void initIR(void);
-unsigned int grabIR(void);
+unsigned int grabRightIR(void);
+unsigned int grabLeftIR(void);
+unsigned int grabAverageIR(void);
 void enableSensor(char sensor, char status);
 
 # 11 "Movement.h"
@@ -4696,19 +4698,19 @@ stop(mL,mR);
 _delay((unsigned long)((50)*(8000000/4000.0)));
 
 
-buf[1] = grabIR();
+buf[1] = grabRightIR();
 
 
 turnLeft(mL,mR);
 delay_s(1);
 stop(mL,mR);
-buf[0] = grabIR();
+buf[0] = grabRightIR();
 
 
 turnRight(mL,mR);
 delay_s(2);
 stop(mL,mR);
-buf[2] = grabIR();
+buf[2] = grabRightIR();
 
 
 turnLeft(mL,mR);
@@ -4720,12 +4722,16 @@ stop(mL,mR);
 void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
 
 
+unsigned int SignalStrength[2];
+
+
 enableSensor(0, 1);
 enableSensor(1, 1);
 
 
 stop(mL,mR);
 delay_tenth_s(tenth_seconds);
+SignalStrength[1]=grabAverageIR();
 
 
 turnLeft(mL,mR);
@@ -4734,21 +4740,41 @@ delay_tenth_s(tenth_seconds);
 
 stop(mL,mR);
 delay_tenth_s(tenth_seconds);
+SignalStrength[0]=grabAverageIR();
 
 
 turnRight(mL,mR);
-
 delay_tenth_s(2*tenth_seconds);
 
 
 stop(mL,mR);
 delay_tenth_s(tenth_seconds);
+SignalStrength[2]=grabAverageIR();
+
+
+if(SignalStrength[2]>SignalStrength[0] && SignalStrength[2]>SignalStrength[1]){
+
+
+} else if (SignalStrength[1]>SignalStrength[0] && SignalStrength[1]>SignalStrength[2]) {
+
 
 
 turnLeft(mL,mR);
 delay_tenth_s(tenth_seconds);
-
 stop(mL,mR);
+} else if (SignalStrength[0]>SignalStrength[1] && SignalStrength[0]>SignalStrength[2]){
+
+
+
+turnLeft(mL,mR);
+delay_tenth_s(2*tenth_seconds);
+stop(mL,mR);
+} else {
+
+turnLeft(mL,mR);
+delay_tenth_s(tenth_seconds);
+stop(mL,mR);
+}
 
 
 enableSensor(0, 0);

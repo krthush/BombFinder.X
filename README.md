@@ -20,6 +20,7 @@ Robot Modes:
 	RFID detected, in which case goes to return mode. 
 3 - Return Mode: Retraces its steps to return to start point. (Disable CCP and turn on LCD)
 
+-BUY KINDER EGGS, THEY THE SHIT
 
 RFID CHECKSUM:
 String can be divided into 5 pairs of Hex numbers, e.g.
@@ -34,3 +35,4 @@ Step2 = XOR(Step1, Hex3)
 etc...
 
 For our RFID card the checksum should be 0x60
+

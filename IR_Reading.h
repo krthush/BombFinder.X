@@ -13,7 +13,9 @@
 // void getTimerVal();
 
 void initIR(void);
-unsigned int grabIR(void);
+unsigned int grabRightIR(void);
+unsigned int grabLeftIR(void);
+unsigned int grabAverageIR(void);
 void enableSensor(char sensor, char status); //Turns IR sensor on or off
 
 

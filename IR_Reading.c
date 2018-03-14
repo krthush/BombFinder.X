@@ -34,15 +34,19 @@ void initIR(void){
     // This will eliminate a possible pin glitch, 
     // since the LAT register (PORT data latch values) power up in a random state.
     LATAbits.LA2=0;
-    // Set RA2 pin as an input for the IR PWM signal
+    LATAbits.LA3=0;
+    // Set RA2 & RA3 pin as an input for the IR PWM signal
     TRISAbits.RA2=1;
-    // Set port to digital I/O (for AN2 specifically)
+    TRISAbits.RA3=1;
+    // Set ports to digital I/O (for AN2 specifically)
     ANSEL0bits.ANS2=0;
+    ANSEL0bits.ANS3=0;
     
-    // Initialise CAP module for CAP1 pin
+    // Initialise CAP module for CAP1 & CAP2 pin
     // Disable selected time base Reset on capture
     // Pulse-Width Measurement mode, every falling to rising edge
     CAP1CON=0b00000110;
+    CAP2CON=0b00000110;
     
     //Set pin RE0 to digital output (allows turning IR sensor 1 on and off)
     TRISEbits.RE0=0;
@@ -61,9 +65,9 @@ void initIR(void){
     T5CON=0b01011001;
 }
 
-// Function that gives the strength of the IR signal (PWM pulse length) 
+// Function that gives the strength of the Right IR signal (PWM pulse length) 
 // in arbitrary units 
-unsigned int grabIR(void){
+unsigned int grabRightIR(void){
     // initialise variables used in function
     unsigned int IR_signal=0;
     unsigned char i=0;
@@ -76,6 +80,35 @@ unsigned int grabIR(void){
     // return the average signal to be used
     return IR_signal<<2;
 }
+
+// Function that gives the strength of the Left IR signal (PWM pulse length) 
+// in arbitrary units 
+unsigned int grabLeftIR(void){
+    // initialise variables used in function
+    unsigned int IR_signal=0;
+    unsigned char i=0;
+    // measure is taken 4 times (with delay)
+    for (i=0; i<4; i++) {
+        // combine low and high register into one int using bit shift and OR
+        IR_signal+=((CAP2BUFH << 8) | CAP2BUFL);
+        __delay_ms(50);
+    }
+    // return the average signal to be used
+    return IR_signal<<2;
+}
+
+// Function that gives the average strength of the IR signal using both
+// the left and right IR sensors.
+// PLEASE NOTE: this code can be made more efficient by not calling functions
+// individually and having it access the registers directly
+unsigned int grabAverageIR(void){
+    // initialise variables used in function
+    unsigned int IR_signal=0;
+    IR_signal+=grabRightIR();
+    IR_signal+=grabLeftIR();
+    // return the average of both left and right signal to be used
+    return IR_signal<<2;
+};
 
 //Function to turn IR sensor on and off (allows using of CAP module for encoder
 //as well as IR)

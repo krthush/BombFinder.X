@@ -31,19 +31,19 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
     __delay_ms(50);
 
     //Read IR around centre point
-    buf[1] = grabIR();
+    buf[1] = grabRightIR();
 
     //Move a bit to the left
     turnLeft(mL,mR);
     delay_s(1);
     stop(mL,mR);
-    buf[0] = grabIR();
+    buf[0] = grabRightIR();
 
     //Move a bit to the right
     turnRight(mL,mR);
     delay_s(2); //Twice as long so same angle to the right as was left
     stop(mL,mR);
-    buf[2] = grabIR();
+    buf[2] = grabRightIR();
 
     //Move back to starting position and stop
     turnLeft(mL,mR);
@@ -73,6 +73,9 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 // The range is given in twice the number of tenth seconds the robot turns for
 // Finally the robot positions facing the direction of highest IR strength
 void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
+    // Initialise variable that is used to judge the strength of signals
+    // Will be strength at left[0], centre[1], right[2]
+    unsigned int SignalStrength[2];
     
     //Turn on both IR sensors
     enableSensor(0, 1);
@@ -81,7 +84,8 @@ void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     // Scan Data
     stop(mL,mR);
     delay_tenth_s(tenth_seconds);
-    
+    SignalStrength[1]=grabAverageIR();
+     
     // Turn left
     turnLeft(mL,mR);
     delay_tenth_s(tenth_seconds);
@@ -89,21 +93,41 @@ void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     // Then Scan Data
     stop(mL,mR);
     delay_tenth_s(tenth_seconds);
+    SignalStrength[0]=grabAverageIR();
     
     // Turn right (note you must turn for twice as long)
     turnRight(mL,mR);
-    // PLEASE CHECK: IS THIS THE CORRECT WAY TO x2?!
     delay_tenth_s(2*tenth_seconds);
     
     // Then Scan Data
     stop(mL,mR);
     delay_tenth_s(tenth_seconds);
+    SignalStrength[2]=grabAverageIR();
     
     // Return to position of highest IR strength
-    turnLeft(mL,mR);
-    delay_tenth_s(tenth_seconds);
-    
-    stop(mL,mR);
+    if(SignalStrength[2]>SignalStrength[0] && SignalStrength[2]>SignalStrength[1]){
+        // Max SignalStrength[2]
+        // Remain in current position right[2]
+    } else if (SignalStrength[1]>SignalStrength[0] && SignalStrength[1]>SignalStrength[2]) {
+        // Max SignalStrength[1]
+        // Turn to position centre[1]
+        // Turn left for tenth_seconds
+        turnLeft(mL,mR);
+        delay_tenth_s(tenth_seconds);
+        stop(mL,mR);
+    } else if (SignalStrength[0]>SignalStrength[1] && SignalStrength[0]>SignalStrength[2]){
+        // Max SignalStrength[0]
+        // Turn to position left[0]
+        // Turn left for tenth_seconds
+        turnLeft(mL,mR);
+        delay_tenth_s(2*tenth_seconds);
+        stop(mL,mR);
+    } else {
+        // Return to centre position and do nothing
+        turnLeft(mL,mR);
+        delay_tenth_s(tenth_seconds);
+        stop(mL,mR);
+    }
     
     //Turn off both IR sensors
     enableSensor(0, 0);

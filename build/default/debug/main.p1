@@ -133,10 +133,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _initMotorPWM `(v ~T0 @X0 0 ef ]
 "12 RFID_Reader.h
 [v _initRFID `(v ~T0 @X0 0 ef ]
-"11 Movement.h
-[v _delay_s `(v ~T0 @X0 0 ef1`uc ]
-"22 dc_motor.h
-[v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"15 IR_Reading.h
+[v _initIR `(v ~T0 @X0 0 ef ]
+"21 Movement.h
+[v _ScanWithRange `(v ~T0 @X0 0 ef3`*S405`*S405`uc ]
 "16 RFID_Reader.h
 [v _VerifySignal `(uc ~T0 @X0 0 ef1`*uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
@@ -3631,10 +3631,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 20: void setMotorFullSpeed(struct DC_motor *m);
 [; ;dc_motor.h: 21: void stopMotor(struct DC_motor *m);
 [; ;dc_motor.h: 22: void stop(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 23: void turnLeft(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 24: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 25: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
-[; ;dc_motor.h: 26: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
+[; ;dc_motor.h: 24: void turnLeft(struct DC_motor *mL, struct DC_motor *mR);
+[; ;dc_motor.h: 26: void turnRight(struct DC_motor *mL, struct DC_motor *mR);
+[; ;dc_motor.h: 27: void fullSpeedAhead(struct DC_motor *mL, struct DC_motor *mR);
+[; ;dc_motor.h: 28: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 [; ;RFID_Reader.h: 12: void initRFID(void);
 [; ;RFID_Reader.h: 13: void sendCharToSerial(char charToSend);
 [; ;RFID_Reader.h: 14: char getCharSerial(void);
@@ -3645,7 +3645,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Movement.h: 16: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
 [; ;Movement.h: 21: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 [; ;IR_Reading.h: 15: void initIR(void);
-[; ;IR_Reading.h: 16: unsigned int grabIR(void);
+[; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
+[; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
+[; ;IR_Reading.h: 18: unsigned int grabAverageIR(void);
+[; ;IR_Reading.h: 19: void enableSensor(char sensor, char status);
 "8 main.c
 [p x OSC=IRCIO ]
 "12
@@ -3657,9 +3660,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [; ;main.c: 13: volatile unsigned char i=0;
-[v F3709 `(v ~T0 @X0 1 tf ]
+[v F3716 `(v ~T0 @X0 1 tf ]
 "16
-[v _InterruptHandlerHigh `IF3709 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF3716 ~T0 @X0 1 e ]
 "17
 {
 [; ;main.c: 16: void interrupt InterruptHandlerHigh ()
@@ -3819,95 +3822,95 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 74: initRFID();
 "74
 [e ( _initRFID ..  ]
-[; ;main.c: 76: mode = 1;
-"76
-[e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 77: break;
+[; ;main.c: 75: initIR();
+"75
+[e ( _initIR ..  ]
+[; ;main.c: 77: mode = 1;
 "77
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 78: break;
+"78
 [e $U 417  ]
-[; ;main.c: 79: case 1 :
-"79
+[; ;main.c: 80: case 1 :
+"80
 [e :U 420 ]
-[; ;main.c: 84: delay_s(1);
-"84
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 85: stop(&motorL, &motorR);
-"85
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 88: break;
-"88
+[; ;main.c: 95: ScanWithRange(&motorL, &motorR, 3);
+"95
+[e ( _ScanWithRange (3 , , &U _motorL &U _motorR -> -> 3 `i `uc ]
+[; ;main.c: 103: break;
+"103
 [e $U 417  ]
-[; ;main.c: 90: case 2 :
-"90
+[; ;main.c: 105: case 2 :
+"105
 [e :U 421 ]
-[; ;main.c: 93: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-"93
+[; ;main.c: 108: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+"108
 [e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 422  ]
 {
-[; ;main.c: 94: if (VerifySignal(ReceivedString)){
-"94
+[; ;main.c: 109: if (VerifySignal(ReceivedString)){
+"109
 [e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 423  ]
 {
-[; ;main.c: 96: for (i=0; i<10; i++){
-"96
+[; ;main.c: 111: for (i=0; i<10; i++){
+"111
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 424  ]
 [e $U 425  ]
 [e :U 424 ]
 {
-[; ;main.c: 97: Message[i] = ReceivedString[i+1];
-"97
+[; ;main.c: 112: Message[i] = ReceivedString[i+1];
+"112
 [e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
-"98
+"113
 }
-"96
+"111
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 424  ]
 [e :U 425 ]
-"98
+"113
 }
-[; ;main.c: 98: }
-[; ;main.c: 100: for (i=0; i<16; i++) {
-"100
+[; ;main.c: 113: }
+[; ;main.c: 115: for (i=0; i<16; i++) {
+"115
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 16 `i 427  ]
 [e $U 428  ]
 [e :U 427 ]
 {
-[; ;main.c: 101: ReceivedString[i]=0;
-"101
+[; ;main.c: 116: ReceivedString[i]=0;
+"116
 [e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"102
+"117
 }
-"100
+"115
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 16 `i 427  ]
 [e :U 428 ]
-"102
+"117
 }
-"103
+"118
 }
 [e :U 423 ]
-"104
+"119
 }
 [e :U 422 ]
-[; ;main.c: 102: }
-[; ;main.c: 103: }
-[; ;main.c: 104: }
-[; ;main.c: 105: break;
-"105
+[; ;main.c: 117: }
+[; ;main.c: 118: }
+[; ;main.c: 119: }
+[; ;main.c: 120: break;
+"120
 [e $U 417  ]
-[; ;main.c: 107: case 3 :
-"107
+[; ;main.c: 122: case 3 :
+"122
 [e :U 430 ]
-[; ;main.c: 109: break;
-"109
+[; ;main.c: 124: break;
+"124
 [e $U 417  ]
-"111
+"126
 }
-[; ;main.c: 111: }
+[; ;main.c: 126: }
 [e $U 417  ]
 "70
 [e :U 418 ]
@@ -3916,16 +3919,16 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ -> -> 2 `i `uc 421
  , $ -> -> 3 `i `uc 430
  417 ]
-"111
+"126
 [e :U 417 ]
-"112
+"127
 }
 [e :U 414 ]
 "68
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 112: }
-[; ;main.c: 113: }
-"113
+[; ;main.c: 127: }
+[; ;main.c: 128: }
+"128
 [e :UE 410 ]
 }

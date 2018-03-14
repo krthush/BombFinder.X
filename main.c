@@ -93,11 +93,6 @@ void main(void){
 //               stop(&motorL, &motorR);
                
                ScanWithRange(&motorL, &motorR, 3);
-               
-               delay_s(4);
-               
-               
-//               enableSensor(1,1);
 //               
 //               delay_s(4);
 //               
