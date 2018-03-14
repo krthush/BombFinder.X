@@ -133,3 +133,23 @@ void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     enableSensor(0, 0);
     enableSensor(1, 0);
 }
+
+//ALGORITHM PSEUDOCODE
+//ScanCentre();
+//ScanLeft();
+//ScanRight(); //All 3 taking left and right readings
+//
+//if (left(ScanLeft) > right(ScanLeft)) { //If the left-most reading is highest
+//    MoveLeft(2); // Move such that right of new position is left of old one
+//    Repeat(); //Return to start
+//} else if  (right(ScanRight) > left(ScanRight)){ //If the right-most reading is highest
+//    MoveLeft(2); // Move such that the left of new position is right of old one
+//    Repeat();
+//} else if ((left(ScanLeft) < right(ScanLeft)) & (left(ScanCentre) > right(ScanCentre))) { //If the signal is somewhere between centre and left
+//    MoveLeft(1); // Move such that new centre is between old centre and old left
+//    RepeatWithSmallerRange(); // shrink the ringe so that it scans a smaller range
+//} else if ((right(ScanRight) < left(ScanRight)) & (left(ScanCentre) > right(ScanCentre))) { //If the signal is somewhere between centre and left
+//    MoveLeft(1); // Move such that new centre is between old centre and old left
+//    RepeatWithSmallerRange(); // shrink the ringe so that it scans a smaller range
+//}
+//
