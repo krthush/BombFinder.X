@@ -73,47 +73,18 @@ void main(void){
                //Initialise EVERYTHING
                initMotorPWM();  //setup PWM registers
                initRFID();
-               initIR();
                
                mode = 1;
                break;
                
            case 1 : //Search Mode
-               //Search for strongest signal
-//               initIR();
-//               test=grabIR();
-                
-//                delay_s(1);
-//                turnLeft(&motorL, &motorR);
-//
-//                delay_s(1);
-//                turnRight(&motorL, &motorR);
-//               ScanIR(&motorL, &motorR, *SignalStrength);
+               initIR();
                
-               // WHY DOES THIS NOT WORK IF CALLED ALONE.. SHIT DOESNT STOP
-//               stop(&motorL, &motorR);
-               
-<<<<<<< HEAD
-<<<<<<< HEAD
-               ScanWithRange(&motorL, &motorR, 1);
-//               
-=======
-=======
->>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
+               ScanWithRange(&motorL, &motorR, 1);             
                DirectionFound = ScanWithRange(&motorL, &motorR, 3);
-//
                if (DirectionFound) {
                    mode = 2;
                }
-<<<<<<< HEAD
->>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
-=======
->>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
-//               delay_s(4);
-//               
-//               enableSensor(1,0);
-//               
-//               delay_s(4);
                
                break;
                
