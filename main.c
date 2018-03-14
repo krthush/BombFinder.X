@@ -94,14 +94,20 @@ void main(void){
 //               stop(&motorL, &motorR);
                
 <<<<<<< HEAD
+<<<<<<< HEAD
                ScanWithRange(&motorL, &motorR, 1);
 //               
 =======
+=======
+>>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
                DirectionFound = ScanWithRange(&motorL, &motorR, 3);
 //
                if (DirectionFound) {
                    mode = 2;
                }
+<<<<<<< HEAD
+>>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
+=======
 >>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
 //               delay_s(4);
 //               

@@ -110,12 +110,15 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     enableSensor(0, 0);
     enableSensor(1, 0);
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     
     
     return 0;
 }
 =======
+=======
+>>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
 }
 
 //ALGORITHM PSEUDOCODE
@@ -137,4 +140,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
 //    RepeatWithSmallerRange(); // shrink the ringe so that it scans a smaller range
 //}
 //
+<<<<<<< HEAD
+>>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
+=======
 >>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
