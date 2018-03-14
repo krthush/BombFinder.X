@@ -4634,7 +4634,6 @@ extern __nonreentrant void _delay3(unsigned char);
 void initIR(void);
 unsigned int grabRightIR(void);
 unsigned int grabLeftIR(void);
-unsigned int grabAverageIR(void);
 void enableSensor(char sensor, char status);
 
 # 30 "IR_Reading.c"
@@ -4697,16 +4696,6 @@ _delay((unsigned long)((50)*(8000000/4000.0)));
 
 return IR_signal<<2;
 }
-
-# 104
-unsigned int grabAverageIR(void){
-
-unsigned int IR_signal=0;
-IR_signal+=grabRightIR();
-IR_signal+=grabLeftIR();
-
-return IR_signal<<2;
-};
 
 
 
