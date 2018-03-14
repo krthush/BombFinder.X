@@ -4676,6 +4676,7 @@ void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
 # 15 "IR_Reading.h"
 void initIR(void);
 unsigned int grabIR(void);
+void enableSensor(char sensor, char status);
 
 
 # 8 "main.c"
@@ -4746,14 +4747,19 @@ case 0 :
 
 initMotorPWM();
 initRFID();
+initIR();
 
 mode = 1;
 break;
 
 case 1 :
 
-# 90
+# 95
 ScanWithRange(&motorL, &motorR, 3);
+
+delay_s(4);
+
+# 108
 break;
 
 case 2 :

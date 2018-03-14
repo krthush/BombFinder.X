@@ -14,6 +14,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "26
 [v _turnRight `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"17 IR_Reading.h
+[v _enableSensor `(v ~T0 @X0 0 ef2`uc`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3512,6 +3514,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;dc_motor.h: 28: void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabIR(void);
+[; ;IR_Reading.h: 17: void enableSensor(char sensor, char status);
 [; ;Movement.h: 11: void delay_s(char seconds);
 [; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
 [; ;Movement.h: 16: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
@@ -3650,13 +3653,58 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _mR `*S405 ~T0 @X0 1 r2 ]
 [v _tenth_seconds `uc ~T0 @X0 1 r3 ]
 [f ]
-[; ;Movement.c: 78: stop(mL,mR);
+[; ;Movement.c: 78: enableSensor(0, 1);
 "78
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 79: delay_tenth_s(tenth_seconds);
+[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
+[; ;Movement.c: 79: enableSensor(1, 1);
 "79
+[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;Movement.c: 82: stop(mL,mR);
+"82
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 83: delay_tenth_s(tenth_seconds);
+"83
 [e ( _delay_tenth_s (1 _tenth_seconds ]
-[; ;Movement.c: 101: }
-"101
+[; ;Movement.c: 86: turnLeft(mL,mR);
+"86
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 87: delay_tenth_s(tenth_seconds);
+"87
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 90: stop(mL,mR);
+"90
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 91: delay_tenth_s(tenth_seconds);
+"91
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 94: turnRight(mL,mR);
+"94
+[e ( _turnRight (2 , _mL _mR ]
+[; ;Movement.c: 96: delay_tenth_s(2*tenth_seconds);
+"96
+[e ( _delay_tenth_s (1 -> * -> 2 `i -> _tenth_seconds `i `uc ]
+[; ;Movement.c: 99: stop(mL,mR);
+"99
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 100: delay_tenth_s(tenth_seconds);
+"100
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 103: turnLeft(mL,mR);
+"103
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 104: delay_tenth_s(tenth_seconds);
+"104
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 106: stop(mL,mR);
+"106
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 109: enableSensor(0, 0);
+"109
+[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[; ;Movement.c: 110: enableSensor(1, 0);
+"110
+[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;Movement.c: 111: }
+"111
 [e :UE 417 ]
 }

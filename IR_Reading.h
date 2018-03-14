@@ -14,6 +14,7 @@
 
 void initIR(void);
 unsigned int grabIR(void);
+void enableSensor(char sensor, char status); //Turns IR sensor on or off
 
 
 

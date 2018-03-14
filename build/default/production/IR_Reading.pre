@@ -4633,6 +4633,7 @@ extern __nonreentrant void _delay3(unsigned char);
 # 15 "IR_Reading.h"
 void initIR(void);
 unsigned int grabIR(void);
+void enableSensor(char sensor, char status);
 
 # 30 "IR_Reading.c"
 void initIR(void){
@@ -4649,7 +4650,13 @@ ANSEL0bits.ANS2=0;
 
 CAP1CON=0b00000110;
 
-# 55
+
+TRISEbits.RE0=0;
+
+
+TRISEbits.RE1=0;
+
+# 61
 T5CON=0b01011001;
 }
 
@@ -4667,4 +4674,15 @@ _delay((unsigned long)((50)*(8000000/4000.0)));
 }
 
 return IR_signal<<2;
+}
+
+
+
+void enableSensor(char sensor, char status){
+
+if (sensor==0){
+LATEbits.LATE0 = status;
+} else if (sensor==1){
+LATEbits.LATE1 = status;
+}
 }

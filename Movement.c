@@ -74,6 +74,10 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
 // Finally the robot positions facing the direction of highest IR strength
 void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
     
+    //Turn on both IR sensors
+    enableSensor(0, 1);
+    enableSensor(1, 1);
+    
     // Scan Data
     stop(mL,mR);
     delay_tenth_s(tenth_seconds);
@@ -89,7 +93,7 @@ void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     // Turn right (note you must turn for twice as long)
     turnRight(mL,mR);
     // PLEASE CHECK: IS THIS THE CORRECT WAY TO x2?!
-    delay_tenth_s(tenth_seconds+tenth_seconds);
+    delay_tenth_s(2*tenth_seconds);
     
     // Then Scan Data
     stop(mL,mR);
@@ -98,4 +102,10 @@ void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     // Return to position of highest IR strength
     turnLeft(mL,mR);
     delay_tenth_s(tenth_seconds);
+    
+    stop(mL,mR);
+    
+    //Turn off both IR sensors
+    enableSensor(0, 0);
+    enableSensor(1, 0);
 }

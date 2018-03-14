@@ -44,6 +44,12 @@ void initIR(void){
     // Pulse-Width Measurement mode, every falling to rising edge
     CAP1CON=0b00000110;
     
+    //Set pin RE0 to digital output (allows turning IR sensor 1 on and off)
+    TRISEbits.RE0=0;
+    
+    //Set pin RE1 to digital output (allows turning IR sensor 2 on and off)
+    TRISEbits.RE1=0;
+    
     // CAP module users Timer5, so this must be initialised as well.
     // bit7=0, Timer5 is disabled during Sleep
     // bit6=1, Special Event Trigger Reset is disabled
@@ -69,4 +75,15 @@ unsigned int grabIR(void){
     }
     // return the average signal to be used
     return IR_signal<<2;
+}
+
+//Function to turn IR sensor on and off (allows using of CAP module for encoder
+//as well as IR)
+void enableSensor(char sensor, char status){
+    //Enable/disable power for IR sensor
+    if (sensor==0){
+        LATEbits.LATE0 = status;
+    } else if (sensor==1){
+        LATEbits.LATE1 = status;
+    }
 }

@@ -133,8 +133,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _initMotorPWM `(v ~T0 @X0 0 ef ]
 "12 RFID_Reader.h
 [v _initRFID `(v ~T0 @X0 0 ef ]
+"15 IR_Reading.h
+[v _initIR `(v ~T0 @X0 0 ef ]
 "21 Movement.h
 [v _ScanWithRange `(v ~T0 @X0 0 ef3`*S405`*S405`uc ]
+"11
+[v _delay_s `(v ~T0 @X0 0 ef1`uc ]
 "16 RFID_Reader.h
 [v _VerifySignal `(uc ~T0 @X0 0 ef1`*uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
@@ -3644,6 +3648,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Movement.h: 21: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabIR(void);
+[; ;IR_Reading.h: 17: void enableSensor(char sensor, char status);
 "8 main.c
 [p x OSC=IRCIO ]
 "12
@@ -3655,9 +3660,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [; ;main.c: 13: volatile unsigned char i=0;
-[v F3709 `(v ~T0 @X0 1 tf ]
+[v F3712 `(v ~T0 @X0 1 tf ]
 "16
-[v _InterruptHandlerHigh `IF3709 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF3712 ~T0 @X0 1 e ]
 "17
 {
 [; ;main.c: 16: void interrupt InterruptHandlerHigh ()
@@ -3817,92 +3822,98 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 74: initRFID();
 "74
 [e ( _initRFID ..  ]
-[; ;main.c: 76: mode = 1;
-"76
-[e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 77: break;
+[; ;main.c: 75: initIR();
+"75
+[e ( _initIR ..  ]
+[; ;main.c: 77: mode = 1;
 "77
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 78: break;
+"78
 [e $U 417  ]
-[; ;main.c: 79: case 1 :
-"79
+[; ;main.c: 80: case 1 :
+"80
 [e :U 420 ]
-[; ;main.c: 90: ScanWithRange(&motorL, &motorR, 3);
-"90
+[; ;main.c: 95: ScanWithRange(&motorL, &motorR, 3);
+"95
 [e ( _ScanWithRange (3 , , &U _motorL &U _motorR -> -> 3 `i `uc ]
-[; ;main.c: 91: break;
-"91
+[; ;main.c: 97: delay_s(4);
+"97
+[e ( _delay_s (1 -> -> 4 `i `uc ]
+[; ;main.c: 108: break;
+"108
 [e $U 417  ]
-[; ;main.c: 93: case 2 :
-"93
+[; ;main.c: 110: case 2 :
+"110
 [e :U 421 ]
-[; ;main.c: 96: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-"96
+[; ;main.c: 113: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+"113
 [e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 422  ]
 {
-[; ;main.c: 97: if (VerifySignal(ReceivedString)){
-"97
+[; ;main.c: 114: if (VerifySignal(ReceivedString)){
+"114
 [e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 423  ]
 {
-[; ;main.c: 99: for (i=0; i<10; i++){
-"99
+[; ;main.c: 116: for (i=0; i<10; i++){
+"116
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 424  ]
 [e $U 425  ]
 [e :U 424 ]
 {
-[; ;main.c: 100: Message[i] = ReceivedString[i+1];
-"100
+[; ;main.c: 117: Message[i] = ReceivedString[i+1];
+"117
 [e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
-"101
+"118
 }
-"99
+"116
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 424  ]
 [e :U 425 ]
-"101
+"118
 }
-[; ;main.c: 101: }
-[; ;main.c: 103: for (i=0; i<16; i++) {
-"103
+[; ;main.c: 118: }
+[; ;main.c: 120: for (i=0; i<16; i++) {
+"120
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 16 `i 427  ]
 [e $U 428  ]
 [e :U 427 ]
 {
-[; ;main.c: 104: ReceivedString[i]=0;
-"104
+[; ;main.c: 121: ReceivedString[i]=0;
+"121
 [e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"105
+"122
 }
-"103
+"120
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 16 `i 427  ]
 [e :U 428 ]
-"105
+"122
 }
-"106
+"123
 }
 [e :U 423 ]
-"107
+"124
 }
 [e :U 422 ]
-[; ;main.c: 105: }
-[; ;main.c: 106: }
-[; ;main.c: 107: }
-[; ;main.c: 108: break;
-"108
+[; ;main.c: 122: }
+[; ;main.c: 123: }
+[; ;main.c: 124: }
+[; ;main.c: 125: break;
+"125
 [e $U 417  ]
-[; ;main.c: 110: case 3 :
-"110
+[; ;main.c: 127: case 3 :
+"127
 [e :U 430 ]
-[; ;main.c: 112: break;
-"112
+[; ;main.c: 129: break;
+"129
 [e $U 417  ]
-"114
+"131
 }
-[; ;main.c: 114: }
+[; ;main.c: 131: }
 [e $U 417  ]
 "70
 [e :U 418 ]
@@ -3911,16 +3922,16 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ -> -> 2 `i `uc 421
  , $ -> -> 3 `i `uc 430
  417 ]
-"114
+"131
 [e :U 417 ]
-"115
+"132
 }
 [e :U 414 ]
 "68
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 115: }
-[; ;main.c: 116: }
-"116
+[; ;main.c: 132: }
+[; ;main.c: 133: }
+"133
 [e :UE 410 ]
 }

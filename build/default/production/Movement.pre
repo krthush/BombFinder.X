@@ -4656,6 +4656,7 @@ void fullSpeedBack(struct DC_motor *mL, struct DC_motor *mR);
 # 15 "IR_Reading.h"
 void initIR(void);
 unsigned int grabIR(void);
+void enableSensor(char sensor, char status);
 
 # 11 "Movement.h"
 void delay_s(char seconds);
@@ -4719,8 +4720,37 @@ stop(mL,mR);
 void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
 
 
+enableSensor(0, 1);
+enableSensor(1, 1);
+
+
 stop(mL,mR);
 delay_tenth_s(tenth_seconds);
 
-# 101
+
+turnLeft(mL,mR);
+delay_tenth_s(tenth_seconds);
+
+
+stop(mL,mR);
+delay_tenth_s(tenth_seconds);
+
+
+turnRight(mL,mR);
+
+delay_tenth_s(2*tenth_seconds);
+
+
+stop(mL,mR);
+delay_tenth_s(tenth_seconds);
+
+
+turnLeft(mL,mR);
+delay_tenth_s(tenth_seconds);
+
+stop(mL,mR);
+
+
+enableSensor(0, 0);
+enableSensor(1, 0);
 }
