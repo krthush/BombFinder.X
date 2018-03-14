@@ -4757,7 +4757,7 @@ break;
 case 1 :
 
 # 95
-ScanWithRange(&motorL, &motorR, 3);
+ScanWithRange(&motorL, &motorR, 1);
 
 # 103
 break;

@@ -18,6 +18,6 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
 // within two times the given range.
 // The range is given in twice the number of tenth seconds the robot turns for
 // Finally the robot positions facing the direction of highest IR strength
-void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 #endif	/* MOVEMENT_H */
 

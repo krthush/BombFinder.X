@@ -3834,9 +3834,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 80: case 1 :
 "80
 [e :U 420 ]
-[; ;main.c: 95: ScanWithRange(&motorL, &motorR, 3);
+[; ;main.c: 95: ScanWithRange(&motorL, &motorR, 1);
 "95
-[e ( _ScanWithRange (3 , , &U _motorL &U _motorR -> -> 3 `i `uc ]
+[e ( _ScanWithRange (3 , , &U _motorL &U _motorR -> -> 1 `i `uc ]
 [; ;main.c: 103: break;
 "103
 [e $U 417  ]

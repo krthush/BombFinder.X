@@ -32,6 +32,7 @@ void main(void){
     unsigned char Message[10]; //Code on RFID Card
     unsigned char i=0; //Counter variable
     unsigned char mode=0; //Robot mode - see switch case tree in main loop
+    char DirectionFound=0; // Flag for if the robot has decided it knows where the bomb is
     unsigned char SignalStrength[3]; 
     char PathTaken[100]; //Buffer for retaining movement instructions
     unsigned int test=0;
@@ -92,8 +93,16 @@ void main(void){
                // WHY DOES THIS NOT WORK IF CALLED ALONE.. SHIT DOESNT STOP
 //               stop(&motorL, &motorR);
                
-               ScanWithRange(&motorL, &motorR, 3);
+<<<<<<< HEAD
+               ScanWithRange(&motorL, &motorR, 1);
 //               
+=======
+               DirectionFound = ScanWithRange(&motorL, &motorR, 3);
+//
+               if (DirectionFound) {
+                   mode = 2;
+               }
+>>>>>>> 7697611507cc97ecbdb8bca068a29bb32cd34773
 //               delay_s(4);
 //               
 //               enableSensor(1,0);

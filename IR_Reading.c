@@ -97,19 +97,6 @@ unsigned int grabLeftIR(void){
     return IR_signal<<2;
 }
 
-// Function that gives the average strength of the IR signal using both
-// the left and right IR sensors.
-// PLEASE NOTE: this code can be made more efficient by not calling functions
-// individually and having it access the registers directly
-unsigned int grabAverageIR(void){
-    // initialise variables used in function
-    unsigned int IR_signal=0;
-    IR_signal+=grabRightIR();
-    IR_signal+=grabLeftIR();
-    // return the average of both left and right signal to be used
-    return IR_signal<<2;
-};
-
 //Function to turn IR sensor on and off (allows using of CAP module for encoder
 //as well as IR)
 void enableSensor(char sensor, char status){

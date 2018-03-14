@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC18 LITE Macro Assembler V1.35 build -356382666 
-                                                                                               Wed Mar 14 21:31:59 2018
+                                                                                               Wed Mar 14 21:49:19 2018
 
 Microchip Technology Omniscient Code Generator v1.35 (Free mode) build 201507080246
      1                           	processor	18F4331
@@ -550,7 +550,7 @@ Microchip Technology Omniscient Code Generator v1.35 (Free mode) build 201507080
    544  000304                     l1760:
    545                           
    546                           ; BSR set to: 0
-   547                           ;main.c: 95: ScanWithRange(&motorL, &motorR, 3);
+   547                           ;main.c: 95: ScanWithRange(&motorL, &motorR, 1);
    548  000304  0E6E               	movlw	low main@motorL
    549  000306  6E2F               	movwf	ScanWithRange@mL,c
    550  000308  0E00               	movlw	high main@motorL
@@ -559,7 +559,7 @@ Microchip Technology Omniscient Code Generator v1.35 (Free mode) build 201507080
    553  00030E  6E31               	movwf	ScanWithRange@mR,c
    554  000310  0E00               	movlw	high main@motorR
    555  000312  6E32               	movwf	ScanWithRange@mR+1,c
-   556  000314  0E03               	movlw	3
+   556  000314  0E01               	movlw	1
    557  000316  6E33               	movwf	ScanWithRange@tenth_seconds,c
    558  000318  EC56  F000         	call	_ScanWithRange	;wreg free
    559                           
@@ -3352,7 +3352,7 @@ CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V1.35 build -356382666 
-Symbol Table                                                                                   Wed Mar 14 21:31:59 2018
+Symbol Table                                                                                   Wed Mar 14 21:49:19 2018
 
                  ?_grabRightIR 000F                              _i 003A                             l47 02EA  
                  ___awdiv@sign 001A            ___wmul@multiplicand 0011                    main@Message 0060  
