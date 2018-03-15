@@ -3593,8 +3593,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
 [; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
-[; ;IR_Reading.h: 18: unsigned int grabAverageIR(void);
-[; ;IR_Reading.h: 19: void enableSensor(char sensor, char status);
+[; ;IR_Reading.h: 18: void enableSensor(char sensor, char status);
 "30 IR_Reading.c
 [v _initIR `(v ~T0 @X0 1 ef ]
 {
@@ -3728,61 +3727,37 @@ Version 3.2 HI-TECH Software Intermediate Code
 "98
 [e :UE 410 ]
 }
-"104
-[v _grabAverageIR `(ui ~T0 @X0 1 ef ]
-{
-[; ;IR_Reading.c: 104: unsigned int grabAverageIR(void){
-[e :U _grabAverageIR ]
-[f ]
-"106
-[v _IR_signal `ui ~T0 @X0 1 a ]
-[; ;IR_Reading.c: 106: unsigned int IR_signal=0;
-[e = _IR_signal -> -> 0 `i `ui ]
-[; ;IR_Reading.c: 107: IR_signal+=grabRightIR();
-"107
-[e =+ _IR_signal ( _grabRightIR ..  ]
-[; ;IR_Reading.c: 108: IR_signal+=grabLeftIR();
-"108
-[e =+ _IR_signal ( _grabLeftIR ..  ]
-[; ;IR_Reading.c: 110: return IR_signal<<2;
-"110
-[e ) << _IR_signal -> 2 `i ]
-[e $UE 414  ]
-[; ;IR_Reading.c: 111: };
-"111
-[e :UE 414 ]
-}
-"115
+"102
 [v _enableSensor `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;IR_Reading.c: 115: void enableSensor(char sensor, char status){
+[; ;IR_Reading.c: 102: void enableSensor(char sensor, char status){
 [e :U _enableSensor ]
 [v _sensor `uc ~T0 @X0 1 r1 ]
 [v _status `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;IR_Reading.c: 117: if (sensor==0){
-"117
-[e $ ! == -> _sensor `i -> 0 `i 416  ]
+[; ;IR_Reading.c: 104: if (sensor==0){
+"104
+[e $ ! == -> _sensor `i -> 0 `i 415  ]
 {
-[; ;IR_Reading.c: 118: LATEbits.LATE0 = status;
-"118
+[; ;IR_Reading.c: 105: LATEbits.LATE0 = status;
+"105
 [e = . . _LATEbits 0 0 _status ]
-"119
+"106
 }
-[; ;IR_Reading.c: 119: } else if (sensor==1){
-[e $U 417  ]
-[e :U 416 ]
-[e $ ! == -> _sensor `i -> 1 `i 418  ]
+[; ;IR_Reading.c: 106: } else if (sensor==1){
+[e $U 416  ]
+[e :U 415 ]
+[e $ ! == -> _sensor `i -> 1 `i 417  ]
 {
-[; ;IR_Reading.c: 120: LATEbits.LATE1 = status;
-"120
+[; ;IR_Reading.c: 107: LATEbits.LATE1 = status;
+"107
 [e = . . _LATEbits 0 1 _status ]
-"121
+"108
 }
-[e :U 418 ]
-"122
 [e :U 417 ]
-[; ;IR_Reading.c: 121: }
-[; ;IR_Reading.c: 122: }
-[e :UE 415 ]
+"109
+[e :U 416 ]
+[; ;IR_Reading.c: 108: }
+[; ;IR_Reading.c: 109: }
+[e :UE 414 ]
 }
