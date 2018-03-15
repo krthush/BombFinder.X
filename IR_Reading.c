@@ -82,7 +82,7 @@ unsigned int grabRightIR(void){
         __delay_ms(50);
     }
     // return the average signal to be used
-    return IR_signal<<2;
+    return IR_signal>>2;
 }
 
 // Function that gives the strength of the Left IR signal (PWM pulse length) 
@@ -98,7 +98,7 @@ unsigned int grabLeftIR(void){
         __delay_ms(50);
     }
     // return the average signal to be used
-    return IR_signal<<2;
+    return IR_signal>>2;
 }
 
 //Function to turn IR sensor on and off (allows using of CAP module for encoder

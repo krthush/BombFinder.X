@@ -11,9 +11,8 @@
 void delay_s(char seconds);
 // Function similar to delay in seconds, but for a 1/10th of a second
 void delay_tenth_s(char tenth_seconds);
-// Scans left, ahead and right for IR signal, stores the obtained data in an
-// array 'buf'
-void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+// Scans left, ahead and right for IR signal, turns to signal of greater strength
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 // Scans IR strength for 3 points (left, centre, right),
 // within two times the given range.
 // The range is given in twice the number of tenth seconds the robot turns for

@@ -4682,7 +4682,7 @@ IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
 _delay((unsigned long)((50)*(8000000/4000.0)));
 }
 
-return IR_signal<<2;
+return IR_signal>>2;
 }
 
 
@@ -4698,7 +4698,7 @@ IR_signal+=((CAP2BUFH << 8) | CAP2BUFL);
 _delay((unsigned long)((50)*(8000000/4000.0)));
 }
 
-return IR_signal<<2;
+return IR_signal>>2;
 }
 
 

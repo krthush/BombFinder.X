@@ -4665,8 +4665,7 @@ void delay_s(char seconds);
 
 void delay_tenth_s(char tenth_seconds);
 
-
-void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 
 
 
@@ -4756,21 +4755,38 @@ initIR();
 mode = 1;
 enableSensor(0, 1);
 enableSensor(1, 1);
+
+fullSpeedBack(&motorL, &motorR);
+delay_s(1);
+stop(&motorL, &motorR);
+
 break;
 
 case 1 :
 
-# 97
+# 102
+if (DirectionFound==0) {
+
+DirectionFound = ScanIR(&motorL, &motorR);
+} else if (DirectionFound==1) {
+
+DirectionFound = ScanIR(&motorL, &motorR);
+} else if (DirectionFound==2) {
+mode=2;
+}
+
 break;
 
 case 2 :
 
 
 delay_s(3);
+fullSpeedAhead(&motorL, &motorR);
+delay_s(1);
 DirectionFound=1;
 mode = 1;
 
-# 126
+# 143
 break;
 
 case 3 :

@@ -3680,9 +3680,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "83
 }
 [; ;IR_Reading.c: 83: }
-[; ;IR_Reading.c: 85: return IR_signal<<2;
+[; ;IR_Reading.c: 85: return IR_signal>>2;
 "85
-[e ) << _IR_signal -> 2 `i ]
+[e ) >> _IR_signal -> 2 `i ]
 [e $UE 406  ]
 [; ;IR_Reading.c: 86: }
 "86
@@ -3725,9 +3725,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "99
 }
 [; ;IR_Reading.c: 99: }
-[; ;IR_Reading.c: 101: return IR_signal<<2;
+[; ;IR_Reading.c: 101: return IR_signal>>2;
 "101
-[e ) << _IR_signal -> 2 `i ]
+[e ) >> _IR_signal -> 2 `i ]
 [e $UE 410  ]
 [; ;IR_Reading.c: 102: }
 "102

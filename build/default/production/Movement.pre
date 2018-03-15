@@ -4664,8 +4664,7 @@ void delay_s(char seconds);
 
 void delay_tenth_s(char tenth_seconds);
 
-
-void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 
 
 
@@ -4690,34 +4689,42 @@ _delay((unsigned long)((50)*(8000000/4000.0)));
 }
 }
 
-void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
+
+unsigned int SensorResult[2];
+
+unsigned int DirectionFoundTolerance=100;
 
 
 stop(mL,mR);
-_delay((unsigned long)((50)*(8000000/4000.0)));
+delay_s(2);
+SensorResult[0]=grabLeftIR();
+SensorResult[1]=grabRightIR();
+stop(mL,mR);
 
+if (((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)
+||((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)) {
 
-buf[1] = grabRightIR();
+return 2;
 
+} else if (SensorResult[0]<SensorResult[1]) {
 
 turnLeft(mL,mR);
-delay_s(1);
+delay_tenth_s(4);
 stop(mL,mR);
-buf[0] = grabRightIR();
+return 0;
 
+} else if (SensorResult[0]>SensorResult[1]) {
 
 turnRight(mL,mR);
-delay_s(2);
+delay_tenth_s(4);
 stop(mL,mR);
-buf[2] = grabRightIR();
-
-
-turnLeft(mL,mR);
-delay_s(1);
-stop(mL,mR);
+return 0;
+}
+return 0;
 }
 
-# 75
+# 83
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
 
 
@@ -4755,7 +4762,7 @@ SensorResultR[1]=grabRightIR();
 enableSensor(0, 0);
 enableSensor(1, 0);
 
-# 117
+# 125
 if (((SensorResultL[1]-SensorResultL[0])<DirectionFoundTolerance)
 ||((SensorResultL[0]-SensorResultL[1])<DirectionFoundTolerance)) {
 

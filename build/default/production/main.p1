@@ -137,8 +137,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _initIR `(v ~T0 @X0 0 ef ]
 "18
 [v _enableSensor `(v ~T0 @X0 0 ef2`uc`uc ]
+"28 dc_motor.h
+[v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "11 Movement.h
 [v _delay_s `(v ~T0 @X0 0 ef1`uc ]
+"22 dc_motor.h
+[v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"15 Movement.h
+[v _ScanIR `(uc ~T0 @X0 0 ef2`*S405`*S405 ]
+"27 dc_motor.h
+[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3642,8 +3650,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RFID_Reader.h: 16: unsigned char VerifySignal(unsigned char *Signal);
 [; ;Movement.h: 11: void delay_s(char seconds);
 [; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
-[; ;Movement.h: 16: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
-[; ;Movement.h: 21: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+[; ;Movement.h: 15: char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
+[; ;Movement.h: 20: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
 [; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
@@ -3659,9 +3667,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [; ;main.c: 13: volatile unsigned char i=0;
-[v F3714 `(v ~T0 @X0 1 tf ]
+[v F3713 `(v ~T0 @X0 1 tf ]
 "16
-[v _InterruptHandlerHigh `IF3714 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF3713 ~T0 @X0 1 e ]
 "17
 {
 [; ;main.c: 16: void interrupt InterruptHandlerHigh ()
@@ -3841,57 +3849,105 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 82: enableSensor(1, 1);
 "82
 [e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;main.c: 83: break;
-"83
-[e $U 417  ]
-[; ;main.c: 85: case 1 :
+[; ;main.c: 84: fullSpeedBack(&motorL, &motorR);
+"84
+[e ( _fullSpeedBack (2 , &U _motorL &U _motorR ]
+[; ;main.c: 85: delay_s(1);
 "85
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;main.c: 86: stop(&motorL, &motorR);
+"86
+[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 88: break;
+"88
+[e $U 417  ]
+[; ;main.c: 90: case 1 :
+"90
 [e :U 420 ]
-[; ;main.c: 97: break;
-"97
-[e $U 417  ]
-[; ;main.c: 99: case 2 :
-"99
-[e :U 421 ]
-[; ;main.c: 102: delay_s(3);
+[; ;main.c: 102: if (DirectionFound==0) {
 "102
-[e ( _delay_s (1 -> -> 3 `i `uc ]
-[; ;main.c: 103: DirectionFound=1;
-"103
-[e = _DirectionFound -> -> 1 `i `uc ]
-[; ;main.c: 104: mode = 1;
+[e $ ! == -> _DirectionFound `i -> 0 `i 421  ]
+{
+[; ;main.c: 104: DirectionFound = ScanIR(&motorL, &motorR);
 "104
-[e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 126: break;
-"126
-[e $U 417  ]
-[; ;main.c: 128: case 3 :
-"128
-[e :U 422 ]
-[; ;main.c: 130: break;
-"130
-[e $U 417  ]
-"132
+[e = _DirectionFound ( _ScanIR (2 , &U _motorL &U _motorR ]
+"105
 }
-[; ;main.c: 132: }
+[; ;main.c: 105: } else if (DirectionFound==1) {
+[e $U 422  ]
+[e :U 421 ]
+[e $ ! == -> _DirectionFound `i -> 1 `i 423  ]
+{
+[; ;main.c: 107: DirectionFound = ScanIR(&motorL, &motorR);
+"107
+[e = _DirectionFound ( _ScanIR (2 , &U _motorL &U _motorR ]
+"108
+}
+[; ;main.c: 108: } else if (DirectionFound==2) {
+[e $U 424  ]
+[e :U 423 ]
+[e $ ! == -> _DirectionFound `i -> 2 `i 425  ]
+{
+[; ;main.c: 109: mode=2;
+"109
+[e = _mode -> -> 2 `i `uc ]
+"110
+}
+[e :U 425 ]
+"112
+[e :U 424 ]
+[e :U 422 ]
+[; ;main.c: 110: }
+[; ;main.c: 112: break;
+[e $U 417  ]
+[; ;main.c: 114: case 2 :
+"114
+[e :U 426 ]
+[; ;main.c: 117: delay_s(3);
+"117
+[e ( _delay_s (1 -> -> 3 `i `uc ]
+[; ;main.c: 118: fullSpeedAhead(&motorL, &motorR);
+"118
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
+[; ;main.c: 119: delay_s(1);
+"119
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;main.c: 120: DirectionFound=1;
+"120
+[e = _DirectionFound -> -> 1 `i `uc ]
+[; ;main.c: 121: mode = 1;
+"121
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 143: break;
+"143
+[e $U 417  ]
+[; ;main.c: 145: case 3 :
+"145
+[e :U 427 ]
+[; ;main.c: 147: break;
+"147
+[e $U 417  ]
+"149
+}
+[; ;main.c: 149: }
 [e $U 417  ]
 "73
 [e :U 418 ]
 [e [\ _mode , $ -> -> 0 `i `uc 419
  , $ -> -> 1 `i `uc 420
- , $ -> -> 2 `i `uc 421
- , $ -> -> 3 `i `uc 422
+ , $ -> -> 2 `i `uc 426
+ , $ -> -> 3 `i `uc 427
  417 ]
-"132
+"149
 [e :U 417 ]
-"133
+"150
 }
 [e :U 414 ]
 "71
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 133: }
-[; ;main.c: 134: }
-"134
+[; ;main.c: 150: }
+[; ;main.c: 151: }
+"151
 [e :UE 410 ]
 }

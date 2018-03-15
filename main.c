@@ -80,6 +80,11 @@ void main(void){
                mode = 1;
                enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
                enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
+               
+               fullSpeedBack(&motorL, &motorR);
+               delay_s(1);
+               stop(&motorL, &motorR);
+               
                break;
                
            case 1 : //Search Mode
@@ -94,12 +99,24 @@ void main(void){
 //                   mode=2;
 //               }
                
+                if (DirectionFound==0) {
+                    // Scans a wide range if it's unsure about direction
+                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
+                } else if (DirectionFound==1) {
+                    // Scans a smaller range when it thinks it's close
+                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
+                } else if (DirectionFound==2) {
+                    mode=2;
+                }
+               
                break;
                
             case 2 : //Move Mode
                //Move forward until RFID read and verified or a certain time
                //has elapsed
                 delay_s(3); // DEBUG ONLY
+                fullSpeedAhead(&motorL, &motorR);
+                delay_s(1);
                 DirectionFound=1; // DEBUG ONLY
                 mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
                 

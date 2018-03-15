@@ -24,31 +24,39 @@ void delay_tenth_s(char tenth_seconds) {
     }
 }
 
-void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf){
-
-    //Make sure we're stationary to begin with
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
+    // Initialise variable that is used to judge the strength of signals
+    unsigned int SensorResult[2];
+    // USERVARIABLE TOLERANCES
+    unsigned int DirectionFoundTolerance=100;
+    
+    // Scan Data
     stop(mL,mR);
-    __delay_ms(50);
-
-    //Read IR around centre point
-    buf[1] = grabRightIR();
-
-    //Move a bit to the left
-    turnLeft(mL,mR);
-    delay_s(1);
+    delay_s(2);
+    SensorResult[0]=grabLeftIR();
+    SensorResult[1]=grabRightIR();
     stop(mL,mR);
-    buf[0] = grabRightIR();
-
-    //Move a bit to the right
-    turnRight(mL,mR);
-    delay_s(2); //Twice as long so same angle to the right as was left
-    stop(mL,mR);
-    buf[2] = grabRightIR();
-
-    //Move back to starting position and stop
-    turnLeft(mL,mR);
-    delay_s(1);
-    stop(mL,mR);
+    
+    if (((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)
+            ||((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)) { // USERVARIABLE
+         // Direction of bomb is directly ahead
+        return 2;
+    // Left signal is greater -> turn left
+    } else if (SensorResult[0]<SensorResult[1]) {
+        // Turn left
+        turnLeft(mL,mR);
+        delay_tenth_s(4);
+        stop(mL,mR);
+        return 0;
+    // Right signal is greater -> turn right
+    } else if (SensorResult[0]>SensorResult[1]) {
+        // Turn left
+        turnRight(mL,mR);
+        delay_tenth_s(4);
+        stop(mL,mR);
+        return 0;
+    }
+     return 0;
 }
 
 //void main(void){
