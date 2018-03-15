@@ -4634,7 +4634,6 @@ extern __nonreentrant void _delay3(unsigned char);
 void initIR(void);
 unsigned int grabRightIR(void);
 unsigned int grabLeftIR(void);
-unsigned int grabAverageIR(void);
 void enableSensor(char sensor, char status);
 
 # 30 "IR_Reading.c"
@@ -4651,6 +4650,10 @@ ANSEL0bits.ANS2=0;
 ANSEL0bits.ANS3=0;
 
 
+ANSEL0bits.ANS6=0;
+ANSEL0bits.ANS7=0;
+
+
 
 
 CAP1CON=0b00000110;
@@ -4662,7 +4665,7 @@ TRISEbits.RE0=0;
 
 TRISEbits.RE1=0;
 
-# 65
+# 69
 T5CON=0b01011001;
 }
 
@@ -4697,16 +4700,6 @@ _delay((unsigned long)((50)*(8000000/4000.0)));
 
 return IR_signal<<2;
 }
-
-# 104
-unsigned int grabAverageIR(void){
-
-unsigned int IR_signal=0;
-IR_signal+=grabRightIR();
-IR_signal+=grabLeftIR();
-
-return IR_signal<<2;
-};
 
 
 

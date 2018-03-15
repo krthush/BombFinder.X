@@ -42,6 +42,10 @@ void initIR(void){
     ANSEL0bits.ANS2=0;
     ANSEL0bits.ANS3=0;
     
+    //Set Sensor power pins to digital I/O
+    ANSEL0bits.ANS6=0;
+    ANSEL0bits.ANS7=0;
+    
     // Initialise CAP module for CAP1 & CAP2 pin
     // Disable selected time base Reset on capture
     // Pulse-Width Measurement mode, every falling to rising edge

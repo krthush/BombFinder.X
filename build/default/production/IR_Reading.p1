@@ -3618,146 +3618,152 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;IR_Reading.c: 43: ANSEL0bits.ANS3=0;
 "43
 [e = . . _ANSEL0bits 0 3 -> -> 0 `i `uc ]
-[; ;IR_Reading.c: 48: CAP1CON=0b00000110;
-"48
-[e = _CAP1CON -> -> 6 `i `uc ]
-[; ;IR_Reading.c: 49: CAP2CON=0b00000110;
-"49
-[e = _CAP2CON -> -> 6 `i `uc ]
-[; ;IR_Reading.c: 52: TRISEbits.RE0=0;
+[; ;IR_Reading.c: 46: ANSEL0bits.ANS6=0;
+"46
+[e = . . _ANSEL0bits 0 6 -> -> 0 `i `uc ]
+[; ;IR_Reading.c: 47: ANSEL0bits.ANS7=0;
+"47
+[e = . . _ANSEL0bits 0 7 -> -> 0 `i `uc ]
+[; ;IR_Reading.c: 52: CAP1CON=0b00000110;
 "52
+[e = _CAP1CON -> -> 6 `i `uc ]
+[; ;IR_Reading.c: 53: CAP2CON=0b00000110;
+"53
+[e = _CAP2CON -> -> 6 `i `uc ]
+[; ;IR_Reading.c: 56: TRISEbits.RE0=0;
+"56
 [e = . . _TRISEbits 1 0 -> -> 0 `i `uc ]
-[; ;IR_Reading.c: 55: TRISEbits.RE1=0;
-"55
+[; ;IR_Reading.c: 59: TRISEbits.RE1=0;
+"59
 [e = . . _TRISEbits 1 1 -> -> 0 `i `uc ]
-[; ;IR_Reading.c: 65: T5CON=0b01011001;
-"65
+[; ;IR_Reading.c: 69: T5CON=0b01011001;
+"69
 [e = _T5CON -> -> 89 `i `uc ]
-[; ;IR_Reading.c: 66: }
-"66
+[; ;IR_Reading.c: 70: }
+"70
 [e :UE 405 ]
 }
-"70
+"74
 [v _grabRightIR `(ui ~T0 @X0 1 ef ]
 {
-[; ;IR_Reading.c: 70: unsigned int grabRightIR(void){
+[; ;IR_Reading.c: 74: unsigned int grabRightIR(void){
 [e :U _grabRightIR ]
 [f ]
-"72
+"76
 [v _IR_signal `ui ~T0 @X0 1 a ]
-[; ;IR_Reading.c: 72: unsigned int IR_signal=0;
+[; ;IR_Reading.c: 76: unsigned int IR_signal=0;
 [e = _IR_signal -> -> 0 `i `ui ]
-"73
+"77
 [v _i `uc ~T0 @X0 1 a ]
-[; ;IR_Reading.c: 73: unsigned char i=0;
+[; ;IR_Reading.c: 77: unsigned char i=0;
 [e = _i -> -> 0 `i `uc ]
-[; ;IR_Reading.c: 75: for (i=0; i<4; i++) {
-"75
+[; ;IR_Reading.c: 79: for (i=0; i<4; i++) {
+"79
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 4 `i 407  ]
 [e $U 408  ]
 [e :U 407 ]
 {
-[; ;IR_Reading.c: 77: IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
-"77
+[; ;IR_Reading.c: 81: IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
+"81
 [e =+ _IR_signal -> | << -> _CAP1BUFH `i -> 8 `i -> _CAP1BUFL `i `ui ]
-[; ;IR_Reading.c: 78: _delay((unsigned long)((50)*(8000000/4000.0)));
-"78
+[; ;IR_Reading.c: 82: _delay((unsigned long)((50)*(8000000/4000.0)));
+"82
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"79
+"83
 }
-"75
+"79
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 4 `i 407  ]
 [e :U 408 ]
-"79
+"83
 }
-[; ;IR_Reading.c: 79: }
-[; ;IR_Reading.c: 81: return IR_signal<<2;
-"81
+[; ;IR_Reading.c: 83: }
+[; ;IR_Reading.c: 85: return IR_signal<<2;
+"85
 [e ) << _IR_signal -> 2 `i ]
 [e $UE 406  ]
-[; ;IR_Reading.c: 82: }
-"82
+[; ;IR_Reading.c: 86: }
+"86
 [e :UE 406 ]
 }
-"86
+"90
 [v _grabLeftIR `(ui ~T0 @X0 1 ef ]
 {
-[; ;IR_Reading.c: 86: unsigned int grabLeftIR(void){
+[; ;IR_Reading.c: 90: unsigned int grabLeftIR(void){
 [e :U _grabLeftIR ]
 [f ]
-"88
+"92
 [v _IR_signal `ui ~T0 @X0 1 a ]
-[; ;IR_Reading.c: 88: unsigned int IR_signal=0;
+[; ;IR_Reading.c: 92: unsigned int IR_signal=0;
 [e = _IR_signal -> -> 0 `i `ui ]
-"89
+"93
 [v _i `uc ~T0 @X0 1 a ]
-[; ;IR_Reading.c: 89: unsigned char i=0;
+[; ;IR_Reading.c: 93: unsigned char i=0;
 [e = _i -> -> 0 `i `uc ]
-[; ;IR_Reading.c: 91: for (i=0; i<4; i++) {
-"91
+[; ;IR_Reading.c: 95: for (i=0; i<4; i++) {
+"95
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 4 `i 411  ]
 [e $U 412  ]
 [e :U 411 ]
 {
-[; ;IR_Reading.c: 93: IR_signal+=((CAP2BUFH << 8) | CAP2BUFL);
-"93
+[; ;IR_Reading.c: 97: IR_signal+=((CAP2BUFH << 8) | CAP2BUFL);
+"97
 [e =+ _IR_signal -> | << -> _CAP2BUFH `i -> 8 `i -> _CAP2BUFL `i `ui ]
-[; ;IR_Reading.c: 94: _delay((unsigned long)((50)*(8000000/4000.0)));
-"94
+[; ;IR_Reading.c: 98: _delay((unsigned long)((50)*(8000000/4000.0)));
+"98
 [e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"95
+"99
 }
-"91
+"95
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 4 `i 411  ]
 [e :U 412 ]
-"95
+"99
 }
-[; ;IR_Reading.c: 95: }
-[; ;IR_Reading.c: 97: return IR_signal<<2;
-"97
+[; ;IR_Reading.c: 99: }
+[; ;IR_Reading.c: 101: return IR_signal<<2;
+"101
 [e ) << _IR_signal -> 2 `i ]
 [e $UE 410  ]
-[; ;IR_Reading.c: 98: }
-"98
+[; ;IR_Reading.c: 102: }
+"102
 [e :UE 410 ]
 }
-"102
+"106
 [v _enableSensor `(v ~T0 @X0 1 ef2`uc`uc ]
 {
-[; ;IR_Reading.c: 102: void enableSensor(char sensor, char status){
+[; ;IR_Reading.c: 106: void enableSensor(char sensor, char status){
 [e :U _enableSensor ]
 [v _sensor `uc ~T0 @X0 1 r1 ]
 [v _status `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;IR_Reading.c: 104: if (sensor==0){
-"104
+[; ;IR_Reading.c: 108: if (sensor==0){
+"108
 [e $ ! == -> _sensor `i -> 0 `i 415  ]
 {
-[; ;IR_Reading.c: 105: LATEbits.LATE0 = status;
-"105
+[; ;IR_Reading.c: 109: LATEbits.LATE0 = status;
+"109
 [e = . . _LATEbits 0 0 _status ]
-"106
+"110
 }
-[; ;IR_Reading.c: 106: } else if (sensor==1){
+[; ;IR_Reading.c: 110: } else if (sensor==1){
 [e $U 416  ]
 [e :U 415 ]
 [e $ ! == -> _sensor `i -> 1 `i 417  ]
 {
-[; ;IR_Reading.c: 107: LATEbits.LATE1 = status;
-"107
+[; ;IR_Reading.c: 111: LATEbits.LATE1 = status;
+"111
 [e = . . _LATEbits 0 1 _status ]
-"108
+"112
 }
 [e :U 417 ]
-"109
+"113
 [e :U 416 ]
-[; ;IR_Reading.c: 108: }
-[; ;IR_Reading.c: 109: }
+[; ;IR_Reading.c: 112: }
+[; ;IR_Reading.c: 113: }
 [e :UE 414 ]
 }

@@ -36,6 +36,8 @@ void main(void){
     unsigned char SignalStrength[3]; 
     char PathTaken[100]; //Buffer for retaining movement instructions
     unsigned int test=0;
+    // USERVARIABLE TOLERANCES
+    unsigned char ScanAngle=6; // PLEASE NOTE: has to be even, units - tenth seconds
     
     // Enable interrupts
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
@@ -73,40 +75,54 @@ void main(void){
                //Initialise EVERYTHING
                initMotorPWM();  //setup PWM registers
                initRFID();
+               initIR();
                
                mode = 1;
+               enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
+               enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
                break;
                
            case 1 : //Search Mode
-               initIR();
-                     
-               if (DirectionFound==0) {
-                   // Scans a wide range if it's unsure about direction
-                   DirectionFound = ScanWithRange(&motorL, &motorR, 6); // USERVARIABLE
-               } else if (DirectionFound==1) {
-                   // Scans a smaller range when it thinks it's close
-                   DirectionFound = ScanWithRange(&motorL, &motorR, 3); // USERVARIABLE
-               } else if (DirectionFound==2) {
-                   mode=2;
-               }
+               
+//               if (DirectionFound==0) {
+//                   // Scans a wide range if it's unsure about direction
+//                   DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle); // USERVARIABLE
+//               } else if (DirectionFound==1) {
+//                   // Scans a smaller range when it thinks it's close
+//                   DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle/2); // USERVARIABLE
+//               } else if (DirectionFound==2) {
+//                   mode=2;
+//               }
                
                break;
                
             case 2 : //Move Mode
                //Move forward until RFID read and verified or a certain time
                //has elapsed
-                if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
-                    if (VerifySignal(ReceivedString)){ //and if the checksum is correct
-                        //Put the RFID data into the Message variable
-                         for (i=0; i<10; i++){
-                             Message[i] = ReceivedString[i+1]; 
-                         }
-                        //Clear the received string 
-                         for (i=0; i<16; i++) {
-                             ReceivedString[i]=0;
-                         }
-                     }   
-                }
+                delay_s(3); // DEBUG ONLY
+                DirectionFound=1; // DEBUG ONLY
+                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
+                
+                
+//                if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
+//                    stop(motorL,motorR); //Stop while checking the RFID result
+//                    if (VerifySignal(ReceivedString)){ //and if the checksum is correct
+//                        //Put the RFID data into the Message variable
+//                         for (i=0; i<10; i++){
+//                             Message[i] = ReceivedString[i+1]; 
+//                         }
+//                        //Clear the received string 
+//                         for (i=0; i<16; i++) {
+//                             ReceivedString[i]=0;
+//                         }
+//                         
+//                     }// else { //If the signal doesn't check out
+////                        fullSpeedBack(motorL,motorR); //Go back a bit then stop
+////                        delay_s(1);
+////                        stop(motorL,motorR);
+////                        fullSpeedAhead(motorL,motorR); //Try again
+////                     }  
+//                }
                break;
                
             case 3 : //Return Mode

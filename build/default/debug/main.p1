@@ -136,9 +136,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "15 IR_Reading.h
 [v _initIR `(v ~T0 @X0 0 ef ]
 "21 Movement.h
-[v _ScanWithRange `(v ~T0 @X0 0 ef3`*S405`*S405`uc ]
-"16 RFID_Reader.h
-[v _VerifySignal `(uc ~T0 @X0 0 ef1`*uc ]
+[v _ScanWithRange `(uc ~T0 @X0 0 ef3`*S405`*S405`uc ]
+"11
+[v _delay_s `(v ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3643,12 +3643,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Movement.h: 11: void delay_s(char seconds);
 [; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
 [; ;Movement.h: 16: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
-[; ;Movement.h: 21: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+[; ;Movement.h: 21: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
 [; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
-[; ;IR_Reading.h: 18: unsigned int grabAverageIR(void);
-[; ;IR_Reading.h: 19: void enableSensor(char sensor, char status);
+[; ;IR_Reading.h: 18: void enableSensor(char sensor, char status);
 "8 main.c
 [p x OSC=IRCIO ]
 "12
@@ -3660,9 +3659,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [; ;main.c: 13: volatile unsigned char i=0;
-[v F3716 `(v ~T0 @X0 1 tf ]
+[v F3714 `(v ~T0 @X0 1 tf ]
 "16
-[v _InterruptHandlerHigh `IF3716 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF3714 ~T0 @X0 1 e ]
 "17
 {
 [; ;main.c: 16: void interrupt InterruptHandlerHigh ()
@@ -3725,210 +3724,201 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 34: unsigned char mode=0;
 [e = _mode -> -> 0 `i `uc ]
 "35
-[v _SignalStrength `uc ~T0 @X0 -> 3 `i a ]
+[v _DirectionFound `uc ~T0 @X0 1 a ]
+[; ;main.c: 35: char DirectionFound=0;
+[e = _DirectionFound -> -> 0 `i `uc ]
 "36
-[v _PathTaken `uc ~T0 @X0 -> 100 `i a ]
+[v _SignalStrength `uc ~T0 @X0 -> 3 `i a ]
 "37
+[v _PathTaken `uc ~T0 @X0 -> 100 `i a ]
+"38
 [v _test `ui ~T0 @X0 1 a ]
-[; ;main.c: 35: unsigned char SignalStrength[3];
-[; ;main.c: 36: char PathTaken[100];
-[; ;main.c: 37: unsigned int test=0;
+[; ;main.c: 36: unsigned char SignalStrength[3];
+[; ;main.c: 37: char PathTaken[100];
+[; ;main.c: 38: unsigned int test=0;
 [e = _test -> -> 0 `i `ui ]
-[; ;main.c: 40: INTCONbits.GIEH = 1;
 "40
-[e = . . _INTCONbits 2 7 -> -> 1 `i `uc ]
-[; ;main.c: 41: RCONbits.IPEN = 1;
-"41
-[e = . . _RCONbits 5 6 -> -> 1 `i `uc ]
-[; ;main.c: 42: INTCONbits.GIEL = 1;
-"42
-[e = . . _INTCONbits 2 6 -> -> 1 `i `uc ]
-[; ;main.c: 43: INTCONbits.INT0IE = 1;
+[v _ScanAngle `uc ~T0 @X0 1 a ]
+[; ;main.c: 40: unsigned char ScanAngle=6;
+[e = _ScanAngle -> -> 6 `i `uc ]
+[; ;main.c: 43: INTCONbits.GIEH = 1;
 "43
-[e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
-[; ;main.c: 44: INTCONbits.PEIE = 1;
+[e = . . _INTCONbits 2 7 -> -> 1 `i `uc ]
+[; ;main.c: 44: RCONbits.IPEN = 1;
 "44
-[e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
-[; ;main.c: 46: IPR1bits.RCIP=1;
+[e = . . _RCONbits 5 6 -> -> 1 `i `uc ]
+[; ;main.c: 45: INTCONbits.GIEL = 1;
+"45
+[e = . . _INTCONbits 2 6 -> -> 1 `i `uc ]
+[; ;main.c: 46: INTCONbits.INT0IE = 1;
 "46
-[e = . . _IPR1bits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 47: PIE1bits.RCIE=1;
+[e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
+[; ;main.c: 47: INTCONbits.PEIE = 1;
 "47
-[e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
+[e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
+[; ;main.c: 49: IPR1bits.RCIP=1;
+"49
+[e = . . _IPR1bits 0 5 -> -> 1 `i `uc ]
+[; ;main.c: 50: PIE1bits.RCIE=1;
 "50
+[e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
+"53
 [v _motorL `S405 ~T0 @X0 1 a ]
 [v _motorR `S405 ~T0 @X0 1 a ]
-[; ;main.c: 50: struct DC_motor motorL, motorR;
-[; ;main.c: 51: motorL.power=0;
-"51
-[e = . _motorL 0 -> -> 0 `i `uc ]
-[; ;main.c: 52: motorL.direction=1;
-"52
-[e = . _motorL 1 -> -> 1 `i `uc ]
-[; ;main.c: 53: motorL.dutyLowByte=(unsigned char *)(&PDC0L);
-"53
-[e = . _motorL 2 -> &U _PDC0L `*uc ]
-[; ;main.c: 54: motorL.dutyHighByte=(unsigned char *)(&PDC0H);
+[; ;main.c: 53: struct DC_motor motorL, motorR;
+[; ;main.c: 54: motorL.power=0;
 "54
-[e = . _motorL 3 -> &U _PDC0H `*uc ]
-[; ;main.c: 55: motorL.dir_pin=0;
+[e = . _motorL 0 -> -> 0 `i `uc ]
+[; ;main.c: 55: motorL.direction=1;
 "55
-[e = . _motorL 4 -> -> 0 `i `uc ]
-[; ;main.c: 56: motorL.PWMperiod=199;
+[e = . _motorL 1 -> -> 1 `i `uc ]
+[; ;main.c: 56: motorL.dutyLowByte=(unsigned char *)(&PDC0L);
 "56
-[e = . _motorL 5 -> 199 `i ]
-[; ;main.c: 58: motorR.power=0;
+[e = . _motorL 2 -> &U _PDC0L `*uc ]
+[; ;main.c: 57: motorL.dutyHighByte=(unsigned char *)(&PDC0H);
+"57
+[e = . _motorL 3 -> &U _PDC0H `*uc ]
+[; ;main.c: 58: motorL.dir_pin=0;
 "58
-[e = . _motorR 0 -> -> 0 `i `uc ]
-[; ;main.c: 59: motorR.direction=1;
+[e = . _motorL 4 -> -> 0 `i `uc ]
+[; ;main.c: 59: motorL.PWMperiod=199;
 "59
-[e = . _motorR 1 -> -> 1 `i `uc ]
-[; ;main.c: 60: motorR.dutyLowByte=(unsigned char *)(&PDC1L);
-"60
-[e = . _motorR 2 -> &U _PDC1L `*uc ]
-[; ;main.c: 61: motorR.dutyHighByte=(unsigned char *)(&PDC1H);
+[e = . _motorL 5 -> 199 `i ]
+[; ;main.c: 61: motorR.power=0;
 "61
-[e = . _motorR 3 -> &U _PDC1H `*uc ]
-[; ;main.c: 62: motorR.dir_pin=2;
+[e = . _motorR 0 -> -> 0 `i `uc ]
+[; ;main.c: 62: motorR.direction=1;
 "62
-[e = . _motorR 4 -> -> 2 `i `uc ]
-[; ;main.c: 63: motorR.PWMperiod=199;
+[e = . _motorR 1 -> -> 1 `i `uc ]
+[; ;main.c: 63: motorR.dutyLowByte=(unsigned char *)(&PDC1L);
 "63
-[e = . _motorR 5 -> 199 `i ]
-[; ;main.c: 65: OSCCON = 0x72;
+[e = . _motorR 2 -> &U _PDC1L `*uc ]
+[; ;main.c: 64: motorR.dutyHighByte=(unsigned char *)(&PDC1H);
+"64
+[e = . _motorR 3 -> &U _PDC1H `*uc ]
+[; ;main.c: 65: motorR.dir_pin=2;
 "65
-[e = _OSCCON -> -> 114 `i `uc ]
-[; ;main.c: 66: while(!OSCCONbits.IOFS);
+[e = . _motorR 4 -> -> 2 `i `uc ]
+[; ;main.c: 66: motorR.PWMperiod=199;
 "66
+[e = . _motorR 5 -> 199 `i ]
+[; ;main.c: 68: OSCCON = 0x72;
+"68
+[e = _OSCCON -> -> 114 `i `uc ]
+[; ;main.c: 69: while(!OSCCONbits.IOFS);
+"69
 [e $U 411  ]
 [e :U 412 ]
 [e :U 411 ]
 [e $ ! != -> . . _OSCCONbits 0 1 `i -> -> -> 0 `i `Vuc `i 412  ]
 [e :U 413 ]
-[; ;main.c: 68: while(1){
-"68
+[; ;main.c: 71: while(1){
+"71
 [e :U 415 ]
 {
-[; ;main.c: 70: switch (mode) {
-"70
+[; ;main.c: 73: switch (mode) {
+"73
 [e $U 418  ]
 {
-[; ;main.c: 71: case 0 :
-"71
-[e :U 419 ]
-[; ;main.c: 73: initMotorPWM();
-"73
-[e ( _initMotorPWM ..  ]
-[; ;main.c: 74: initRFID();
+[; ;main.c: 74: case 0 :
 "74
-[e ( _initRFID ..  ]
-[; ;main.c: 75: initIR();
-"75
-[e ( _initIR ..  ]
-[; ;main.c: 77: mode = 1;
+[e :U 419 ]
+[; ;main.c: 76: initMotorPWM();
+"76
+[e ( _initMotorPWM ..  ]
+[; ;main.c: 77: initRFID();
 "77
-[e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 78: break;
+[e ( _initRFID ..  ]
+[; ;main.c: 78: initIR();
 "78
-[e $U 417  ]
-[; ;main.c: 80: case 1 :
+[e ( _initIR ..  ]
+[; ;main.c: 80: mode = 1;
 "80
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 83: break;
+"83
+[e $U 417  ]
+[; ;main.c: 85: case 1 :
+"85
 [e :U 420 ]
-[; ;main.c: 95: ScanWithRange(&motorL, &motorR, 3);
-"95
-[e ( _ScanWithRange (3 , , &U _motorL &U _motorR -> -> 3 `i `uc ]
-[; ;main.c: 103: break;
-"103
-[e $U 417  ]
-[; ;main.c: 105: case 2 :
-"105
+[; ;main.c: 87: if (DirectionFound==0) {
+"87
+[e $ ! == -> _DirectionFound `i -> 0 `i 421  ]
+{
+[; ;main.c: 89: DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle);
+"89
+[e = _DirectionFound ( _ScanWithRange (3 , , &U _motorL &U _motorR _ScanAngle ]
+"90
+}
+[; ;main.c: 90: } else if (DirectionFound==1) {
+[e $U 422  ]
 [e :U 421 ]
-[; ;main.c: 108: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-"108
-[e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 422  ]
+[e $ ! == -> _DirectionFound `i -> 1 `i 423  ]
 {
-[; ;main.c: 109: if (VerifySignal(ReceivedString)){
-"109
-[e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 423  ]
-{
-[; ;main.c: 111: for (i=0; i<10; i++){
-"111
-{
-[e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 10 `i 424  ]
-[e $U 425  ]
-[e :U 424 ]
-{
-[; ;main.c: 112: Message[i] = ReceivedString[i+1];
-"112
-[e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
-"113
+[; ;main.c: 92: DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle/2);
+"92
+[e = _DirectionFound ( _ScanWithRange (3 , , &U _motorL &U _motorR -> / -> _ScanAngle `i -> 2 `i `uc ]
+"93
 }
-"111
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 10 `i 424  ]
-[e :U 425 ]
-"113
-}
-[; ;main.c: 113: }
-[; ;main.c: 115: for (i=0; i<16; i++) {
-"115
-{
-[e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 16 `i 427  ]
-[e $U 428  ]
-[e :U 427 ]
-{
-[; ;main.c: 116: ReceivedString[i]=0;
-"116
-[e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"117
-}
-"115
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 16 `i 427  ]
-[e :U 428 ]
-"117
-}
-"118
-}
+[; ;main.c: 93: } else if (DirectionFound==2) {
+[e $U 424  ]
 [e :U 423 ]
-"119
+[e $ ! == -> _DirectionFound `i -> 2 `i 425  ]
+{
+[; ;main.c: 94: mode=2;
+"94
+[e = _mode -> -> 2 `i `uc ]
+"95
 }
+[e :U 425 ]
+"97
+[e :U 424 ]
 [e :U 422 ]
-[; ;main.c: 117: }
-[; ;main.c: 118: }
-[; ;main.c: 119: }
-[; ;main.c: 120: break;
-"120
+[; ;main.c: 95: }
+[; ;main.c: 97: break;
 [e $U 417  ]
-[; ;main.c: 122: case 3 :
-"122
-[e :U 430 ]
-[; ;main.c: 124: break;
-"124
-[e $U 417  ]
+[; ;main.c: 99: case 2 :
+"99
+[e :U 426 ]
+[; ;main.c: 102: delay_s(3);
+"102
+[e ( _delay_s (1 -> -> 3 `i `uc ]
+[; ;main.c: 103: DirectionFound=1;
+"103
+[e = _DirectionFound -> -> 1 `i `uc ]
+[; ;main.c: 104: mode = 1;
+"104
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 126: break;
 "126
-}
-[; ;main.c: 126: }
 [e $U 417  ]
-"70
+[; ;main.c: 128: case 3 :
+"128
+[e :U 427 ]
+[; ;main.c: 130: break;
+"130
+[e $U 417  ]
+"132
+}
+[; ;main.c: 132: }
+[e $U 417  ]
+"73
 [e :U 418 ]
 [e [\ _mode , $ -> -> 0 `i `uc 419
  , $ -> -> 1 `i `uc 420
- , $ -> -> 2 `i `uc 421
- , $ -> -> 3 `i `uc 430
+ , $ -> -> 2 `i `uc 426
+ , $ -> -> 3 `i `uc 427
  417 ]
-"126
+"132
 [e :U 417 ]
-"127
+"133
 }
 [e :U 414 ]
-"68
+"71
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 127: }
-[; ;main.c: 128: }
-"128
+[; ;main.c: 133: }
+[; ;main.c: 134: }
+"134
 [e :UE 410 ]
 }

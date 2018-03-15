@@ -4713,6 +4713,8 @@ unsigned char SignalStrength[3];
 char PathTaken[100];
 unsigned int test=0;
 
+unsigned char ScanAngle=6;
+
 
 INTCONbits.GIEH = 1;
 RCONbits.IPEN = 1;
@@ -4749,40 +4751,26 @@ case 0 :
 
 initMotorPWM();
 initRFID();
+initIR();
 
 mode = 1;
+enableSensor(0, 1);
+enableSensor(1, 1);
 break;
 
 case 1 :
-initIR();
 
-if (DirectionFound==0) {
-
-DirectionFound = ScanWithRange(&motorL, &motorR, 6);
-} else if (DirectionFound==1) {
-
-DirectionFound = ScanWithRange(&motorL, &motorR, 3);
-} else if (DirectionFound==2) {
-mode=2;
-}
-
+# 97
 break;
 
 case 2 :
 
 
-if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-if (VerifySignal(ReceivedString)){
+delay_s(3);
+DirectionFound=1;
+mode = 1;
 
-for (i=0; i<10; i++){
-Message[i] = ReceivedString[i+1];
-}
-
-for (i=0; i<16; i++) {
-ReceivedString[i]=0;
-}
-}
-}
+# 126
 break;
 
 case 3 :

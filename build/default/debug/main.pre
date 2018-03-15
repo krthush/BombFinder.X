@@ -4671,13 +4671,12 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
 
 
 
-void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 
 # 15 "IR_Reading.h"
 void initIR(void);
 unsigned int grabRightIR(void);
 unsigned int grabLeftIR(void);
-unsigned int grabAverageIR(void);
 void enableSensor(char sensor, char status);
 
 
@@ -4709,9 +4708,12 @@ void main(void){
 unsigned char Message[10];
 unsigned char i=0;
 unsigned char mode=0;
+char DirectionFound=0;
 unsigned char SignalStrength[3];
 char PathTaken[100];
 unsigned int test=0;
+
+unsigned char ScanAngle=6;
 
 
 INTCONbits.GIEH = 1;
@@ -4752,31 +4754,32 @@ initRFID();
 initIR();
 
 mode = 1;
+
+
 break;
 
 case 1 :
 
-# 95
-ScanWithRange(&motorL, &motorR, 3);
+if (DirectionFound==0) {
 
-# 103
+DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle);
+} else if (DirectionFound==1) {
+
+DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle/2);
+} else if (DirectionFound==2) {
+mode=2;
+}
+
 break;
 
 case 2 :
 
 
-if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-if (VerifySignal(ReceivedString)){
+delay_s(3);
+DirectionFound=1;
+mode = 1;
 
-for (i=0; i<10; i++){
-Message[i] = ReceivedString[i+1];
-}
-
-for (i=0; i<16; i++) {
-ReceivedString[i]=0;
-}
-}
-}
+# 126
 break;
 
 case 3 :
