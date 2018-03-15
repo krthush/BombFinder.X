@@ -14,10 +14,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _turnLeft `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "26
 [v _turnRight `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"18 IR_Reading.h
+"19 IR_Reading.h
 [v _enableSensor `(v ~T0 @X0 0 ef2`uc`uc ]
-"17
-[v _grabLeftIR `(ui ~T0 @X0 0 ef ]
+"18
+[v _grabAverageIR `(ui ~T0 @X0 0 ef ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3517,11 +3517,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
 [; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
-[; ;IR_Reading.h: 18: void enableSensor(char sensor, char status);
+[; ;IR_Reading.h: 18: unsigned int grabAverageIR(void);
+[; ;IR_Reading.h: 19: void enableSensor(char sensor, char status);
 [; ;Movement.h: 11: void delay_s(char seconds);
 [; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
 [; ;Movement.h: 16: void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
-[; ;Movement.h: 21: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+[; ;Movement.h: 21: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 "10 Movement.c
 [v _delay_s `(v ~T0 @X0 1 ef1`uc ]
 {
@@ -3648,226 +3649,126 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 416 ]
 }
 "75
-[v _ScanWithRange `(uc ~T0 @X0 1 ef3`*S405`*S405`uc ]
+[v _ScanWithRange `(v ~T0 @X0 1 ef3`*S405`*S405`uc ]
 {
-[; ;Movement.c: 75: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
+[; ;Movement.c: 75: void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
 [e :U _ScanWithRange ]
 [v _mL `*S405 ~T0 @X0 1 r1 ]
 [v _mR `*S405 ~T0 @X0 1 r2 ]
 [v _tenth_seconds `uc ~T0 @X0 1 r3 ]
 [f ]
 "78
-[v _SensorResultL `ui ~T0 @X0 -> 2 `i a ]
-"79
-[v _SensorResultC `ui ~T0 @X0 -> 2 `i a ]
-"80
-[v _SensorResultR `ui ~T0 @X0 -> 2 `i a ]
-[; ;Movement.c: 78: unsigned int SensorResultL[2];
-[; ;Movement.c: 79: unsigned int SensorResultC[2];
-[; ;Movement.c: 80: unsigned int SensorResultR[2];
-[; ;Movement.c: 83: enableSensor(0, 1);
-"83
+[v _SignalStrength `ui ~T0 @X0 -> 2 `i a ]
+[; ;Movement.c: 78: unsigned int SignalStrength[2];
+[; ;Movement.c: 81: enableSensor(0, 1);
+"81
 [e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
-[; ;Movement.c: 84: enableSensor(1, 1);
-"84
+[; ;Movement.c: 82: enableSensor(1, 1);
+"82
 [e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;Movement.c: 86: stop(mL,mR);
+[; ;Movement.c: 85: stop(mL,mR);
+"85
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 86: delay_tenth_s(tenth_seconds);
 "86
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 87: delay_tenth_s(tenth_seconds);
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 87: SignalStrength[1]=grabAverageIR();
 "87
-[e ( _delay_tenth_s (1 _tenth_seconds ]
-[; ;Movement.c: 88: SensorResultC[0]=grabLeftIR();
-"88
-[e = *U + &U _SensorResultC * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux ( _grabLeftIR ..  ]
-[; ;Movement.c: 89: SensorResultC[1]=grabRightIR();
-"89
-[e = *U + &U _SensorResultC * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux ( _grabRightIR ..  ]
-[; ;Movement.c: 92: turnLeft(mL,mR);
-"92
+[e = *U + &U _SignalStrength * -> -> -> 1 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux ( _grabAverageIR ..  ]
+[; ;Movement.c: 90: turnLeft(mL,mR);
+"90
 [e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 93: delay_tenth_s(tenth_seconds);
-"93
+[; ;Movement.c: 91: delay_tenth_s(tenth_seconds);
+"91
 [e ( _delay_tenth_s (1 _tenth_seconds ]
-[; ;Movement.c: 95: stop(mL,mR);
+[; ;Movement.c: 94: stop(mL,mR);
+"94
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 95: delay_tenth_s(tenth_seconds);
 "95
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 96: delay_tenth_s(tenth_seconds);
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 96: SignalStrength[0]=grabAverageIR();
 "96
-[e ( _delay_tenth_s (1 _tenth_seconds ]
-[; ;Movement.c: 97: SensorResultL[0]=grabLeftIR();
-"97
-[e = *U + &U _SensorResultL * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux ( _grabLeftIR ..  ]
-[; ;Movement.c: 98: SensorResultL[1]=grabRightIR();
-"98
-[e = *U + &U _SensorResultL * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux ( _grabRightIR ..  ]
-[; ;Movement.c: 101: turnRight(mL,mR);
-"101
+[e = *U + &U _SignalStrength * -> -> -> 0 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux ( _grabAverageIR ..  ]
+[; ;Movement.c: 99: turnRight(mL,mR);
+"99
 [e ( _turnRight (2 , _mL _mR ]
-[; ;Movement.c: 102: delay_tenth_s(2*tenth_seconds);
-"102
+[; ;Movement.c: 100: delay_tenth_s(2*tenth_seconds);
+"100
 [e ( _delay_tenth_s (1 -> * -> 2 `i -> _tenth_seconds `i `uc ]
-[; ;Movement.c: 104: stop(mL,mR);
+[; ;Movement.c: 103: stop(mL,mR);
+"103
+[e ( _stop (2 , _mL _mR ]
+[; ;Movement.c: 104: delay_tenth_s(tenth_seconds);
 "104
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 105: delay_tenth_s(tenth_seconds);
-"105
 [e ( _delay_tenth_s (1 _tenth_seconds ]
-[; ;Movement.c: 106: SensorResultR[0]=grabLeftIR();
-"106
-[e = *U + &U _SensorResultR * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux ( _grabLeftIR ..  ]
-[; ;Movement.c: 107: SensorResultR[1]=grabRightIR();
-"107
-[e = *U + &U _SensorResultR * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux ( _grabRightIR ..  ]
-[; ;Movement.c: 110: enableSensor(0, 0);
-"110
-[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
-[; ;Movement.c: 111: enableSensor(1, 0);
-"111
-[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
-[; ;Movement.c: 119: if (SensorResultL[0]>SensorResultL[1]) {
-"119
-[e $ ! > *U + &U _SensorResultL * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux *U + &U _SensorResultL * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux 418  ]
+[; ;Movement.c: 105: SignalStrength[2]=grabAverageIR();
+"105
+[e = *U + &U _SignalStrength * -> -> -> 2 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux ( _grabAverageIR ..  ]
+[; ;Movement.c: 108: if(SignalStrength[2]>SignalStrength[0] && SignalStrength[2]>SignalStrength[1]){
+"108
+[e $ ! && > *U + &U _SignalStrength * -> -> -> 2 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux *U + &U _SignalStrength * -> -> -> 0 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux > *U + &U _SignalStrength * -> -> -> 2 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux *U + &U _SignalStrength * -> -> -> 1 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux 418  ]
 {
-[; ;Movement.c: 121: turnLeft(mL,mR);
-"121
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 122: delay_tenth_s(3*tenth_seconds);
-"122
-[e ( _delay_tenth_s (1 -> * -> 3 `i -> _tenth_seconds `i `uc ]
-[; ;Movement.c: 123: stop(mL,mR);
-"123
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 124: return 0;
-"124
-[e ) -> -> 0 `i `uc ]
-[e $UE 417  ]
-"125
+"111
 }
-[; ;Movement.c: 125: } else if (SensorResultR[1]>SensorResultR[0]) {
+[; ;Movement.c: 111: } else if (SignalStrength[1]>SignalStrength[0] && SignalStrength[1]>SignalStrength[2]) {
 [e $U 419  ]
 [e :U 418 ]
-[e $ ! > *U + &U _SensorResultR * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux *U + &U _SensorResultR * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux 420  ]
+[e $ ! && > *U + &U _SignalStrength * -> -> -> 1 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux *U + &U _SignalStrength * -> -> -> 0 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux > *U + &U _SignalStrength * -> -> -> 1 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux *U + &U _SignalStrength * -> -> -> 2 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux 420  ]
 {
-[; ;Movement.c: 127: turnRight(mL,mR);
+[; ;Movement.c: 115: turnLeft(mL,mR);
+"115
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 116: delay_tenth_s(tenth_seconds);
+"116
+[e ( _delay_tenth_s (1 _tenth_seconds ]
+[; ;Movement.c: 117: stop(mL,mR);
+"117
+[e ( _stop (2 , _mL _mR ]
+"118
+}
+[; ;Movement.c: 118: } else if (SignalStrength[0]>SignalStrength[1] && SignalStrength[0]>SignalStrength[2]){
+[e $U 421  ]
+[e :U 420 ]
+[e $ ! && > *U + &U _SignalStrength * -> -> -> 0 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux *U + &U _SignalStrength * -> -> -> 1 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux > *U + &U _SignalStrength * -> -> -> 0 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux *U + &U _SignalStrength * -> -> -> 2 `i `ui `ux -> -> # *U &U _SignalStrength `ui `ux 422  ]
+{
+[; ;Movement.c: 122: turnLeft(mL,mR);
+"122
+[e ( _turnLeft (2 , _mL _mR ]
+[; ;Movement.c: 123: delay_tenth_s(2*tenth_seconds);
+"123
+[e ( _delay_tenth_s (1 -> * -> 2 `i -> _tenth_seconds `i `uc ]
+[; ;Movement.c: 124: stop(mL,mR);
+"124
+[e ( _stop (2 , _mL _mR ]
+"125
+}
+[; ;Movement.c: 125: } else {
+[e $U 423  ]
+[e :U 422 ]
+{
+[; ;Movement.c: 127: turnLeft(mL,mR);
 "127
-[e ( _turnRight (2 , _mL _mR ]
+[e ( _turnLeft (2 , _mL _mR ]
 [; ;Movement.c: 128: delay_tenth_s(tenth_seconds);
 "128
 [e ( _delay_tenth_s (1 _tenth_seconds ]
 [; ;Movement.c: 129: stop(mL,mR);
 "129
 [e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 130: return 0;
 "130
-[e ) -> -> 0 `i `uc ]
-[e $UE 417  ]
-"133
 }
-[; ;Movement.c: 133: } else if ((SensorResultL[1]>SensorResultL[0])&&(SensorResultC[0]>SensorResultC[1])) {
-[e $U 421  ]
-[e :U 420 ]
-[e $ ! && > *U + &U _SensorResultL * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux *U + &U _SensorResultL * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux > *U + &U _SensorResultC * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux *U + &U _SensorResultC * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux 422  ]
-{
-[; ;Movement.c: 135: turnLeft(mL,mR);
-"135
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 136: delay_tenth_s((3*tenth_seconds)/2);
-"136
-[e ( _delay_tenth_s (1 -> / * -> 3 `i -> _tenth_seconds `i -> 2 `i `uc ]
-[; ;Movement.c: 137: stop(mL,mR);
-"137
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 138: return 1;
-"138
-[e ) -> -> 1 `i `uc ]
-[e $UE 417  ]
-"139
-}
-[; ;Movement.c: 139: } else if ((SensorResultR[0]>SensorResultR[1])&&(SensorResultC[1]>SensorResultC[0])) {
-[e $U 423  ]
-[e :U 422 ]
-[e $ ! && > *U + &U _SensorResultR * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux *U + &U _SensorResultR * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux > *U + &U _SensorResultC * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux *U + &U _SensorResultC * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux 424  ]
-{
-[; ;Movement.c: 141: turnLeft(mL,mR);
-"141
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 142: delay_tenth_s((tenth_seconds)/2);
-"142
-[e ( _delay_tenth_s (1 -> / -> _tenth_seconds `i -> 2 `i `uc ]
-[; ;Movement.c: 143: stop(mL,mR);
-"143
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 144: return 1;
-"144
-[e ) -> -> 1 `i `uc ]
-[e $UE 417  ]
-"147
-}
-[; ;Movement.c: 147: } else if (((SensorResultL[1]-SensorResultL[0])>1000)||((SensorResultL[0]-SensorResultL[1])>1000)) {
-[e $U 425  ]
-[e :U 424 ]
-[e $ ! || > - *U + &U _SensorResultL * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux *U + &U _SensorResultL * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux -> -> 1000 `i `ui > - *U + &U _SensorResultL * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux *U + &U _SensorResultL * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultL `ui `ux -> -> 1000 `i `ui 426  ]
-{
-[; ;Movement.c: 149: turnLeft(mL,mR);
-"149
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 150: delay_tenth_s(2*(tenth_seconds));
-"150
-[e ( _delay_tenth_s (1 -> * -> 2 `i -> _tenth_seconds `i `uc ]
-[; ;Movement.c: 151: stop(mL,mR);
-"151
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 152: return 2;
-"152
-[e ) -> -> 2 `i `uc ]
-[e $UE 417  ]
-"153
-}
-[; ;Movement.c: 153: } else if (((SensorResultC[1]-SensorResultC[0])>1000)||((SensorResultC[0]-SensorResultC[1])>1000)) {
-[e $U 427  ]
-[e :U 426 ]
-[e $ ! || > - *U + &U _SensorResultC * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux *U + &U _SensorResultC * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux -> -> 1000 `i `ui > - *U + &U _SensorResultC * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux *U + &U _SensorResultC * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultC `ui `ux -> -> 1000 `i `ui 428  ]
-{
-[; ;Movement.c: 155: turnLeft(mL,mR);
-"155
-[e ( _turnLeft (2 , _mL _mR ]
-[; ;Movement.c: 156: delay_tenth_s(tenth_seconds);
-"156
-[e ( _delay_tenth_s (1 _tenth_seconds ]
-[; ;Movement.c: 157: stop(mL,mR);
-"157
-[e ( _stop (2 , _mL _mR ]
-[; ;Movement.c: 158: return 2;
-"158
-[e ) -> -> 2 `i `uc ]
-[e $UE 417  ]
-"159
-}
-[; ;Movement.c: 159: } else if (((SensorResultR[1]-SensorResultR[0])>1000)||((SensorResultR[0]-SensorResultR[1])>1000)) {
-[e $U 429  ]
-[e :U 428 ]
-[e $ ! || > - *U + &U _SensorResultR * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux *U + &U _SensorResultR * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux -> -> 1000 `i `ui > - *U + &U _SensorResultR * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux *U + &U _SensorResultR * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResultR `ui `ux -> -> 1000 `i `ui 430  ]
-{
-[; ;Movement.c: 161: return 2;
-"161
-[e ) -> -> 2 `i `uc ]
-[e $UE 417  ]
-"162
-}
-[e :U 430 ]
-"164
-[e :U 429 ]
-[e :U 427 ]
-[e :U 425 ]
 [e :U 423 ]
 [e :U 421 ]
 [e :U 419 ]
-[; ;Movement.c: 162: }
-[; ;Movement.c: 164: return 0;
-[e ) -> -> 0 `i `uc ]
-[e $UE 417  ]
-[; ;Movement.c: 165: }
-"165
+[; ;Movement.c: 130: }
+[; ;Movement.c: 133: enableSensor(0, 0);
+"133
+[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[; ;Movement.c: 134: enableSensor(1, 0);
+"134
+[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;Movement.c: 135: }
+"135
 [e :UE 417 ]
 }

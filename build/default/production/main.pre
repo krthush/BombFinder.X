@@ -4671,12 +4671,13 @@ void ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *buf);
 
 
 
-char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+void ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
 
 # 15 "IR_Reading.h"
 void initIR(void);
 unsigned int grabRightIR(void);
 unsigned int grabLeftIR(void);
+unsigned int grabAverageIR(void);
 void enableSensor(char sensor, char status);
 
 
@@ -4708,7 +4709,6 @@ void main(void){
 unsigned char Message[10];
 unsigned char i=0;
 unsigned char mode=0;
-char DirectionFound=0;
 unsigned char SignalStrength[3];
 char PathTaken[100];
 unsigned int test=0;
@@ -4749,23 +4749,17 @@ case 0 :
 
 initMotorPWM();
 initRFID();
+initIR();
 
 mode = 1;
 break;
 
 case 1 :
-initIR();
 
-if (DirectionFound==0) {
+# 95
+ScanWithRange(&motorL, &motorR, 1);
 
-DirectionFound = ScanWithRange(&motorL, &motorR, 6);
-} else if (DirectionFound==1) {
-
-DirectionFound = ScanWithRange(&motorL, &motorR, 3);
-} else if (DirectionFound==2) {
-mode=2;
-}
-
+# 103
 break;
 
 case 2 :

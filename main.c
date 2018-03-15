@@ -79,15 +79,11 @@ void main(void){
                
            case 1 : //Search Mode
                initIR();
-                     
-               if (DirectionFound==0) {
-                   // Scans a wide range if it's unsure about direction
-                   DirectionFound = ScanWithRange(&motorL, &motorR, 6); // USERVARIABLE
-               } else if (DirectionFound==1) {
-                   // Scans a smaller range when it thinks it's close
-                   DirectionFound = ScanWithRange(&motorL, &motorR, 3); // USERVARIABLE
-               } else if (DirectionFound==2) {
-                   mode=2;
+               
+               ScanWithRange(&motorL, &motorR, 1);             
+               DirectionFound = ScanWithRange(&motorL, &motorR, 3);
+               if (DirectionFound) {
+                   mode = 2;
                }
                
                break;
