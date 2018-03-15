@@ -109,6 +109,58 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     //Turn off both IR sensors
     enableSensor(0, 0);
     enableSensor(1, 0);
+    
+    // PLEASE NOTE: Robot is currently in RIGHT most position 
+    
+    // Logic to check for areas which robot needs to very rough scan,
+    // This needs to be done before it can either do more detailed scanning or,
+    // find the direction.
+    // THIS NEEDS MORE COMMENTING OR PUT IN ANOTHER FUNCTION.
+    if (SensorResultL[0]>SensorResultL[1]) {
+        // Move to centre, then twice as far further to prevent scanning same range again
+        turnLeft(mL,mR);
+        delay_tenth_s(3*tenth_seconds);
+        stop(mL,mR);
+        return 0;
+    } else if (SensorResultR[1]>SensorResultR[0]) {
+        // Go to right, again prevent scanning of same range
+        turnRight(mL,mR);
+        delay_tenth_s(tenth_seconds);
+        stop(mL,mR);        
+        return 0;
+        
+    // Logic to check for areas which robot needs to do a more detail scan. 
+    } else if ((SensorResultL[1]>SensorResultL[0])&&(SensorResultC[0]>SensorResultC[1])) { 
+        // Move to left to (left) inner position for more detailed scanning
+        turnLeft(mL,mR);
+        delay_tenth_s((3*tenth_seconds)/2);
+        stop(mL,mR);
+        return 1;
+    } else if ((SensorResultR[0]>SensorResultR[1])&&(SensorResultC[1]>SensorResultC[0])) {
+        // Move left to (right) inner position for more detailed scanning
+        turnLeft(mL,mR);
+        delay_tenth_s((tenth_seconds)/2);
+        stop(mL,mR);
+        return 1;
+        
+    // Logic for robot thinks its found the direction the bomb
+    } else if (((SensorResultL[1]-SensorResultL[0])>1000)||((SensorResultL[0]-SensorResultL[1])>1000)) { // USERVARIABLE
+         // Move left to (right) position as its found direction of bomb
+        turnLeft(mL,mR);
+        delay_tenth_s(2*(tenth_seconds));
+        stop(mL,mR);
+        return 2;       
+    } else if (((SensorResultC[1]-SensorResultC[0])>1000)||((SensorResultC[0]-SensorResultC[1])>1000)) { // USERVARIABLE
+         // Move left to (center) position as its found direction of bomb
+        turnLeft(mL,mR);
+        delay_tenth_s(tenth_seconds);
+        stop(mL,mR);
+        return 2;       
+    } else if (((SensorResultR[1]-SensorResultR[0])>1000)||((SensorResultR[0]-SensorResultR[1])>1000)) { // USERVARIABLE
+         // Stay still facing right position as its found direction of bomb
+        return 2;       
+    }
+    
     return 0;
 }
 
