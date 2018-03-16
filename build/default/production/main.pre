@@ -4687,12 +4687,14 @@ void enableSensor(char sensor, char status);
 
 volatile unsigned char ReceivedString[16];
 volatile unsigned char i=0;
+volatile unsigned char RFID_Read=0;
 
 
 void interrupt InterruptHandlerHigh ()
 {
 if (PIR1bits.RCIF) {
 ReceivedString[i]=RCREG;
+RFID_Read=1;
 if (i==15){
 i=0;
 }else{
@@ -4724,6 +4726,7 @@ INTCONbits.PEIE = 1;
 
 IPR1bits.RCIP=1;
 PIE1bits.RCIE=1;
+PIR1bits.RC1IF = 0;
 
 
 struct DC_motor mL, mR;
@@ -4750,7 +4753,7 @@ switch (mode) {
 case 0 :
 
 initMotorPWM();
-
+initRFID();
 initIR();
 
 
@@ -4780,19 +4783,42 @@ DirectionFound = ScanIR(&mL, &mR);
 mode=2;
 }
 
-# 117
+# 120
 break;
 
 case 2 :
 
 
 
+if (!RFID_Read) {
 fullSpeedAhead(&mL, &mR);
+delay_tenth_s(5);
+} else {
+stop(&mL, &mR);
+if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+if (VerifySignal(ReceivedString)){
+
+for (i=0; i<10; i++){
+Message[i] = ReceivedString[i+1];
+}
+
+for (i=0; i<16; i++) {
+ReceivedString[i]=0;
+}
+
+} else {
+fullSpeedBack(&mL,&mR);
 delay_s(1);
+stop(&mL,&mR);
+fullSpeedAhead(&mL,&mR);
+}
+}
+}
 DirectionFound=1;
 mode = 1;
 
-# 148
+
+
 break;
 
 case 3 :

@@ -46,10 +46,11 @@ void main(void){
     RCONbits.IPEN = 1; // Enable interrupt priority
     INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
     INTCONbits.INT0IE = 1; // INT0 External Interrupt Enables bit
-    INTCONbits.PEIE = 1;    // Enable peripheral  interrupts
+    INTCONbits.PEIE = 1;    // Enable Peripheral  interrupts
     
     IPR1bits.RCIP=1; //High Priority+
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
+    PIR1bits.RC1IF = 0;//Clear interrupt flag at start for serial reception
     
     // Initialise Motor Structures
     struct DC_motor mL, mR; //declare 2 motor structures
@@ -76,7 +77,7 @@ void main(void){
            case 0 : //Start-up Mode
                //Initialise EVERYTHING
                initMotorPWM();  //setup PWM registers
-//               initRFID();
+               initRFID();
                initIR();              
                
                // Bot goes forward, stops, then back and stop
@@ -130,33 +131,30 @@ void main(void){
                     if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
                         if (VerifySignal(ReceivedString)){ //and if the checksum is correct
                             //Put the RFID data into the Message variable
-                             for (i=0; i<10; i++){
-                                 Message[i] = ReceivedString[i+1]; 
-                             }
+                            for (i=0; i<10; i++){
+                                Message[i] = ReceivedString[i+1]; 
+                            }
                             //Clear the received string 
-                             for (i=0; i<16; i++) {
-                                 ReceivedString[i]=0;
-                             }
+                            for (i=0; i<16; i++) {
+                                ReceivedString[i]=0;
+                            }
 
-                         } else { //If the signal doesn't check out
-                            fullSpeedBack(mL,mR); //Go back a bit then stop
+                        } else { //If the signal doesn't check out
+                            fullSpeedBack(&mL,&mR); //Go back a bit then stop
                             delay_s(1);
-                            stop(mL,mR);
-                            fullSpeedAhead(mL,mR); //Try again
-                         }  
-                }
+                            stop(&mL,&mR);
+                            fullSpeedAhead(&mL,&mR); //Try again
+                        }  
+                    }
                 }
                 DirectionFound=1; // DEBUG ONLY
-                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
-                
-                
-//                
+                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR        
                break;
                
             case 3 : //Return Mode
                //Return to original position
                break;
-                                      
+               
        }      
    }
 }
