@@ -11,12 +11,14 @@
 
 volatile unsigned char ReceivedString[16]; //Global variable to read from RFID
 volatile unsigned char i=0;
+volatile unsigned char RFID_Read=0;
 
 // High priority interrupt routine
 void interrupt InterruptHandlerHigh ()
 {
     if (PIR1bits.RCIF) {
         ReceivedString[i]=RCREG;
+        RFID_Read=1;
         if (i==15){
             i=0;
         }else{
@@ -120,31 +122,35 @@ void main(void){
                //Move forward until RFID read and verified or a certain time
                //has elapsed
 //                delay_s(3); // DEBUG ONLY
-                fullSpeedAhead(&mL, &mR);
-                delay_s(1);
+                if (!RFID_Read) {
+                    fullSpeedAhead(&mL, &mR);
+                    delay_tenth_s(5);
+                } else {
+                    stop(&mL, &mR);
+                    if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
+                        if (VerifySignal(ReceivedString)){ //and if the checksum is correct
+                            //Put the RFID data into the Message variable
+                             for (i=0; i<10; i++){
+                                 Message[i] = ReceivedString[i+1]; 
+                             }
+                            //Clear the received string 
+                             for (i=0; i<16; i++) {
+                                 ReceivedString[i]=0;
+                             }
+
+                         } else { //If the signal doesn't check out
+                            fullSpeedBack(mL,mR); //Go back a bit then stop
+                            delay_s(1);
+                            stop(mL,mR);
+                            fullSpeedAhead(mL,mR); //Try again
+                         }  
+                }
+                }
                 DirectionFound=1; // DEBUG ONLY
                 mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
                 
                 
-//                if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
-//                    stop(motorL,motorR); //Stop while checking the RFID result
-//                    if (VerifySignal(ReceivedString)){ //and if the checksum is correct
-//                        //Put the RFID data into the Message variable
-//                         for (i=0; i<10; i++){
-//                             Message[i] = ReceivedString[i+1]; 
-//                         }
-//                        //Clear the received string 
-//                         for (i=0; i<16; i++) {
-//                             ReceivedString[i]=0;
-//                         }
-//                         
-//                     }// else { //If the signal doesn't check out
-////                        fullSpeedBack(motorL,motorR); //Go back a bit then stop
-////                        delay_s(1);
-////                        stop(motorL,motorR);
-////                        fullSpeedAhead(motorL,motorR); //Try again
-////                     }  
-//                }
+//                
                break;
                
             case 3 : //Return Mode
