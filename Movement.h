@@ -17,7 +17,7 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 // within two times the given range.
 // The range is given in twice the number of tenth seconds the robot turns for
 // Finally the robot positions facing the direction of highest IR strength
-char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTime);
 char BombDirectionFound(unsigned int *SensorResult);
 #endif	/* MOVEMENT_H */
 
