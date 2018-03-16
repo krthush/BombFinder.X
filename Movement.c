@@ -33,8 +33,6 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     // Initialise variable that is used to judge the strength of signals
     unsigned int SensorResult[2];
     // USERVARIABLE TOLERANCES
-    const unsigned int DirectionFoundLimit=2500;
-    const unsigned int DirectionFoundTolerance=100;
     const unsigned int ClearSignalTolerance=1000;
     
     // Scan Data
@@ -44,10 +42,10 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     stop(mL,mR); // DEBUG ONLY
     
     // If there is significant signal
-    if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) { // USERVARIABLE
+    if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) {
         // If both signals are greater than 2500 AND the difference between them
         // is less than the specified DirectionFoundTolerance
-        if (BombDirectionFound(*SensorResult)) { // USERVARIABLE
+        if (BombDirectionFound(*SensorResult)) {
            return 2; // Direction of bomb is directly ahead
            
         // Left signal is greater -> turn left
@@ -160,38 +158,38 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
         return 0;
     } else {
         // Logic for robot thinks its found the direction the bomb
-        if (BombDirectionFound(*SensorResultL)) { // USERVARIABLE
+        if (BombDirectionFound(*SensorResultL)) {
              // Move left to (left) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(2*(tenth_seconds));
             stop(mL,mR);
             return 2;       
-        } else if (BombDirectionFound(*SensorResultC)) { // USERVARIABLE
+        } else if (BombDirectionFound(*SensorResultC)) {
              // Move left to (center) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(tenth_seconds);
             stop(mL,mR);
             return 2;       
-        } else if (BombDirectionFound(*SensorResultR)) { // USERVARIABLE
+        } else if (BombDirectionFound(*SensorResultR)) {
              // Stay still facing right position as its found direction of bomb
             stop(mL,mR);
             return 2;
 
         // Logic to check for areas which robot needs to very rough scan
-        } else if (SensorResultL[0]>SensorResultL[1]) { // USERVARIABLE
+        } else if (SensorResultL[0]>SensorResultL[1]) {
             // Move to centre, then twice as far further to prevent scanning same range again
             turnLeft(mL,mR);
             delay_tenth_s(3*tenth_seconds);
             stop(mL,mR);
             return 0;
-        } else if (SensorResultR[1]>SensorResultR[0]) { // USERVARIABLE
+        } else if (SensorResultR[1]>SensorResultR[0]) {
             // Go to right, again prevent scanning of same range
             turnRight(mL,mR);
             delay_tenth_s(tenth_seconds);
             stop(mL,mR);        
             return 0;
 
-        // Logic to check for areas which robot needs to do a more detail scan. 
+        // Robot thinks its found rough direction of bomb, will run ScanIR on it
         } else if ((SensorResultL[1]>SensorResultL[0])&&(SensorResultC[0]>SensorResultC[1])) { 
             // Move to left to (left) inner position for more detailed scanning
             turnLeft(mL,mR);
