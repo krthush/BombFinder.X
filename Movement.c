@@ -39,7 +39,7 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
 //    stop(mL,mR); // TOGGLE: continuous OR stop n scan
     SensorResult[0]=grabLeftIR();
     SensorResult[1]=grabRightIR();
-    stop(mL,mR); // DEBUG ONLY
+//    stop(mL,mR); // DEBUG ONLY
     
     // If there is significant signal
     if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) {
@@ -47,7 +47,6 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
         // is less than the specified DirectionFoundTolerance
         if (BombDirectionFound(*SensorResult)) {
            return 2; // Direction of bomb is directly ahead
-           
         // Left signal is greater -> turn left
         } else if (SensorResult[0]<=SensorResult[1]) {
            stop(mL,mR); // TOGGLE: continuous OR stop n scan        
@@ -101,9 +100,10 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     const unsigned int ClearSignalTolerance=1000;
     
     
-    //Turn on both IR sensors
-    enableSensor(0, 1);
-    enableSensor(1, 1);
+//    //Turn on both IR sensors
+//    enableSensor(0, 1);
+//    enableSensor(1, 1);
+    
     // Scan Data
     stop(mL,mR);
     SensorResultC[0]=grabLeftIR();
@@ -125,9 +125,9 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     SensorResultR[0]=grabLeftIR();
     SensorResultR[1]=grabRightIR();
     
-    //Turn off both IR sensors
-    enableSensor(0, 0);
-    enableSensor(1, 0);
+//    //Turn off both IR sensors
+//    enableSensor(0, 0);
+//    enableSensor(1, 0);
     
     // *** PLEASE NOTE: Robot is currently in RIGHT most position ***
     
@@ -208,8 +208,8 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
 
 char BombDirectionFound(unsigned int *SensorResult){
     // USERVARIABLE TOLERANCES
-    const unsigned int DirectionFoundLimit=2500;
-    const unsigned int DirectionFoundTolerance=100;
+    const unsigned int DirectionFoundLimit=2000;
+    const unsigned int DirectionFoundTolerance=500;
     
     return (SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
             &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)

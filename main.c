@@ -74,7 +74,7 @@ void main(void){
            case 0 : //Start-up Mode
                //Initialise EVERYTHING
                initMotorPWM();  //setup PWM registers
-               initRFID();
+//               initRFID();
                initIR();              
                
                // Bot goes forward, stops, then back and stop
@@ -120,8 +120,8 @@ void main(void){
                //Move forward until RFID read and verified or a certain time
                //has elapsed
 //                delay_s(3); // DEBUG ONLY
-//                fullSpeedAhead(&motorL, &motorR);
-//                delay_s(1);
+                fullSpeedAhead(&mL, &mR);
+                delay_s(1);
                 DirectionFound=1; // DEBUG ONLY
                 mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
                 

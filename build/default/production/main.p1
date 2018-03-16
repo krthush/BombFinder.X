@@ -131,8 +131,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _OSCCONbits `VS376 ~T0 @X0 0 e@4051 ]
 "18 dc_motor.h
 [v _initMotorPWM `(v ~T0 @X0 0 ef ]
-"12 RFID_Reader.h
-[v _initRFID `(v ~T0 @X0 0 ef ]
 "15 IR_Reading.h
 [v _initIR `(v ~T0 @X0 0 ef ]
 "27 dc_motor.h
@@ -3654,6 +3652,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
 [; ;Movement.h: 15: char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 [; ;Movement.h: 20: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+[; ;Movement.h: 21: char BombDirectionFound(unsigned int *SensorResult);
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
 [; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
@@ -3669,9 +3668,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [; ;main.c: 13: volatile unsigned char i=0;
-[v F3713 `(v ~T0 @X0 1 tf ]
+[v F3715 `(v ~T0 @X0 1 tf ]
 "16
-[v _InterruptHandlerHigh `IF3713 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF3715 ~T0 @X0 1 e ]
 "17
 {
 [; ;main.c: 16: void interrupt InterruptHandlerHigh ()
@@ -3836,9 +3835,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 76: initMotorPWM();
 "76
 [e ( _initMotorPWM ..  ]
-[; ;main.c: 77: initRFID();
-"77
-[e ( _initRFID ..  ]
 [; ;main.c: 78: initIR();
 "78
 [e ( _initIR ..  ]
@@ -3914,6 +3910,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 119: case 2 :
 "119
 [e :U 426 ]
+[; ;main.c: 123: fullSpeedAhead(&mL, &mR);
+"123
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+[; ;main.c: 124: delay_s(1);
+"124
+[e ( _delay_s (1 -> -> 1 `i `uc ]
 [; ;main.c: 125: DirectionFound=1;
 "125
 [e = _DirectionFound -> -> 1 `i `uc ]

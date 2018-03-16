@@ -4671,6 +4671,7 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 
 
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+char BombDirectionFound(unsigned int *SensorResult);
 
 # 15 "IR_Reading.h"
 void initIR(void);
@@ -4749,7 +4750,7 @@ switch (mode) {
 case 0 :
 
 initMotorPWM();
-initRFID();
+
 initIR();
 
 
@@ -4784,7 +4785,10 @@ break;
 
 case 2 :
 
-# 125
+
+
+fullSpeedAhead(&mL, &mR);
+delay_s(1);
 DirectionFound=1;
 mode = 1;
 
