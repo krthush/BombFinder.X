@@ -4703,7 +4703,6 @@ const unsigned int DirectionFoundTolerance=500;
 
 SensorResult[0]=grabLeftIR();
 SensorResult[1]=grabRightIR();
-stop(mL,mR);
 
 
 if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) {
@@ -4749,7 +4748,7 @@ return 0;
 return 0;
 }
 
-# 94
+# 93
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
 
 
@@ -4765,7 +4764,7 @@ const unsigned int ClearSignalTolerance=200;
 const unsigned int DirectionFoundLimit=1500;
 const unsigned int DirectionFoundTolerance=500;
 
-# 114
+# 113
 stop(mL,mR);
 SensorResultC[0]=grabLeftIR();
 SensorResultC[1]=grabRightIR();
@@ -4786,7 +4785,7 @@ stop(mL,mR);
 SensorResultR[0]=grabLeftIR();
 SensorResultR[1]=grabRightIR();
 
-# 143
+# 142
 if((SensorResultL[0]+SensorResultL[1])<ClearSignalTolerance){
 SensorResultL[0]=0;
 SensorResultL[1]=0;
@@ -4802,9 +4801,6 @@ SensorResultR[0]=0;
 SensorResultR[1]=0;
 ResultFalseR=1;
 }
-
-stop(mL,mR);
-
 
 if ((ResultFalseL+ResultFalseC+ResultFalseR)==3) {
 

@@ -49,10 +49,11 @@ void main(void){
     RCONbits.IPEN = 1; // Enable interrupt priority
     INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
     INTCONbits.INT0IE = 1; // INT0 External Interrupt Enables bit
-    INTCONbits.PEIE = 1;    // Enable peripheral  interrupts
+    INTCONbits.PEIE = 1;    // Enable Peripheral  interrupts
     
     IPR1bits.RCIP=1; //High Priority+
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
+    PIR1bits.RC1IF = 0;//Clear interrupt flag at start for serial reception
     
     // Initialise Motor Structures
     struct DC_motor mL, mR; //declare 2 motor structures
@@ -82,6 +83,7 @@ void main(void){
                initRFID();
                initIR(); 
                initLCD();
+               initIR();              
                
                // Bot goes forward, stops, then back and stop
                // TODO: do calibration routine here
@@ -154,9 +156,6 @@ void main(void){
                 }
 //                DirectionFound=1; // DEBUG ONLY
 //                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
-                
-                
-//                
                break;
                
             case 3 : //Return Mode
@@ -176,7 +175,7 @@ void main(void){
                     }
                 }
                break;
-                                      
+               
        }      
    }
 }
