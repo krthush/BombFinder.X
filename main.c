@@ -38,6 +38,9 @@ void main(void){
     unsigned char SignalStrength[3]; 
     char PathTaken[100]; //Buffer for retaining movement instructions
     unsigned int test=0;
+    char MoveTime[100]; //Array to store time spent on each type of movement
+    char MoveType[100]; //Array to store movement types - 0 is forwards, 1 is left/right
+    char Move=0; //Move counter
     // USERVARIABLE TOLERANCES
     unsigned char ScanAngle=6; // PLEASE NOTE: has to be even, units - tenth seconds
     
@@ -78,6 +81,8 @@ void main(void){
                //Initialise EVERYTHING
                initMotorPWM();  //setup PWM registers
                initRFID();
+               initIR(); 
+               initLCD();
                initIR();              
                
                // Bot goes forward, stops, then back and stop
@@ -91,15 +96,15 @@ void main(void){
               
                enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
                enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
-               mode = 1;  
+               mode = 1;  //TODO: Make mode change on button press
                
                break;
                
            case 1 : //Search Mode
                
                if (DirectionFound==0) {
-                   // Scans a range if it's unsure about direction
-                   DirectionFound = ScanWithRange(&mL, &mR, ScanAngle); // USERVARIABLE
+                   // Scans a wide range if it's unsure about direction
+                   DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, *MoveTime[Move]); // USERVARIABLE
                } else if (DirectionFound==1) {
                     // Keeps direction and just scans, robot thinks it's close
                     DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
@@ -116,6 +121,8 @@ void main(void){
                     stop(&mL,&mR);
                }
                
+               MoveType[Move] = 1;
+               Move++;
 //                if (DirectionFound==0) {
 //                    // Scans a wide range if it's unsure about direction
 //                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
@@ -132,36 +139,49 @@ void main(void){
                //Move forward until RFID read and verified or a certain time
                //has elapsed
 //                delay_s(3); // DEBUG ONLY
-                if (!RFID_Read) {
-                    fullSpeedAhead(&mL, &mR);
-                    delay_tenth_s(5);
-                } else {
+                if (RFID_Read) {
                     stop(&mL, &mR);
                     if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
                         if (VerifySignal(ReceivedString)){ //and if the checksum is correct
                             //Put the RFID data into the Message variable
-                            for (i=0; i<10; i++){
-                                Message[i] = ReceivedString[i+1]; 
-                            }
+                             for (i=0; i<10; i++){
+                                 Message[i] = ReceivedString[i+1]; 
+                             }
+//                             LCDString(Message); //Display code on LCD
                             //Clear the received string 
-                            for (i=0; i<16; i++) {
-                                ReceivedString[i]=0;
-                            }
+                             for (i=0; i<16; i++) {
+                                 ReceivedString[i]=0;
+                             }
+                             mode = 3; //Return to home!
 
-                        } else { //If the signal doesn't check out
-                            fullSpeedBack(&mL,&mR); //Go back a bit then stop
-                            delay_s(1);
-                            stop(&mL,&mR);
-                            fullSpeedAhead(&mL,&mR); //Try again
-                        }  
-                    }
+                         } else { //If the signal doesn't check out
+                            fullSpeedBack(mL,mR); //Go back a bit then stop
+                            delay_tenth_s(5);
+                            stop(mL,mR);
+                            fullSpeedAhead(mL,mR); //Try again
+                         }  
                 }
-                DirectionFound=1; // DEBUG ONLY
-                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR        
+                }
+//                DirectionFound=1; // DEBUG ONLY
+//                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
                break;
                
             case 3 : //Return Mode
-               //Return to original position
+                //Return to original position using MoveType and MoveTime
+                for (Move=Move; Move>0; Move--) { //Go backwards along the moves
+                    if (MoveType[Move]==0) { //If move was forwards
+                        fullSpeedBack(mL,mR);
+                        delay_tenth_s(MoveTime[Move]);
+                    } else if (MoveType[Move]==1) { //If move was left/right
+                        if (MoveTime[Move]>0) { //If left turn
+                            turnRight(mL,mR);
+                            delay_tenth_s(MoveTime[Move]);
+                        } else {
+                            turnLeft(mL,mR);
+                            delay_tenth_s(MoveTime[Move]);
+                        }
+                    }
+                }
                break;
                
        }      

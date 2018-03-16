@@ -22,7 +22,7 @@
 #define LCD_RS LATAbits.LATA6
 
 
-void LCD_Init(void);
+void initLCD(void);
 void E_TOG(void);
 void LCDout(unsigned char number);
 void SendLCD(unsigned char Byte, char type);

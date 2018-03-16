@@ -35,7 +35,7 @@ void SendLCD(unsigned char Byte, char type){
     LCDout(Byte&0x0F);
     __delay_us(50); // 10us delay
 }
-void LCD_Init(void){
+void initLCD(void){
  // set initial LAT output values (they start up in a random state)
     //LATA=0;
     //LATC=0;
