@@ -160,10 +160,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
         turnLeft(mL,mR);
         delay_tenth_s(5*tenth_seconds);
         stop(mL,mR);
-        fullSpeedAhead(mL, mR);
-        delay_tenth_s(tenth_seconds);
-        stop(mL,mR);
-        return 0;
+        return 3;
     } else {
         // Logic for robot thinks its found the direction the bomb
         if (((SensorResultL[0]>DirectionFoundLimit)&&(SensorResultL[1]>DirectionFoundLimit)

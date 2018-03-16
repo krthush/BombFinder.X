@@ -4807,10 +4807,7 @@ if ((ResultFalseL+ResultFalseC+ResultFalseR)==3) {
 turnLeft(mL,mR);
 delay_tenth_s(5*tenth_seconds);
 stop(mL,mR);
-fullSpeedAhead(mL, mR);
-delay_tenth_s(tenth_seconds);
-stop(mL,mR);
-return 0;
+return 3;
 } else {
 
 if (((SensorResultL[0]>DirectionFoundLimit)&&(SensorResultL[1]>DirectionFoundLimit)

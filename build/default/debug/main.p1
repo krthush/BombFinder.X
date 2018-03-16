@@ -3786,9 +3786,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 52: PIE1bits.RCIE=1;
 "52
 [e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 53: PIR1bits.RC1IF = 0;
+[; ;main.c: 53: PIR1bits.RCIF = 0;
 "53
-[e = . . _PIR1bits 2 1 -> -> 0 `i `uc ]
+[e = . . _PIR1bits 0 5 -> -> 0 `i `uc ]
 "56
 [v _mL `S405 ~T0 @X0 1 a ]
 [v _mR `S405 ~T0 @X0 1 a ]
@@ -3916,154 +3916,171 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 423 ]
 [e $ ! == -> _DirectionFound `i -> 2 `i 425  ]
 {
-[; ;main.c: 107: mode=2;
-"107
-[e = _mode -> -> 2 `i `uc ]
+[; ;main.c: 108: mode=2;
 "108
+[e = _mode -> -> 2 `i `uc ]
+"109
 }
+[; ;main.c: 109: } else if (DirectionFound==3) {
+[e $U 426  ]
 [e :U 425 ]
-"120
+[e $ ! == -> _DirectionFound `i -> 3 `i 427  ]
+{
+[; ;main.c: 114: fullSpeedAhead(&mL, &mR);
+"114
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+[; ;main.c: 115: delay_tenth_s(ScanAngle);
+"115
+[e ( _delay_tenth_s (1 _ScanAngle ]
+[; ;main.c: 116: stop(&mL,&mR);
+"116
+[e ( _stop (2 , &U _mL &U _mR ]
+"117
+}
+[e :U 427 ]
+"129
+[e :U 426 ]
 [e :U 424 ]
 [e :U 422 ]
-[; ;main.c: 108: }
-[; ;main.c: 120: break;
+[; ;main.c: 117: }
+[; ;main.c: 129: break;
 [e $U 417  ]
-[; ;main.c: 122: case 2 :
-"122
-[e :U 426 ]
-[; ;main.c: 126: if (!RFID_Read) {
-"126
-[e $ ! ! != -> _RFID_Read `i -> -> -> 0 `i `Vuc `i 427  ]
-{
-[; ;main.c: 127: fullSpeedAhead(&mL, &mR);
-"127
-[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-[; ;main.c: 128: delay_tenth_s(5);
-"128
-[e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
-"129
-}
-[; ;main.c: 129: } else {
-[e $U 428  ]
-[e :U 427 ]
-{
-[; ;main.c: 130: stop(&mL, &mR);
-"130
-[e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 131: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+[; ;main.c: 131: case 2 :
 "131
-[e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 429  ]
-{
-[; ;main.c: 132: if (VerifySignal(ReceivedString)){
-"132
-[e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 430  ]
-{
-[; ;main.c: 134: for (i=0; i<10; i++){
-"134
-{
-[e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 10 `i 431  ]
-[e $U 432  ]
-[e :U 431 ]
-{
-[; ;main.c: 135: Message[i] = ReceivedString[i+1];
+[e :U 428 ]
+[; ;main.c: 135: if (!RFID_Read) {
 "135
-[e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
+[e $ ! ! != -> _RFID_Read `i -> -> -> 0 `i `Vuc `i 429  ]
+{
+[; ;main.c: 136: fullSpeedAhead(&mL, &mR);
 "136
-}
-"134
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 10 `i 431  ]
-[e :U 432 ]
-"136
-}
-[; ;main.c: 136: }
-[; ;main.c: 138: for (i=0; i<16; i++) {
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+[; ;main.c: 137: delay_tenth_s(5);
+"137
+[e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
 "138
+}
+[; ;main.c: 138: } else {
+[e $U 430  ]
+[e :U 429 ]
+{
+[; ;main.c: 139: stop(&mL, &mR);
+"139
+[e ( _stop (2 , &U _mL &U _mR ]
+[; ;main.c: 140: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+"140
+[e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 431  ]
+{
+[; ;main.c: 141: if (VerifySignal(ReceivedString)){
+"141
+[e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 432  ]
+{
+[; ;main.c: 143: for (i=0; i<10; i++){
+"143
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 16 `i 434  ]
-[e $U 435  ]
-[e :U 434 ]
+[e $ < -> _i `i -> 10 `i 433  ]
+[e $U 434  ]
+[e :U 433 ]
 {
-[; ;main.c: 139: ReceivedString[i]=0;
-"139
-[e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"140
-}
-"138
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 16 `i 434  ]
-[e :U 435 ]
-"140
-}
-"142
-}
-[; ;main.c: 140: }
-[; ;main.c: 142: } else {
-[e $U 437  ]
-[e :U 430 ]
-{
-[; ;main.c: 143: fullSpeedBack(&mL,&mR);
-"143
-[e ( _fullSpeedBack (2 , &U _mL &U _mR ]
-[; ;main.c: 144: delay_s(1);
+[; ;main.c: 144: Message[i] = ReceivedString[i+1];
 "144
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 145: stop(&mL,&mR);
+[e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
 "145
-[e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 146: fullSpeedAhead(&mL,&mR);
-"146
-[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+}
+"143
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 10 `i 433  ]
+[e :U 434 ]
+"145
+}
+[; ;main.c: 145: }
+[; ;main.c: 147: for (i=0; i<16; i++) {
 "147
-}
-[e :U 437 ]
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 16 `i 436  ]
+[e $U 437  ]
+[e :U 436 ]
+{
+[; ;main.c: 148: ReceivedString[i]=0;
 "148
-}
-[e :U 429 ]
+[e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
 "149
 }
-[e :U 428 ]
-[; ;main.c: 147: }
-[; ;main.c: 148: }
-[; ;main.c: 149: }
-[; ;main.c: 150: DirectionFound=1;
-"150
-[e = _DirectionFound -> -> 1 `i `uc ]
-[; ;main.c: 151: mode = 1;
-"151
-[e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 155: break;
-"155
-[e $U 417  ]
-[; ;main.c: 157: case 3 :
-"157
-[e :U 438 ]
-[; ;main.c: 159: break;
-"159
-[e $U 417  ]
-"161
+"147
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 16 `i 436  ]
+[e :U 437 ]
+"149
 }
-[; ;main.c: 161: }
+"151
+}
+[; ;main.c: 149: }
+[; ;main.c: 151: } else {
+[e $U 439  ]
+[e :U 432 ]
+{
+[; ;main.c: 152: fullSpeedBack(&mL,&mR);
+"152
+[e ( _fullSpeedBack (2 , &U _mL &U _mR ]
+[; ;main.c: 153: delay_s(1);
+"153
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;main.c: 154: stop(&mL,&mR);
+"154
+[e ( _stop (2 , &U _mL &U _mR ]
+[; ;main.c: 155: fullSpeedAhead(&mL,&mR);
+"155
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+"156
+}
+[e :U 439 ]
+"157
+}
+[e :U 431 ]
+"158
+}
+[e :U 430 ]
+[; ;main.c: 156: }
+[; ;main.c: 157: }
+[; ;main.c: 158: }
+[; ;main.c: 159: DirectionFound=1;
+"159
+[e = _DirectionFound -> -> 1 `i `uc ]
+[; ;main.c: 160: mode = 1;
+"160
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 161: break;
+"161
+[e $U 417  ]
+[; ;main.c: 163: case 3 :
+"163
+[e :U 440 ]
+[; ;main.c: 165: break;
+"165
+[e $U 417  ]
+"167
+}
+[; ;main.c: 167: }
 [e $U 417  ]
 "76
 [e :U 418 ]
 [e [\ _mode , $ -> -> 0 `i `uc 419
  , $ -> -> 1 `i `uc 420
- , $ -> -> 2 `i `uc 426
- , $ -> -> 3 `i `uc 438
+ , $ -> -> 2 `i `uc 428
+ , $ -> -> 3 `i `uc 440
  417 ]
-"161
+"167
 [e :U 417 ]
-"162
+"168
 }
 [e :U 414 ]
 "74
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 162: }
-[; ;main.c: 163: }
-"163
+[; ;main.c: 168: }
+[; ;main.c: 169: }
+"169
 [e :UE 410 ]
 }

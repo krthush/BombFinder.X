@@ -50,7 +50,7 @@ void main(void){
     
     IPR1bits.RCIP=1; //High Priority+
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
-    PIR1bits.RC1IF = 0;//Clear interrupt flag at start for serial reception
+    PIR1bits.RCIF = 0;//Clear interrupt flag at start for serial reception
     
     // Initialise Motor Structures
     struct DC_motor mL, mR; //declare 2 motor structures
@@ -98,13 +98,22 @@ void main(void){
            case 1 : //Search Mode
                
                if (DirectionFound==0) {
-                   // Scans a wide range if it's unsure about direction
+                   // Scans a range if it's unsure about direction
                    DirectionFound = ScanWithRange(&mL, &mR, ScanAngle); // USERVARIABLE
                } else if (DirectionFound==1) {
-                    // Scans a smaller range when it thinks it's close
+                    // Keeps direction and just scans, robot thinks it's close
                     DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
                } else if (DirectionFound==2) {
+                   // Robot thinks its on track, switch to move mode
                    mode=2;
+               } else if (DirectionFound==3) {
+                   // Robot is completely lost, move a bit a hope to find it.
+                   // PLEASE NOTE: this movement in combination with the
+                   // rotation in ScanWithRange causes the robot to spiral 
+                   // outwards such that it will ALWAYS get close enough to signal
+                    fullSpeedAhead(&mL, &mR);
+                    delay_tenth_s(ScanAngle);
+                    stop(&mL,&mR);
                }
                
 //                if (DirectionFound==0) {

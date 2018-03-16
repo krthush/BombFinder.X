@@ -4726,7 +4726,7 @@ INTCONbits.PEIE = 1;
 
 IPR1bits.RCIP=1;
 PIE1bits.RCIE=1;
-PIR1bits.RC1IF = 0;
+PIR1bits.RCIF = 0;
 
 
 struct DC_motor mL, mR;
@@ -4780,10 +4780,19 @@ DirectionFound = ScanWithRange(&mL, &mR, ScanAngle);
 
 DirectionFound = ScanIR(&mL, &mR);
 } else if (DirectionFound==2) {
+
 mode=2;
+} else if (DirectionFound==3) {
+
+
+
+
+fullSpeedAhead(&mL, &mR);
+delay_tenth_s(ScanAngle);
+stop(&mL,&mR);
 }
 
-# 120
+# 129
 break;
 
 case 2 :
@@ -4816,9 +4825,6 @@ fullSpeedAhead(&mL,&mR);
 }
 DirectionFound=1;
 mode = 1;
-
-
-
 break;
 
 case 3 :
