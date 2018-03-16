@@ -3670,7 +3670,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "14 LCD.h
 [p x OSC=IRCIO ]
 [p x WDTEN=OFF ]
-[; ;LCD.h: 25: void LCD_Init(void);
+[; ;LCD.h: 25: void initLCD(void);
 [; ;LCD.h: 26: void E_TOG(void);
 [; ;LCD.h: 27: void LCDout(unsigned char number);
 [; ;LCD.h: 28: void SendLCD(unsigned char Byte, char type);
@@ -3752,10 +3752,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 408 ]
 }
 "38
-[v _LCD_Init `(v ~T0 @X0 1 ef ]
+[v _initLCD `(v ~T0 @X0 1 ef ]
 {
-[; ;LCD.c: 38: void LCD_Init(void){
-[e :U _LCD_Init ]
+[; ;LCD.c: 38: void initLCD(void){
+[e :U _initLCD ]
 [f ]
 [; ;LCD.c: 44: TRISAbits.RA6=0;
 "44

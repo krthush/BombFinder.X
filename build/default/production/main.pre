@@ -4670,7 +4670,7 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 
 
 
-char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds);
+char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTime);
 char BombDirectionFound(unsigned int *SensorResult);
 
 # 15 "IR_Reading.h"
@@ -4714,19 +4714,22 @@ char DirectionFound=0;
 unsigned char SignalStrength[3];
 char PathTaken[100];
 unsigned int test=0;
+char MoveTime[100];
+char MoveType[100];
+char Move=0;
 
 unsigned char ScanAngle=6;
 
 
 INTCONbits.GIEH = 1;
-RCONbits.IPEN = 1;
 INTCONbits.GIEL = 1;
-INTCONbits.INT0IE = 1;
 INTCONbits.PEIE = 1;
+RCONbits.IPEN = 1;
+
 
 IPR1bits.RCIP=1;
 PIE1bits.RCIE=1;
-PIR1bits.RC1IF = 0;
+PIR1bits.RCIF=0;
 
 
 struct DC_motor mL, mR;
@@ -4755,6 +4758,8 @@ case 0 :
 initMotorPWM();
 initRFID();
 initIR();
+initLCD();
+initIR();
 
 
 
@@ -4775,25 +4780,35 @@ case 1 :
 
 if (DirectionFound==0) {
 
-DirectionFound = ScanWithRange(&mL, &mR, ScanAngle);
+DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
 } else if (DirectionFound==1) {
 
 DirectionFound = ScanIR(&mL, &mR);
 } else if (DirectionFound==2) {
+
 mode=2;
+} else if (DirectionFound==3) {
+
+
+
+
+fullSpeedAhead(&mL, &mR);
+delay_tenth_s(ScanAngle);
+stop(&mL,&mR);
+DirectionFound=0;
 }
 
-# 120
+MoveType[Move] = 1;
+Move++;
+
+# 137
 break;
 
 case 2 :
 
 
 
-if (!RFID_Read) {
-fullSpeedAhead(&mL, &mR);
-delay_tenth_s(5);
-} else {
+if (RFID_Read) {
 stop(&mL, &mR);
 if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
 if (VerifySignal(ReceivedString)){
@@ -4802,29 +4817,46 @@ for (i=0; i<10; i++){
 Message[i] = ReceivedString[i+1];
 }
 
+
 for (i=0; i<16; i++) {
 ReceivedString[i]=0;
 }
+mode = 3;
 
 } else {
 fullSpeedBack(&mL,&mR);
-delay_s(1);
+delay_tenth_s(5);
 stop(&mL,&mR);
 fullSpeedAhead(&mL,&mR);
 }
 }
+} else {
+fullSpeedAhead(&mL,&mR);
+delay_tenth_s(5);
+DirectionFound==1;
+mode=1;
 }
-DirectionFound=1;
-mode = 1;
-
 
 
 break;
 
 case 3 :
 
+for (Move=Move; Move>0; Move--) {
+if (MoveType[Move]==0) {
+fullSpeedBack(&mL,&mR);
+delay_tenth_s(MoveTime[Move]);
+} else if (MoveType[Move]==1) {
+if (MoveTime[Move]>0) {
+turnRight(&mL,&mR);
+delay_tenth_s(MoveTime[Move]);
+} else {
+turnLeft(&mL,&mR);
+delay_tenth_s(MoveTime[Move]);
+}
+}
+}
 break;
-
 }
 }
 }

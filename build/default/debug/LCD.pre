@@ -4730,7 +4730,7 @@ extern int printf(const char *, ...);
 #pragma config OSC = IRCIO, WDTEN=OFF
 
 # 25
-void LCD_Init(void);
+void initLCD(void);
 void E_TOG(void);
 void LCDout(unsigned char number);
 void SendLCD(unsigned char Byte, char type);
@@ -4771,7 +4771,7 @@ _delay((unsigned long)((10)*(8000000/4000000.0)));
 LCDout(Byte&0x0F);
 _delay((unsigned long)((50)*(8000000/4000000.0)));
 }
-void LCD_Init(void){
+void initLCD(void){
 
 # 44
 TRISAbits.RA6=0;

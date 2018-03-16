@@ -46,14 +46,14 @@ void main(void){
     
     // Enable interrupts
     INTCONbits.GIEH = 1; // Global Interrupt Enable bit
-    RCONbits.IPEN = 1; // Enable interrupt priority
     INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
-    INTCONbits.INT0IE = 1; // INT0 External Interrupt Enables bit
     INTCONbits.PEIE = 1;    // Enable Peripheral  interrupts
+    RCONbits.IPEN = 1; // Enable interrupt priority
     
+    // Interrupts for EUSART
     IPR1bits.RCIP=1; //High Priority+
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
-    PIR1bits.RCIF = 0;//Clear interrupt flag at start for serial reception
+    PIR1bits.RCIF=0;//Clear interrupt flag at start for serial reception
     
     // Initialise Motor Structures
     struct DC_motor mL, mR; //declare 2 motor structures
@@ -104,7 +104,7 @@ void main(void){
                
                if (DirectionFound==0) {
                    // Scans a wide range if it's unsure about direction
-                   DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, *MoveTime[Move]); // USERVARIABLE
+                   DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
                } else if (DirectionFound==1) {
                     // Keeps direction and just scans, robot thinks it's close
                     DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
@@ -119,6 +119,7 @@ void main(void){
                     fullSpeedAhead(&mL, &mR);
                     delay_tenth_s(ScanAngle);
                     stop(&mL,&mR);
+                    DirectionFound=0;
                }
                
                MoveType[Move] = 1;
@@ -144,23 +145,28 @@ void main(void){
                     if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
                         if (VerifySignal(ReceivedString)){ //and if the checksum is correct
                             //Put the RFID data into the Message variable
-                             for (i=0; i<10; i++){
-                                 Message[i] = ReceivedString[i+1]; 
-                             }
+                            for (i=0; i<10; i++){
+                                Message[i] = ReceivedString[i+1]; 
+                            }
 //                             LCDString(Message); //Display code on LCD
                             //Clear the received string 
-                             for (i=0; i<16; i++) {
-                                 ReceivedString[i]=0;
-                             }
-                             mode = 3; //Return to home!
+                            for (i=0; i<16; i++) {
+                                ReceivedString[i]=0;
+                            }
+                            mode = 3; //Return to home!
 
-                         } else { //If the signal doesn't check out
-                            fullSpeedBack(mL,mR); //Go back a bit then stop
+                        } else { //If the signal doesn't check out
+                            fullSpeedBack(&mL,&mR); //Go back a bit then stop
                             delay_tenth_s(5);
-                            stop(mL,mR);
-                            fullSpeedAhead(mL,mR); //Try again
-                         }  
-                }
+                            stop(&mL,&mR);
+                            fullSpeedAhead(&mL,&mR); //Try again
+                        }  
+                    }
+                } else {
+                    fullSpeedAhead(&mL,&mR);
+                    delay_tenth_s(5);
+                    DirectionFound==1;
+                    mode=1;
                 }
 //                DirectionFound=1; // DEBUG ONLY
 //                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
@@ -170,20 +176,19 @@ void main(void){
                 //Return to original position using MoveType and MoveTime
                 for (Move=Move; Move>0; Move--) { //Go backwards along the moves
                     if (MoveType[Move]==0) { //If move was forwards
-                        fullSpeedBack(mL,mR);
+                        fullSpeedBack(&mL,&mR);
                         delay_tenth_s(MoveTime[Move]);
                     } else if (MoveType[Move]==1) { //If move was left/right
                         if (MoveTime[Move]>0) { //If left turn
-                            turnRight(mL,mR);
+                            turnRight(&mL,&mR);
                             delay_tenth_s(MoveTime[Move]);
                         } else {
-                            turnLeft(mL,mR);
+                            turnLeft(&mL,&mR);
                             delay_tenth_s(MoveTime[Move]);
                         }
                     }
                 }
                break;
-               
        }      
    }
 }
