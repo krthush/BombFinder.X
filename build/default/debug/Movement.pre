@@ -4696,18 +4696,22 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
 unsigned int SensorResult[2];
 
 const unsigned int ClearSignalTolerance=1000;
+const unsigned int DirectionFoundLimit=2000;
+const unsigned int DirectionFoundTolerance=500;
 
 
 
 SensorResult[0]=grabLeftIR();
 SensorResult[1]=grabRightIR();
-
+stop(mL,mR);
 
 
 if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) {
 
 
-if (BombDirectionFound(*SensorResult)) {
+if (((SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
+&&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
+||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)))) {
 return 2;
 
 } else if (SensorResult[0]<=SensorResult[1]) {
@@ -4742,9 +4746,10 @@ stop(mL,mR);
 return 0;
 }
 }
+return 0;
 }
 
-# 89
+# 94
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds) {
 
 
@@ -4757,8 +4762,10 @@ unsigned char ResultFalseR=0;
 
 
 const unsigned int ClearSignalTolerance=1000;
+const unsigned int DirectionFoundLimit=2000;
+const unsigned int DirectionFoundTolerance=500;
 
-# 108
+# 114
 stop(mL,mR);
 SensorResultC[0]=grabLeftIR();
 SensorResultC[1]=grabRightIR();
@@ -4778,9 +4785,8 @@ delay_tenth_s(2*tenth_seconds);
 stop(mL,mR);
 SensorResultR[0]=grabLeftIR();
 SensorResultR[1]=grabRightIR();
-stop(mL,mR);
 
-# 138
+# 143
 if((SensorResultL[0]+SensorResultL[1])<ClearSignalTolerance){
 SensorResultL[0]=0;
 SensorResultL[1]=0;
@@ -4797,6 +4803,9 @@ SensorResultR[1]=0;
 ResultFalseR=1;
 }
 
+stop(mL,mR);
+
+
 if ((ResultFalseL+ResultFalseC+ResultFalseR)==3) {
 
 turnLeft(mL,mR);
@@ -4805,19 +4814,25 @@ stop(mL,mR);
 return 0;
 } else {
 
-if (BombDirectionFound(*SensorResultL)) {
+if (((SensorResultL[0]>DirectionFoundLimit)&&(SensorResultL[1]>DirectionFoundLimit)
+&&(((SensorResultL[0]-SensorResultL[1])<DirectionFoundTolerance)
+||((SensorResultL[1]-SensorResultL[0])<DirectionFoundTolerance)))) {
 
 turnLeft(mL,mR);
 delay_tenth_s(2*(tenth_seconds));
 stop(mL,mR);
 return 2;
-} else if (BombDirectionFound(*SensorResultC)) {
+} else if (((SensorResultC[0]>DirectionFoundLimit)&&(SensorResultC[1]>DirectionFoundLimit)
+&&(((SensorResultC[0]-SensorResultC[1])<DirectionFoundTolerance)
+||((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)))) {
 
 turnLeft(mL,mR);
 delay_tenth_s(tenth_seconds);
 stop(mL,mR);
 return 2;
-} else if (BombDirectionFound(*SensorResultR)) {
+} else if (((SensorResultR[0]>DirectionFoundLimit)&&(SensorResultR[1]>DirectionFoundLimit)
+&&(((SensorResultR[0]-SensorResultR[1])<DirectionFoundTolerance)
+||((SensorResultR[1]-SensorResultR[0])<DirectionFoundTolerance)))) {
 
 stop(mL,mR);
 return 2;
@@ -4851,15 +4866,16 @@ stop(mL,mR);
 return 1;
 }
 }
+return 0;
 }
 
 char BombDirectionFound(unsigned int *SensorResult){
 
-const unsigned int DirectionFoundLimit=2500;
-const unsigned int DirectionFoundTolerance=100;
+const unsigned int DirectionFoundLimit=2000;
+const unsigned int DirectionFoundTolerance=500;
 
-return (SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
+return ((SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
 &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
-||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance));
+||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)));
 }
 

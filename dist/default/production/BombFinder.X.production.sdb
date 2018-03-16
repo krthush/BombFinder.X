@@ -65,10 +65,8 @@
 [v _delay_tenth_s delay_tenth_s `(v  1 e 0 0 ]
 "32
 [v _ScanIR ScanIR `(uc  1 e 1 0 ]
-"89
+"94
 [v _ScanWithRange ScanWithRange `(uc  1 e 1 0 ]
-"210
-[v _BombDirectionFound BombDirectionFound `(uc  1 e 1 0 ]
 "21 H:\MPLABXProjects\ECM\BombFinder.X\RFID_Reader.c
 [v _sendCharToSerial sendCharToSerial `(v  1 e 0 0 ]
 "170 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
@@ -210,36 +208,36 @@
 ]
 [u S772 . 1 `S740 1 . 1 0 `S749 1 . 1 0 `S751 1 . 1 0 `S754 1 . 1 0 `S757 1 . 1 0 `S760 1 . 1 0 `S763 1 . 1 0 `S766 1 . 1 0 `S769 1 . 1 0 ]
 [v _LATDbits LATDbits `VES772  1 e 1 @3980 ]
-[s S1497 . 1 `uc 1 LATE0 1 0 :1:0 
+[s S1496 . 1 `uc 1 LATE0 1 0 :1:0 
 `uc 1 LATE1 1 0 :1:1 
 `uc 1 LATE2 1 0 :1:2 
 ]
 "2411
-[s S1501 . 1 `uc 1 LE0 1 0 :1:0 
+[s S1500 . 1 `uc 1 LE0 1 0 :1:0 
 ]
-[s S1503 . 1 `uc 1 . 1 0 :1:0 
+[s S1502 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 LE1 1 0 :1:1 
 ]
-[s S1506 . 1 `uc 1 . 1 0 :2:0 
+[s S1505 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 LE2 1 0 :1:2 
 ]
-[s S1509 . 1 `uc 1 . 1 0 :3:0 
+[s S1508 . 1 `uc 1 . 1 0 :3:0 
 `uc 1 LE3 1 0 :1:3 
 ]
-[s S1512 . 1 `uc 1 . 1 0 :4:0 
+[s S1511 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 LE4 1 0 :1:4 
 ]
-[s S1515 . 1 `uc 1 . 1 0 :5:0 
+[s S1514 . 1 `uc 1 . 1 0 :5:0 
 `uc 1 LE5 1 0 :1:5 
 ]
-[s S1518 . 1 `uc 1 . 1 0 :6:0 
+[s S1517 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 LE6 1 0 :1:6 
 ]
-[s S1521 . 1 `uc 1 . 1 0 :7:0 
+[s S1520 . 1 `uc 1 . 1 0 :7:0 
 `uc 1 LE7 1 0 :1:7 
 ]
-[u S1524 . 1 `S1497 1 . 1 0 `S1501 1 . 1 0 `S1503 1 . 1 0 `S1506 1 . 1 0 `S1509 1 . 1 0 `S1512 1 . 1 0 `S1515 1 . 1 0 `S1518 1 . 1 0 `S1521 1 . 1 0 ]
-[v _LATEbits LATEbits `VES1524  1 e 1 @3981 ]
+[u S1523 . 1 `S1496 1 . 1 0 `S1500 1 . 1 0 `S1502 1 . 1 0 `S1505 1 . 1 0 `S1508 1 . 1 0 `S1511 1 . 1 0 `S1514 1 . 1 0 `S1517 1 . 1 0 `S1520 1 . 1 0 ]
+[v _LATEbits LATEbits `VES1523  1 e 1 @3981 ]
 [s S890 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
@@ -326,17 +324,17 @@
 ]
 [u S988 . 1 `S970 1 . 1 0 `S979 1 . 1 0 ]
 [v _TRISDbits TRISDbits `VES988  1 e 1 @3989 ]
-[s S1470 . 1 `uc 1 TRISE0 1 0 :1:0 
+[s S1469 . 1 `uc 1 TRISE0 1 0 :1:0 
 `uc 1 TRISE1 1 0 :1:1 
 `uc 1 TRISE2 1 0 :1:2 
 ]
 "3394
-[s S1474 . 1 `uc 1 RE0 1 0 :1:0 
+[s S1473 . 1 `uc 1 RE0 1 0 :1:0 
 `uc 1 RE1 1 0 :1:1 
 `uc 1 RE2 1 0 :1:2 
 ]
-[u S1478 . 1 `S1470 1 . 1 0 `S1474 1 . 1 0 ]
-[v _TRISEbits TRISEbits `VES1478  1 e 1 @3990 ]
+[u S1477 . 1 `S1469 1 . 1 0 `S1473 1 . 1 0 ]
+[v _TRISEbits TRISEbits `VES1477  1 e 1 @3990 ]
 [s S265 . 1 `uc 1 TMR1IE 1 0 :1:0 
 `uc 1 TMR2IE 1 0 :1:1 
 `uc 1 CCP1IE 1 0 :1:2 
@@ -496,7 +494,7 @@
 [v _SPBRGH SPBRGH `VEuc  1 e 1 @4016 ]
 "5297
 [v _T5CON T5CON `VEuc  1 e 1 @4023 ]
-[s S1447 . 1 `uc 1 ANS0 1 0 :1:0 
+[s S1446 . 1 `uc 1 ANS0 1 0 :1:0 
 `uc 1 ANS1 1 0 :1:1 
 `uc 1 ANS2 1 0 :1:2 
 `uc 1 ANS3 1 0 :1:3 
@@ -506,8 +504,8 @@
 `uc 1 ANS7 1 0 :1:7 
 ]
 "5433
-[u S1456 . 1 `S1447 1 . 1 0 ]
-[v _ANSEL0bits ANSEL0bits `VES1456  1 e 1 @4024 ]
+[u S1455 . 1 `S1446 1 . 1 0 ]
+[v _ANSEL0bits ANSEL0bits `VES1455  1 e 1 @4024 ]
 [s S149 . 1 `uc 1 NOT_BOR 1 0 :1:0 
 ]
 "6780
@@ -617,18 +615,18 @@
 {
 [s S305 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
 "53
-[v main@mR mR `S305  1 a 9 32 ]
-[v main@mL mL `S305  1 a 9 23 ]
+[v main@mR mR `S305  1 a 9 36 ]
+[v main@mL mL `S305  1 a 9 27 ]
 "38
-[v main@test test `ui  1 a 2 17 ]
+[v main@test test `ui  1 a 2 21 ]
 "35
-[v main@DirectionFound DirectionFound `uc  1 a 1 22 ]
+[v main@DirectionFound DirectionFound `uc  1 a 1 26 ]
 "34
-[v main@mode mode `uc  1 a 1 21 ]
+[v main@mode mode `uc  1 a 1 25 ]
 "40
-[v main@ScanAngle ScanAngle `uc  1 a 1 20 ]
+[v main@ScanAngle ScanAngle `uc  1 a 1 24 ]
 "32
-[v main@i i `uc  1 a 1 19 ]
+[v main@i i `uc  1 a 1 23 ]
 "156
 } 0
 "4 H:\MPLABXProjects\ECM\BombFinder.X\dc_motor.c
@@ -670,42 +668,50 @@
 [v delay_s@seconds seconds `uc  1 a 1 15 ]
 "16
 } 0
-"89
+"94
 [v _ScanWithRange ScanWithRange `(uc  1 e 1 0 ]
 {
-"94
-[v ScanWithRange@SensorResultR SensorResultR `[2]ui  1 a 4 13 ]
-"93
-[v ScanWithRange@SensorResultC SensorResultC `[2]ui  1 a 4 9 ]
-"92
-[v ScanWithRange@SensorResultL SensorResultL `[2]ui  1 a 4 5 ]
-"100
-[v ScanWithRange@ClearSignalTolerance ClearSignalTolerance `Cui  1 a 2 3 ]
+"99
+[v ScanWithRange@SensorResultR SensorResultR `[2]ui  1 a 4 17 ]
+"98
+[v ScanWithRange@SensorResultC SensorResultC `[2]ui  1 a 4 13 ]
 "97
+[v ScanWithRange@SensorResultL SensorResultL `[2]ui  1 a 4 9 ]
+"107
+[v ScanWithRange@DirectionFoundTolerance DirectionFoundTolerance `Cui  1 a 2 7 ]
+"106
+[v ScanWithRange@DirectionFoundLimit DirectionFoundLimit `Cui  1 a 2 5 ]
+"105
+[v ScanWithRange@ClearSignalTolerance ClearSignalTolerance `Cui  1 a 2 3 ]
+"102
 [v ScanWithRange@ResultFalseR ResultFalseR `uc  1 a 1 2 ]
-"96
+"101
 [v ScanWithRange@ResultFalseC ResultFalseC `uc  1 a 1 1 ]
-"95
+"100
 [v ScanWithRange@ResultFalseL ResultFalseL `uc  1 a 1 0 ]
 [s S305 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
-"89
+"94
 [v ScanWithRange@mL mL `*.39S305  1 p 2 46 ]
 [v ScanWithRange@mR mR `*.39S305  1 p 2 48 ]
 [v ScanWithRange@tenth_seconds tenth_seconds `uc  1 p 1 50 ]
-"208
+"226
 } 0
 "32
 [v _ScanIR ScanIR `(uc  1 e 1 0 ]
 {
 "34
-[v ScanIR@SensorResult SensorResult `[2]ui  1 a 4 54 ]
+[v ScanIR@SensorResult SensorResult `[2]ui  1 a 4 58 ]
+"38
+[v ScanIR@DirectionFoundTolerance DirectionFoundTolerance `Cui  1 a 2 56 ]
+"37
+[v ScanIR@DirectionFoundLimit DirectionFoundLimit `Cui  1 a 2 54 ]
 "36
 [v ScanIR@ClearSignalTolerance ClearSignalTolerance `Cui  1 a 2 52 ]
 [s S305 DC_motor 9 `uc 1 power 1 0 `uc 1 direction 1 1 `*.39uc 1 dutyLowByte 2 2 `*.39uc 1 dutyHighByte 2 4 `uc 1 dir_pin 1 6 `i 1 PWMperiod 2 7 ]
 "32
 [v ScanIR@mL mL `*.39S305  1 p 2 46 ]
 [v ScanIR@mR mR `*.39S305  1 p 2 48 ]
-"83
+"88
 } 0
 "98 H:\MPLABXProjects\ECM\BombFinder.X\dc_motor.c
 [v _turnRight turnRight `(v  1 e 0 0 ]
@@ -800,17 +806,6 @@
 [v delay_tenth_s@tenth_seconds tenth_seconds `uc  1 a 1 wreg ]
 [v delay_tenth_s@tenth_seconds tenth_seconds `uc  1 a 1 15 ]
 "25
-} 0
-"210
-[v _BombDirectionFound BombDirectionFound `(uc  1 e 1 0 ]
-{
-"213
-[v BombDirectionFound@DirectionFoundTolerance DirectionFoundTolerance `Cui  1 a 2 23 ]
-"212
-[v BombDirectionFound@DirectionFoundLimit DirectionFoundLimit `Cui  1 a 2 21 ]
-"210
-[v BombDirectionFound@SensorResult SensorResult `*.39ui  1 p 2 14 ]
-"218
 } 0
 "16 H:\MPLABXProjects\ECM\BombFinder.X\main.c
 [v _InterruptHandlerHigh InterruptHandlerHigh `II(v  1 e 0 0 ]
