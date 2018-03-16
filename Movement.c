@@ -28,7 +28,7 @@ void delay_tenth_s(char tenth_seconds) {
 // right IR readers to figure out the direction of the IR beacon.
 // Function can be toggled to be:
 // - continuous, the drone moves while scanning until there is a change
-// - stop n scan, the drone stops everytime it scans
+// - stop n scan, the drone stops every time it scans
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     // Initialise variable that is used to judge the strength of signals
     unsigned int SensorResult[2];
@@ -47,9 +47,7 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) { // USERVARIABLE
         // If both signals are greater than 2500 AND the difference between them
         // is less than the specified DirectionFoundTolerance
-        if ((SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
-            &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
-                ||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance))) { // USERVARIABLE
+        if (BombDirectionFound(*SensorResult)) { // USERVARIABLE
            return 2; // Direction of bomb is directly ahead
            
         // Left signal is greater -> turn left
@@ -102,8 +100,6 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     unsigned char ResultFalseR=0;
     
     // USERVARIABLE TOLERANCES
-    const unsigned int DirectionFoundLimit=2500;
-    const unsigned int DirectionFoundTolerance=100;
     const unsigned int ClearSignalTolerance=1000;
     
     
@@ -212,6 +208,15 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     }
 }
 
+char BombDirectionFound(unsigned int *SensorResult){
+    // USERVARIABLE TOLERANCES
+    const unsigned int DirectionFoundLimit=2500;
+    const unsigned int DirectionFoundTolerance=100;
+    
+    return (SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
+            &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
+                ||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance));
+}
 //ALGORITHM PSEUDOCODE
 //ScanCentre();
 //ScanLeft();
