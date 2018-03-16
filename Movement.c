@@ -24,57 +24,67 @@ void delay_tenth_s(char tenth_seconds) {
     }
 }
 
+// Simple search routine that compares the signal strength of the left IR and
+// right IR readers to figure out the direction of the IR beacon.
+// Function can be toggled to be:
+// - continuous, the drone moves while scanning until there is a change
+// - stop n scan, the drone stops everytime it scans
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     // Initialise variable that is used to judge the strength of signals
     unsigned int SensorResult[2];
     // USERVARIABLE TOLERANCES
-    unsigned int DirectionFoundTolerance=100;
+    const unsigned int DirectionFoundTolerance=100;
+    const unsigned int ClearSignalTolerance=1000;
     
     // Scan Data
-    stop(mL,mR);
-    delay_s(2);
+//    stop(mL,mR); // TOGGLE: continuous OR stop n scan
     SensorResult[0]=grabLeftIR();
     SensorResult[1]=grabRightIR();
-    stop(mL,mR);
+    stop(mL,mR); // DEBUG ONLY
     
-    if (((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)
-            ||((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)) { // USERVARIABLE
-         // Direction of bomb is directly ahead
-        return 2;
-    // Left signal is greater -> turn left
-    } else if (SensorResult[0]<SensorResult[1]) {
-        // Turn left
-        turnLeft(mL,mR);
-        delay_tenth_s(4);
+    // If there is significant signal
+    if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) { // USERVARIABLE
+        // If both signals are greater than 2500 AND the difference between them
+        // is less than the specified DirectionFoundTolerance
+        if ((SensorResult[0]>2500)&&(SensorResult[1]>2500) // USERVARIABLE
+            &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
+                ||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance))) { // USERVARIABLE
+           return 2; // Direction of bomb is directly ahead
+           
+        // Left signal is greater -> turn left
+        } else if (SensorResult[0]<=SensorResult[1]) {
+           stop(mL,mR); // TOGGLE: continuous OR stop n scan        
+           turnLeft(mL,mR); // Turn left
+           delay_tenth_s(3);
+           stop(mL,mR);
+           return 1;
+        // Right signal is greater -> turn right
+        } else if (SensorResult[0]>SensorResult[1]) {
+           stop(mL,mR); // TOGGLE: continuous OR stop n scan
+           turnRight(mL,mR); // Turn Right
+           delay_tenth_s(3);
+           stop(mL,mR);
+           return 1;
+        }
+    } else {
+        // No clear signal is found, stop!
         stop(mL,mR);
-        return 0;
-    // Right signal is greater -> turn right
-    } else if (SensorResult[0]>SensorResult[1]) {
-        // Turn left
-        turnRight(mL,mR);
-        delay_tenth_s(4);
-        stop(mL,mR);
-        return 0;
+        // Turn a LARGE distant towards greater signal constant direction
+        // Left signal is greater -> turn left
+        if (SensorResult[0]<=SensorResult[1]) {       
+           turnLeft(mL,mR); // Turn left
+           delay_tenth_s(5);
+           stop(mL,mR);
+           return 0;
+        // Right signal is greater -> turn right
+        } else if (SensorResult[0]>SensorResult[1]) {
+           turnRight(mL,mR); // Turn Right
+           delay_tenth_s(5);
+           stop(mL,mR);
+           return 0;
+        }
     }
-     return 0;
 }
-
-//void main(void){
-//    unsigned char IR_Result[3];
-//
-//    ScanIR(&motorL, &motorR, IR_Result); //THis is how to call function
-//
-//    //If value after left turn is biggest
-//    if ((IR_Result[0]>IR_Result[1]) & (IR_Result[0]>IR_Result[2])) { //Maybe add some stuff so it's not too sensitive and doesn't end up going back and forth?
-//        //Do something involving turning left and trying again
-//    //Else if the centre value is greatest
-//    } else if ((IR_Result[1]>IR_Result[0]) & (IR_Result[1]>IR_Result[2])) {
-//        //Go forward for a bit then try again
-//    //Else the right one is biggest
-//    } else {
-//        //Go right then try again
-//    }
-//}
 
 // Scans IR strength for 3 points (left, centre, right),
 // within two times the given range.
@@ -86,8 +96,14 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     unsigned int SensorResultL[2];
     unsigned int SensorResultC[2];
     unsigned int SensorResultR[2];
+    unsigned char ResultValidL=0;
+    unsigned char ResultValidC=0;
+    unsigned char ResultValidR=0;
+    
     // USERVARIABLE TOLERANCES
-    unsigned int DirectionFoundTolerance=500;
+    const unsigned int DirectionFoundTolerance=100;
+    const unsigned int ClearSignalTolerance=1000;
+    
     
     //Turn on both IR sensors
     enableSensor(0, 1);
@@ -121,57 +137,99 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
     
     // THIS SECTION NEEDS MORE COMMENTING OR PUT IN ANOTHER FUNCTION.
     
-    // Logic for robot thinks its found the direction the bomb
-    if (((SensorResultL[1]-SensorResultL[0])<DirectionFoundTolerance)
-            ||((SensorResultL[0]-SensorResultL[1])<DirectionFoundTolerance)) { // USERVARIABLE
-         // Move left to (right) position as its found direction of bomb
-        turnLeft(mL,mR);
-        delay_tenth_s(2*(tenth_seconds));
-        stop(mL,mR);
-        return 2;       
-    } else if (((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)
-            ||((SensorResultC[0]-SensorResultC[1])<DirectionFoundTolerance)) { // USERVARIABLE
-         // Move left to (center) position as its found direction of bomb
-        turnLeft(mL,mR);
-        delay_tenth_s(tenth_seconds);
-        stop(mL,mR);
-        return 2;       
-    } else if (((SensorResultR[1]-SensorResultR[0])<DirectionFoundTolerance)
-            ||((SensorResultR[0]-SensorResultR[1])<DirectionFoundTolerance)) { // USERVARIABLE
-         // Stay still facing right position as its found direction of bomb
-        stop(mL,mR);
-        return 2;
-        
-    // Logic to check for areas which robot needs to very rough scan
-    } else if (((SensorResultL[0]-SensorResultL[1])>5000)&&((SensorResultL[0]-SensorResultC[0])>10000)) { // USERVARIABLE
-        // Move to centre, then twice as far further to prevent scanning same range again
-        turnLeft(mL,mR);
-        delay_tenth_s(3*tenth_seconds);
-        stop(mL,mR);
-        return 0;
-    } else if (((SensorResultR[1]-SensorResultR[0])>5000)&&((SensorResultR[1]-SensorResultC[1])>10000)) { // USERVARIABLE
-        // Go to right, again prevent scanning of same range
-        turnRight(mL,mR);
-        delay_tenth_s(tenth_seconds);
-        stop(mL,mR);        
-        return 0;
-        
-    // Logic to check for areas which robot needs to do a more detail scan. 
-    } else if ((SensorResultL[1]>SensorResultL[0])&&(SensorResultC[0]>SensorResultC[1])) { 
-        // Move to left to (left) inner position for more detailed scanning
-        turnLeft(mL,mR);
-        delay_tenth_s((3*tenth_seconds)/2);
-        stop(mL,mR);
-        return 1;
-    } else if ((SensorResultR[0]>SensorResultR[1])&&(SensorResultC[1]>SensorResultC[0])) {
-        // Move left to (right) inner position for more detailed scanning
-        turnLeft(mL,mR);
-        delay_tenth_s((tenth_seconds)/2);
-        stop(mL,mR);
-        return 1;
+    // Check if they results are valid and are above ClearSignalTolerance
+    if((SensorResultL[0]+SensorResultL[1])>ClearSignalTolerance){
+        ResultValidL=1;
+    }
+    if((SensorResultC[0]+SensorResultC[1])>ClearSignalTolerance){
+        ResultValidC=1;
+    }
+    if((SensorResultR[0]+SensorResultR[1])>ClearSignalTolerance){
+        ResultValidR=1;
     }
     
-    return 0;
+    if ((ResultValidL+ResultValidC+ResultValidR)==3) { // USERVARIABLE
+        
+    } else if((ResultValidL+ResultValidC+ResultValidR)==2) {
+        
+    } else if(ResultValidC) {
+        // Signal unclear but is apparently in front and not noticed by other directions
+        // Move Forward
+        fullSpeedAhead(mL, mR);
+        delay_tenth_s(5);
+        stop(mL, mR);
+        return 0;
+    } else if(ResultValidL) {
+        // Signal unclear but is apparently left and not noticed by other directions
+        // Move Left
+        turnLeft(mL,mR);
+        delay_tenth_s(4);
+        stop(mL,mR);
+        return 0;
+    } else if(ResultValidR) {
+        // Signal unclear but is apparently right and not noticed by other directions
+        // Move Left
+        turnRight(mL,mR);
+        delay_tenth_s(4);
+        stop(mL,mR);
+        return 0;
+    } else {
+        //If signal is still not found, just turn left a lot and hope to find it!
+        turnLeft(mL,mR);
+        delay_tenth_s(8);
+        stop(mL,mR);
+        return 0;
+    }
+    
+//    // Logic for robot thinks its found the direction the bomb
+//    if (((SensorResultL[1]-SensorResultL[0])<DirectionFoundTolerance)
+//            ||((SensorResultL[0]-SensorResultL[1])<DirectionFoundTolerance)) { // USERVARIABLE
+//         // Move left to (right) position as its found direction of bomb
+//        turnLeft(mL,mR);
+//        delay_tenth_s(2*(tenth_seconds));
+//        stop(mL,mR);
+//        return 2;       
+//    } else if (((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)
+//            ||((SensorResultC[0]-SensorResultC[1])<DirectionFoundTolerance)) { // USERVARIABLE
+//         // Move left to (center) position as its found direction of bomb
+//        turnLeft(mL,mR);
+//        delay_tenth_s(tenth_seconds);
+//        stop(mL,mR);
+//        return 2;       
+//    } else if (((SensorResultR[1]-SensorResultR[0])<DirectionFoundTolerance)
+//            ||((SensorResultR[0]-SensorResultR[1])<DirectionFoundTolerance)) { // USERVARIABLE
+//         // Stay still facing right position as its found direction of bomb
+//        stop(mL,mR);
+//        return 2;
+//        
+//    // Logic to check for areas which robot needs to very rough scan
+//    } else if (SensorResultL[0]>SensorResultL[1]) { // USERVARIABLE
+//        // Move to centre, then twice as far further to prevent scanning same range again
+//        turnLeft(mL,mR);
+//        delay_tenth_s(3*tenth_seconds);
+//        stop(mL,mR);
+//        return 0;
+//    } else if (SensorResultR[1]>SensorResultR[0]) { // USERVARIABLE
+//        // Go to right, again prevent scanning of same range
+//        turnRight(mL,mR);
+//        delay_tenth_s(tenth_seconds);
+//        stop(mL,mR);        
+//        return 0;
+//        
+//    // Logic to check for areas which robot needs to do a more detail scan. 
+//    } else if ((SensorResultL[1]>SensorResultL[0])&&(SensorResultC[0]>SensorResultC[1])) { 
+//        // Move to left to (left) inner position for more detailed scanning
+//        turnLeft(mL,mR);
+//        delay_tenth_s((3*tenth_seconds)/2);
+//        stop(mL,mR);
+//        return 1;
+//    } else if ((SensorResultR[0]>SensorResultR[1])&&(SensorResultC[1]>SensorResultC[0])) {
+//        // Move left to (right) inner position for more detailed scanning
+//        turnLeft(mL,mR);
+//        delay_tenth_s((tenth_seconds)/2);
+//        stop(mL,mR);
+//        return 1;
+//    }
 }
 
 //ALGORITHM PSEUDOCODE

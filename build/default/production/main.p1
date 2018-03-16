@@ -135,18 +135,20 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _initRFID `(v ~T0 @X0 0 ef ]
 "15 IR_Reading.h
 [v _initIR `(v ~T0 @X0 0 ef ]
-"18
-[v _enableSensor `(v ~T0 @X0 0 ef2`uc`uc ]
-"28 dc_motor.h
-[v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"27 dc_motor.h
+[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "11 Movement.h
 [v _delay_s `(v ~T0 @X0 0 ef1`uc ]
 "22 dc_motor.h
 [v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
-"15 Movement.h
+"28
+[v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"18 IR_Reading.h
+[v _enableSensor `(v ~T0 @X0 0 ef2`uc`uc ]
+"20 Movement.h
+[v _ScanWithRange `(uc ~T0 @X0 0 ef3`*S405`*S405`uc ]
+"15
 [v _ScanIR `(uc ~T0 @X0 0 ef2`*S405`*S405 ]
-"27 dc_motor.h
-[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3771,45 +3773,45 @@ Version 3.2 HI-TECH Software Intermediate Code
 "50
 [e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
 "53
-[v _motorL `S405 ~T0 @X0 1 a ]
-[v _motorR `S405 ~T0 @X0 1 a ]
-[; ;main.c: 53: struct DC_motor motorL, motorR;
-[; ;main.c: 54: motorL.power=0;
+[v _mL `S405 ~T0 @X0 1 a ]
+[v _mR `S405 ~T0 @X0 1 a ]
+[; ;main.c: 53: struct DC_motor mL, mR;
+[; ;main.c: 54: mL.power=0;
 "54
-[e = . _motorL 0 -> -> 0 `i `uc ]
-[; ;main.c: 55: motorL.direction=1;
+[e = . _mL 0 -> -> 0 `i `uc ]
+[; ;main.c: 55: mL.direction=1;
 "55
-[e = . _motorL 1 -> -> 1 `i `uc ]
-[; ;main.c: 56: motorL.dutyLowByte=(unsigned char *)(&PDC0L);
+[e = . _mL 1 -> -> 1 `i `uc ]
+[; ;main.c: 56: mL.dutyLowByte=(unsigned char *)(&PDC0L);
 "56
-[e = . _motorL 2 -> &U _PDC0L `*uc ]
-[; ;main.c: 57: motorL.dutyHighByte=(unsigned char *)(&PDC0H);
+[e = . _mL 2 -> &U _PDC0L `*uc ]
+[; ;main.c: 57: mL.dutyHighByte=(unsigned char *)(&PDC0H);
 "57
-[e = . _motorL 3 -> &U _PDC0H `*uc ]
-[; ;main.c: 58: motorL.dir_pin=0;
+[e = . _mL 3 -> &U _PDC0H `*uc ]
+[; ;main.c: 58: mL.dir_pin=0;
 "58
-[e = . _motorL 4 -> -> 0 `i `uc ]
-[; ;main.c: 59: motorL.PWMperiod=199;
+[e = . _mL 4 -> -> 0 `i `uc ]
+[; ;main.c: 59: mL.PWMperiod=199;
 "59
-[e = . _motorL 5 -> 199 `i ]
-[; ;main.c: 61: motorR.power=0;
+[e = . _mL 5 -> 199 `i ]
+[; ;main.c: 61: mR.power=0;
 "61
-[e = . _motorR 0 -> -> 0 `i `uc ]
-[; ;main.c: 62: motorR.direction=1;
+[e = . _mR 0 -> -> 0 `i `uc ]
+[; ;main.c: 62: mR.direction=1;
 "62
-[e = . _motorR 1 -> -> 1 `i `uc ]
-[; ;main.c: 63: motorR.dutyLowByte=(unsigned char *)(&PDC1L);
+[e = . _mR 1 -> -> 1 `i `uc ]
+[; ;main.c: 63: mR.dutyLowByte=(unsigned char *)(&PDC1L);
 "63
-[e = . _motorR 2 -> &U _PDC1L `*uc ]
-[; ;main.c: 64: motorR.dutyHighByte=(unsigned char *)(&PDC1H);
+[e = . _mR 2 -> &U _PDC1L `*uc ]
+[; ;main.c: 64: mR.dutyHighByte=(unsigned char *)(&PDC1H);
 "64
-[e = . _motorR 3 -> &U _PDC1H `*uc ]
-[; ;main.c: 65: motorR.dir_pin=2;
+[e = . _mR 3 -> &U _PDC1H `*uc ]
+[; ;main.c: 65: mR.dir_pin=2;
 "65
-[e = . _motorR 4 -> -> 2 `i `uc ]
-[; ;main.c: 66: motorR.PWMperiod=199;
+[e = . _mR 4 -> -> 2 `i `uc ]
+[; ;main.c: 66: mR.PWMperiod=199;
 "66
-[e = . _motorR 5 -> 199 `i ]
+[e = . _mR 5 -> 199 `i ]
 [; ;main.c: 68: OSCCON = 0x72;
 "68
 [e = _OSCCON -> -> 114 `i `uc ]
@@ -3840,96 +3842,96 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 78: initIR();
 "78
 [e ( _initIR ..  ]
-[; ;main.c: 80: mode = 1;
-"80
-[e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 81: enableSensor(0, 1);
-"81
-[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
-[; ;main.c: 82: enableSensor(1, 1);
+[; ;main.c: 82: fullSpeedAhead(&mL, &mR);
 "82
-[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;main.c: 84: fullSpeedBack(&motorL, &motorR);
-"84
-[e ( _fullSpeedBack (2 , &U _motorL &U _motorR ]
-[; ;main.c: 85: delay_s(1);
-"85
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+[; ;main.c: 83: delay_s(1);
+"83
 [e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 86: stop(&motorL, &motorR);
+[; ;main.c: 84: stop(&mL, &mR);
+"84
+[e ( _stop (2 , &U _mL &U _mR ]
+[; ;main.c: 85: fullSpeedBack(&mL, &mR);
+"85
+[e ( _fullSpeedBack (2 , &U _mL &U _mR ]
+[; ;main.c: 86: delay_s(1);
 "86
-[e ( _stop (2 , &U _motorL &U _motorR ]
-[; ;main.c: 88: break;
-"88
-[e $U 417  ]
-[; ;main.c: 90: case 1 :
+[e ( _delay_s (1 -> -> 1 `i `uc ]
+[; ;main.c: 87: stop(&mL, &mR);
+"87
+[e ( _stop (2 , &U _mL &U _mR ]
+[; ;main.c: 89: enableSensor(0, 1);
+"89
+[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 90: enableSensor(1, 1);
 "90
+[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 91: mode = 1;
+"91
+[e = _mode -> -> 1 `i `uc ]
+[; ;main.c: 93: break;
+"93
+[e $U 417  ]
+[; ;main.c: 95: case 1 :
+"95
 [e :U 420 ]
-[; ;main.c: 102: if (DirectionFound==0) {
-"102
+[; ;main.c: 97: if (DirectionFound==0) {
+"97
 [e $ ! == -> _DirectionFound `i -> 0 `i 421  ]
 {
-[; ;main.c: 104: DirectionFound = ScanIR(&motorL, &motorR);
-"104
-[e = _DirectionFound ( _ScanIR (2 , &U _motorL &U _motorR ]
-"105
+[; ;main.c: 99: DirectionFound = ScanWithRange(&mL, &mR, ScanAngle);
+"99
+[e = _DirectionFound ( _ScanWithRange (3 , , &U _mL &U _mR _ScanAngle ]
+"100
 }
-[; ;main.c: 105: } else if (DirectionFound==1) {
+[; ;main.c: 100: } else if (DirectionFound==1) {
 [e $U 422  ]
 [e :U 421 ]
 [e $ ! == -> _DirectionFound `i -> 1 `i 423  ]
 {
-[; ;main.c: 107: DirectionFound = ScanIR(&motorL, &motorR);
-"107
-[e = _DirectionFound ( _ScanIR (2 , &U _motorL &U _motorR ]
-"108
+[; ;main.c: 102: DirectionFound = ScanIR(&mL, &mR);
+"102
+[e = _DirectionFound ( _ScanIR (2 , &U _mL &U _mR ]
+"103
 }
-[; ;main.c: 108: } else if (DirectionFound==2) {
+[; ;main.c: 103: } else if (DirectionFound==2) {
 [e $U 424  ]
 [e :U 423 ]
 [e $ ! == -> _DirectionFound `i -> 2 `i 425  ]
 {
-[; ;main.c: 109: mode=2;
-"109
+[; ;main.c: 104: mode=2;
+"104
 [e = _mode -> -> 2 `i `uc ]
-"110
+"105
 }
 [e :U 425 ]
-"112
+"117
 [e :U 424 ]
 [e :U 422 ]
-[; ;main.c: 110: }
-[; ;main.c: 112: break;
+[; ;main.c: 105: }
+[; ;main.c: 117: break;
 [e $U 417  ]
-[; ;main.c: 114: case 2 :
-"114
-[e :U 426 ]
-[; ;main.c: 117: delay_s(3);
-"117
-[e ( _delay_s (1 -> -> 3 `i `uc ]
-[; ;main.c: 118: fullSpeedAhead(&motorL, &motorR);
-"118
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-[; ;main.c: 119: delay_s(1);
+[; ;main.c: 119: case 2 :
 "119
-[e ( _delay_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 120: DirectionFound=1;
-"120
+[e :U 426 ]
+[; ;main.c: 125: DirectionFound=1;
+"125
 [e = _DirectionFound -> -> 1 `i `uc ]
-[; ;main.c: 121: mode = 1;
-"121
+[; ;main.c: 126: mode = 1;
+"126
 [e = _mode -> -> 1 `i `uc ]
-[; ;main.c: 143: break;
-"143
+[; ;main.c: 148: break;
+"148
 [e $U 417  ]
-[; ;main.c: 145: case 3 :
-"145
+[; ;main.c: 150: case 3 :
+"150
 [e :U 427 ]
-[; ;main.c: 147: break;
-"147
+[; ;main.c: 152: break;
+"152
 [e $U 417  ]
-"149
+"154
 }
-[; ;main.c: 149: }
+[; ;main.c: 154: }
 [e $U 417  ]
 "73
 [e :U 418 ]
@@ -3938,16 +3940,16 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ -> -> 2 `i `uc 426
  , $ -> -> 3 `i `uc 427
  417 ]
-"149
+"154
 [e :U 417 ]
-"150
+"155
 }
 [e :U 414 ]
 "71
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 150: }
-[; ;main.c: 151: }
-"151
+[; ;main.c: 155: }
+[; ;main.c: 156: }
+"156
 [e :UE 410 ]
 }

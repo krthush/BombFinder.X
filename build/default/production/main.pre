@@ -4725,20 +4725,20 @@ IPR1bits.RCIP=1;
 PIE1bits.RCIE=1;
 
 
-struct DC_motor motorL, motorR;
-motorL.power=0;
-motorL.direction=1;
-motorL.dutyLowByte=(unsigned char *)(&PDC0L);
-motorL.dutyHighByte=(unsigned char *)(&PDC0H);
-motorL.dir_pin=0;
-motorL.PWMperiod=199;
+struct DC_motor mL, mR;
+mL.power=0;
+mL.direction=1;
+mL.dutyLowByte=(unsigned char *)(&PDC0L);
+mL.dutyHighByte=(unsigned char *)(&PDC0H);
+mL.dir_pin=0;
+mL.PWMperiod=199;
 
-motorR.power=0;
-motorR.direction=1;
-motorR.dutyLowByte=(unsigned char *)(&PDC1L);
-motorR.dutyHighByte=(unsigned char *)(&PDC1H);
-motorR.dir_pin=2;
-motorR.PWMperiod=199;
+mR.power=0;
+mR.direction=1;
+mR.dutyLowByte=(unsigned char *)(&PDC1L);
+mR.dutyHighByte=(unsigned char *)(&PDC1H);
+mR.dir_pin=2;
+mR.PWMperiod=199;
 
 OSCCON = 0x72;
 while(!OSCCONbits.IOFS);
@@ -4752,41 +4752,43 @@ initMotorPWM();
 initRFID();
 initIR();
 
-mode = 1;
+
+
+fullSpeedAhead(&mL, &mR);
+delay_s(1);
+stop(&mL, &mR);
+fullSpeedBack(&mL, &mR);
+delay_s(1);
+stop(&mL, &mR);
+
 enableSensor(0, 1);
 enableSensor(1, 1);
-
-fullSpeedBack(&motorL, &motorR);
-delay_s(1);
-stop(&motorL, &motorR);
+mode = 1;
 
 break;
 
 case 1 :
 
-# 102
 if (DirectionFound==0) {
 
-DirectionFound = ScanIR(&motorL, &motorR);
+DirectionFound = ScanWithRange(&mL, &mR, ScanAngle);
 } else if (DirectionFound==1) {
 
-DirectionFound = ScanIR(&motorL, &motorR);
+DirectionFound = ScanIR(&mL, &mR);
 } else if (DirectionFound==2) {
 mode=2;
 }
 
+# 117
 break;
 
 case 2 :
 
-
-delay_s(3);
-fullSpeedAhead(&motorL, &motorR);
-delay_s(1);
+# 125
 DirectionFound=1;
 mode = 1;
 
-# 143
+# 148
 break;
 
 case 3 :

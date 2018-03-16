@@ -78,7 +78,7 @@ unsigned int grabRightIR(void){
     // measure is taken 4 times (with delay)
     for (i=0; i<4; i++) {
         // combine low and high register into one int using bit shift and OR
-        IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
+        IR_signal+=((CAP1BUFH << 6) | (CAP1BUFL>>2));
         __delay_ms(50);
     }
     // return the average signal to be used
@@ -94,7 +94,7 @@ unsigned int grabLeftIR(void){
     // measure is taken 4 times (with delay)
     for (i=0; i<4; i++) {
         // combine low and high register into one int using bit shift and OR
-        IR_signal+=((CAP2BUFH << 8) | CAP2BUFL);
+        IR_signal+=((CAP2BUFH << 6) | (CAP2BUFL>>2));
         __delay_ms(50);
     }
     // return the average signal to be used

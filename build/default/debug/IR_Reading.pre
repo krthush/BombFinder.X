@@ -4678,7 +4678,7 @@ unsigned char i=0;
 
 for (i=0; i<4; i++) {
 
-IR_signal+=((CAP1BUFH << 8) | CAP1BUFL);
+IR_signal+=((CAP1BUFH << 6) | (CAP1BUFL>>2));
 _delay((unsigned long)((50)*(8000000/4000.0)));
 }
 
@@ -4694,7 +4694,7 @@ unsigned char i=0;
 
 for (i=0; i<4; i++) {
 
-IR_signal+=((CAP2BUFH << 8) | CAP2BUFL);
+IR_signal+=((CAP2BUFH << 6) | (CAP2BUFL>>2));
 _delay((unsigned long)((50)*(8000000/4000.0)));
 }
 

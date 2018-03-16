@@ -50,20 +50,20 @@ void main(void){
     PIE1bits.RCIE=1; //Enable interrupt on serial reception
     
     // Initialise Motor Structures
-    struct DC_motor motorL, motorR; //declare 2 motor structures
-    motorL.power=0; //zero power to start
-    motorL.direction=1; //set default motor direction
-    motorL.dutyLowByte=(unsigned char *)(&PDC0L); //store address of PWM duty low byte
-    motorL.dutyHighByte=(unsigned char *)(&PDC0H); //store address of PWM duty high byte
-    motorL.dir_pin=0; //pin RB0/PWM0 controls direction
-    motorL.PWMperiod=199; //store PWMperiod for motor
+    struct DC_motor mL, mR; //declare 2 motor structures
+    mL.power=0; //zero power to start
+    mL.direction=1; //set default motor direction
+    mL.dutyLowByte=(unsigned char *)(&PDC0L); //store address of PWM duty low byte
+    mL.dutyHighByte=(unsigned char *)(&PDC0H); //store address of PWM duty high byte
+    mL.dir_pin=0; //pin RB0/PWM0 controls direction
+    mL.PWMperiod=199; //store PWMperiod for motor
     //same for motorR but different PWM registers and direction pin
-    motorR.power=0; //zero power to start
-    motorR.direction=1; //set default motor direction
-    motorR.dutyLowByte=(unsigned char *)(&PDC1L); //store address of PWM duty low byte
-    motorR.dutyHighByte=(unsigned char *)(&PDC1H); //store address of PWM duty high byte
-    motorR.dir_pin=2; //pin RB0/PWM0 controls direction
-    motorR.PWMperiod=199; //store PWMperiod for motor
+    mR.power=0; //zero power to start
+    mR.direction=1; //set default motor direction
+    mR.dutyLowByte=(unsigned char *)(&PDC1L); //store address of PWM duty low byte
+    mR.dutyHighByte=(unsigned char *)(&PDC1H); //store address of PWM duty high byte
+    mR.dir_pin=2; //pin RB0/PWM0 controls direction
+    mR.PWMperiod=199; //store PWMperiod for motor
 
     OSCCON = 0x72; //8MHz clock
     while(!OSCCONbits.IOFS); //wait until stable
@@ -75,48 +75,53 @@ void main(void){
                //Initialise EVERYTHING
                initMotorPWM();  //setup PWM registers
                initRFID();
-               initIR();
+               initIR();              
                
-               mode = 1;
+               // Bot goes forward, stops, then back and stop
+               // TODO: do calibration routine here
+               fullSpeedAhead(&mL, &mR);
+               delay_s(1);
+               stop(&mL, &mR);
+               fullSpeedBack(&mL, &mR);
+               delay_s(1);
+               stop(&mL, &mR);
+              
                enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
                enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
-               
-               fullSpeedBack(&motorL, &motorR);
-               delay_s(1);
-               stop(&motorL, &motorR);
+               mode = 1;  
                
                break;
                
            case 1 : //Search Mode
                
-//               if (DirectionFound==0) {
-//                   // Scans a wide range if it's unsure about direction
-//                   DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle); // USERVARIABLE
-//               } else if (DirectionFound==1) {
-//                   // Scans a smaller range when it thinks it's close
-//                   DirectionFound = ScanWithRange(&motorL, &motorR, ScanAngle/2); // USERVARIABLE
-//               } else if (DirectionFound==2) {
-//                   mode=2;
-//               }
-               
-                if (DirectionFound==0) {
-                    // Scans a wide range if it's unsure about direction
-                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
-                } else if (DirectionFound==1) {
+               if (DirectionFound==0) {
+                   // Scans a wide range if it's unsure about direction
+                   DirectionFound = ScanWithRange(&mL, &mR, ScanAngle); // USERVARIABLE
+               } else if (DirectionFound==1) {
                     // Scans a smaller range when it thinks it's close
-                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
-                } else if (DirectionFound==2) {
-                    mode=2;
-                }
+                    DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
+               } else if (DirectionFound==2) {
+                   mode=2;
+               }
+               
+//                if (DirectionFound==0) {
+//                    // Scans a wide range if it's unsure about direction
+//                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
+//                } else if (DirectionFound==1) {
+//                    // Scans a smaller range when it thinks it's close
+//                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
+//                } else if (DirectionFound==2) {
+//                    mode=2;
+//                }
                
                break;
                
             case 2 : //Move Mode
                //Move forward until RFID read and verified or a certain time
                //has elapsed
-                delay_s(3); // DEBUG ONLY
-                fullSpeedAhead(&motorL, &motorR);
-                delay_s(1);
+//                delay_s(3); // DEBUG ONLY
+//                fullSpeedAhead(&motorL, &motorR);
+//                delay_s(1);
                 DirectionFound=1; // DEBUG ONLY
                 mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
                 
