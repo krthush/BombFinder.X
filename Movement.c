@@ -164,22 +164,19 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds)
         return 0;
     } else {
         // Logic for robot thinks its found the direction the bomb
-        if (((SensorResultL[1]-SensorResultL[0])<DirectionFoundTolerance)
-                ||((SensorResultL[0]-SensorResultL[1])<DirectionFoundTolerance)) { // USERVARIABLE
+        if (BombDirectionFound(*SensorResultL)) { // USERVARIABLE
              // Move left to (left) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(2*(tenth_seconds));
             stop(mL,mR);
             return 2;       
-        } else if (((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)
-                ||((SensorResultC[0]-SensorResultC[1])<DirectionFoundTolerance)) { // USERVARIABLE
+        } else if (BombDirectionFound(*SensorResultC)) { // USERVARIABLE
              // Move left to (center) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(tenth_seconds);
             stop(mL,mR);
             return 2;       
-        } else if (((SensorResultR[1]-SensorResultR[0])<DirectionFoundTolerance)
-                ||((SensorResultR[0]-SensorResultR[1])<DirectionFoundTolerance)) { // USERVARIABLE
+        } else if (BombDirectionFound(*SensorResultR)) { // USERVARIABLE
              // Stay still facing right position as its found direction of bomb
             stop(mL,mR);
             return 2;
