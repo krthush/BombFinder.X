@@ -147,9 +147,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _fullSpeedBack `(v ~T0 @X0 0 ef2`*S405`*S405 ]
 "18 IR_Reading.h
 [v _enableSensor `(v ~T0 @X0 0 ef2`uc`uc ]
-"20 Movement.h
+"21 Movement.h
 [v _ScanWithRange `(uc ~T0 @X0 0 ef4`*S405`*S405`uc`*uc ]
-"15
+"16
 [v _ScanIR `(uc ~T0 @X0 0 ef2`*S405`*S405 ]
 "13
 [v _delay_tenth_s `(v ~T0 @X0 0 ef1`uc ]
@@ -3662,9 +3662,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;RFID_Reader.h: 16: unsigned char VerifySignal(unsigned char *Signal);
 [; ;Movement.h: 11: void delay_s(char seconds);
 [; ;Movement.h: 13: void delay_tenth_s(char tenth_seconds);
-[; ;Movement.h: 15: char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
-[; ;Movement.h: 20: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTime);
-[; ;Movement.h: 21: char BombDirectionFound(unsigned int *SensorResult);
+[; ;Movement.h: 16: char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
+[; ;Movement.h: 21: char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTime);
 [; ;IR_Reading.h: 15: void initIR(void);
 [; ;IR_Reading.h: 16: unsigned int grabRightIR(void);
 [; ;IR_Reading.h: 17: unsigned int grabLeftIR(void);
@@ -3686,9 +3685,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 [; ;main.c: 14: volatile unsigned char RFID_Read=0;
-[v F3717 `(v ~T0 @X0 1 tf ]
+[v F3715 `(v ~T0 @X0 1 tf ]
 "17
-[v _InterruptHandlerHigh `IF3717 ~T0 @X0 1 e ]
+[v _InterruptHandlerHigh `IF3715 ~T0 @X0 1 e ]
 "18
 {
 [; ;main.c: 17: void interrupt InterruptHandlerHigh ()
@@ -3970,195 +3969,195 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 126: Move++;
 "126
 [e ++ _Move -> -> 1 `i `uc ]
-[; ;main.c: 137: break;
-"137
+[; ;main.c: 128: break;
+"128
 [e $U 417  ]
-[; ;main.c: 139: case 2 :
-"139
+[; ;main.c: 130: case 2 :
+"130
 [e :U 428 ]
-[; ;main.c: 143: if (RFID_Read) {
-"143
+[; ;main.c: 134: if (RFID_Read) {
+"134
 [e $ ! != -> _RFID_Read `i -> -> -> 0 `i `Vuc `i 429  ]
 {
-[; ;main.c: 144: stop(&mL, &mR);
-"144
+[; ;main.c: 135: stop(&mL, &mR);
+"135
 [e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 145: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-"145
+[; ;main.c: 136: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+"136
 [e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 430  ]
 {
-[; ;main.c: 146: if (VerifySignal(ReceivedString)){
-"146
+[; ;main.c: 137: if (VerifySignal(ReceivedString)){
+"137
 [e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 431  ]
 {
-[; ;main.c: 148: for (i=0; i<10; i++){
-"148
+[; ;main.c: 139: for (i=0; i<10; i++){
+"139
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 432  ]
 [e $U 433  ]
 [e :U 432 ]
 {
-[; ;main.c: 149: Message[i] = ReceivedString[i+1];
-"149
+[; ;main.c: 140: Message[i] = ReceivedString[i+1];
+"140
 [e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
-"150
+"141
 }
-"148
+"139
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 432  ]
 [e :U 433 ]
-"150
+"141
 }
-[; ;main.c: 150: }
-[; ;main.c: 153: for (i=0; i<16; i++) {
-"153
+[; ;main.c: 141: }
+[; ;main.c: 144: for (i=0; i<16; i++) {
+"144
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 16 `i 435  ]
 [e $U 436  ]
 [e :U 435 ]
 {
-[; ;main.c: 154: ReceivedString[i]=0;
-"154
+[; ;main.c: 145: ReceivedString[i]=0;
+"145
 [e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"155
+"146
 }
-"153
+"144
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 16 `i 435  ]
 [e :U 436 ]
-"155
+"146
 }
-[; ;main.c: 155: }
-[; ;main.c: 156: mode = 3;
-"156
+[; ;main.c: 146: }
+[; ;main.c: 147: mode = 3;
+"147
 [e = _mode -> -> 3 `i `uc ]
-"158
+"149
 }
-[; ;main.c: 158: } else {
+[; ;main.c: 149: } else {
 [e $U 438  ]
 [e :U 431 ]
 {
-[; ;main.c: 159: fullSpeedBack(&mL,&mR);
-"159
+[; ;main.c: 150: fullSpeedBack(&mL,&mR);
+"150
 [e ( _fullSpeedBack (2 , &U _mL &U _mR ]
-[; ;main.c: 160: delay_tenth_s(5);
-"160
+[; ;main.c: 151: delay_tenth_s(5);
+"151
 [e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
-[; ;main.c: 161: stop(&mL,&mR);
-"161
+[; ;main.c: 152: stop(&mL,&mR);
+"152
 [e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 162: fullSpeedAhead(&mL,&mR);
-"162
+[; ;main.c: 153: fullSpeedAhead(&mL,&mR);
+"153
 [e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-"163
+"154
 }
 [e :U 438 ]
-"164
+"155
 }
 [e :U 430 ]
-"165
+"156
 }
-[; ;main.c: 163: }
-[; ;main.c: 164: }
-[; ;main.c: 165: } else {
+[; ;main.c: 154: }
+[; ;main.c: 155: }
+[; ;main.c: 156: } else {
 [e $U 439  ]
 [e :U 429 ]
 {
-[; ;main.c: 166: fullSpeedAhead(&mL,&mR);
-"166
-[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-[; ;main.c: 167: delay_tenth_s(5);
-"167
-[e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
-[; ;main.c: 168: DirectionFound==1;
-"168
-[e == -> _DirectionFound `i -> 1 `i ]
-[; ;main.c: 169: mode=1;
-"169
+[; ;main.c: 157: DirectionFound=1;
+"157
+[e = _DirectionFound -> -> 1 `i `uc ]
+[; ;main.c: 158: mode=1;
+"158
 [e = _mode -> -> 1 `i `uc ]
-"170
+[; ;main.c: 159: fullSpeedAhead(&mL,&mR);
+"159
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+[; ;main.c: 160: delay_tenth_s(5);
+"160
+[e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
+"161
 }
 [e :U 439 ]
-[; ;main.c: 170: }
-[; ;main.c: 173: break;
-"173
+[; ;main.c: 161: }
+[; ;main.c: 163: break;
+"163
 [e $U 417  ]
-[; ;main.c: 175: case 3 :
-"175
+[; ;main.c: 165: case 3 :
+"165
 [e :U 440 ]
-[; ;main.c: 177: for (Move=Move; Move>0; Move--) {
-"177
+[; ;main.c: 167: for (Move=Move; Move>0; Move--) {
+"167
 {
 [e = _Move _Move ]
 [e $ > -> _Move `i -> 0 `i 441  ]
 [e $U 442  ]
 [e :U 441 ]
 {
-[; ;main.c: 178: if (MoveType[Move]==0) {
-"178
+[; ;main.c: 168: if (MoveType[Move]==0) {
+"168
 [e $ ! == -> *U + &U _MoveType * -> _Move `ux -> -> # *U &U _MoveType `ui `ux `i -> 0 `i 444  ]
 {
-[; ;main.c: 179: fullSpeedBack(&mL,&mR);
-"179
+[; ;main.c: 169: fullSpeedBack(&mL,&mR);
+"169
 [e ( _fullSpeedBack (2 , &U _mL &U _mR ]
-[; ;main.c: 180: delay_tenth_s(MoveTime[Move]);
-"180
+[; ;main.c: 170: delay_tenth_s(MoveTime[Move]);
+"170
 [e ( _delay_tenth_s (1 *U + &U _MoveTime * -> _Move `ux -> -> # *U &U _MoveTime `ui `ux ]
-"181
+"171
 }
-[; ;main.c: 181: } else if (MoveType[Move]==1) {
+[; ;main.c: 171: } else if (MoveType[Move]==1) {
 [e $U 445  ]
 [e :U 444 ]
 [e $ ! == -> *U + &U _MoveType * -> _Move `ux -> -> # *U &U _MoveType `ui `ux `i -> 1 `i 446  ]
 {
-[; ;main.c: 182: if (MoveTime[Move]>0) {
-"182
+[; ;main.c: 172: if (MoveTime[Move]>0) {
+"172
 [e $ ! > -> *U + &U _MoveTime * -> _Move `ux -> -> # *U &U _MoveTime `ui `ux `i -> 0 `i 447  ]
 {
-[; ;main.c: 183: turnRight(&mL,&mR);
-"183
+[; ;main.c: 173: turnRight(&mL,&mR);
+"173
 [e ( _turnRight (2 , &U _mL &U _mR ]
-[; ;main.c: 184: delay_tenth_s(MoveTime[Move]);
-"184
+[; ;main.c: 174: delay_tenth_s(MoveTime[Move]);
+"174
 [e ( _delay_tenth_s (1 *U + &U _MoveTime * -> _Move `ux -> -> # *U &U _MoveTime `ui `ux ]
-"185
+"175
 }
-[; ;main.c: 185: } else {
+[; ;main.c: 175: } else {
 [e $U 448  ]
 [e :U 447 ]
 {
-[; ;main.c: 186: turnLeft(&mL,&mR);
-"186
+[; ;main.c: 176: turnLeft(&mL,&mR);
+"176
 [e ( _turnLeft (2 , &U _mL &U _mR ]
-[; ;main.c: 187: delay_tenth_s(MoveTime[Move]);
-"187
+[; ;main.c: 177: delay_tenth_s(MoveTime[Move]);
+"177
 [e ( _delay_tenth_s (1 *U + &U _MoveTime * -> _Move `ux -> -> # *U &U _MoveTime `ui `ux ]
-"188
+"178
 }
 [e :U 448 ]
-"189
+"179
 }
 [e :U 446 ]
-"190
+"180
 [e :U 445 ]
 }
-"177
+"167
 [e -- _Move -> -> 1 `i `uc ]
 [e $ > -> _Move `i -> 0 `i 441  ]
 [e :U 442 ]
-"190
+"180
 }
-[; ;main.c: 188: }
-[; ;main.c: 189: }
-[; ;main.c: 190: }
-[; ;main.c: 191: break;
-"191
+[; ;main.c: 178: }
+[; ;main.c: 179: }
+[; ;main.c: 180: }
+[; ;main.c: 181: break;
+"181
 [e $U 417  ]
-"192
+"182
 }
-[; ;main.c: 192: }
+[; ;main.c: 182: }
 [e $U 417  ]
 "79
 [e :U 418 ]
@@ -4167,16 +4166,16 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ -> -> 2 `i `uc 428
  , $ -> -> 3 `i `uc 440
  417 ]
-"192
+"182
 [e :U 417 ]
-"193
+"183
 }
 [e :U 414 ]
 "77
 [e $U 415  ]
 [e :U 416 ]
-[; ;main.c: 193: }
-[; ;main.c: 194: }
-"194
+[; ;main.c: 183: }
+[; ;main.c: 184: }
+"184
 [e :UE 410 ]
 }

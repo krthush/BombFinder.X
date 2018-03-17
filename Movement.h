@@ -12,12 +12,12 @@ void delay_s(char seconds);
 // Function similar to delay in seconds, but for a 1/10th of a second
 void delay_tenth_s(char tenth_seconds);
 // Scans left, ahead and right for IR signal, turns to signal of greater strength
+// This is all done while keeping previous motion action
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 // Scans IR strength for 3 points (left, centre, right),
 // within two times the given range.
 // The range is given in twice the number of tenth seconds the robot turns for
 // Finally the robot positions facing the direction of highest IR strength
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTime);
-char BombDirectionFound(unsigned int *SensorResult);
 #endif	/* MOVEMENT_H */
 

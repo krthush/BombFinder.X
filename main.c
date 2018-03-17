@@ -78,68 +78,59 @@ void main(void){
        
        switch (mode) {
            case 0 : //Start-up Mode
-               //Initialise EVERYTHING
-               initMotorPWM();  //setup PWM registers
-               initRFID();
-               initIR(); 
-               initLCD();
-               initIR();              
+                //Initialise EVERYTHING
+                initMotorPWM();  //setup PWM registers
+                initRFID();
+                initIR(); 
+                initLCD();
+                initIR();              
                
-               // Bot goes forward, stops, then back and stop
-               // TODO: do calibration routine here
-               fullSpeedAhead(&mL, &mR);
-               delay_s(1);
-               stop(&mL, &mR);
-               fullSpeedBack(&mL, &mR);
-               delay_s(1);
-               stop(&mL, &mR);
+                // Bot goes forward, stops, then back and stop
+                // TODO: do calibration routine here
+                fullSpeedAhead(&mL, &mR);
+                delay_s(1);
+                stop(&mL, &mR);
+                fullSpeedBack(&mL, &mR);
+                delay_s(1);
+                stop(&mL, &mR);
               
-               enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
-               enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
-               mode = 1;  //TODO: Make mode change on button press
+                enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
+                enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
+                mode = 1;  //TODO: Make mode change on button press
                
-               break;
+                break;
                
            case 1 : //Search Mode
                
-               if (DirectionFound==0) {
-                   // Scans a wide range if it's unsure about direction
-                   DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
-               } else if (DirectionFound==1) {
-                    // Keeps direction and just scans, robot thinks it's close
-                    DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
-               } else if (DirectionFound==2) {
-                   // Robot thinks its on track, switch to move mode
-                   mode=2;
-               } else if (DirectionFound==3) {
-                   // Robot is completely lost, move a bit a hope to find it.
-                   // PLEASE NOTE: this movement in combination with the
-                   // rotation in ScanWithRange causes the robot to spiral 
-                   // outwards such that it will ALWAYS get close enough to signal
+                if (DirectionFound==0) {
+                    // Scans a wide range if it's unsure about direction
+                    DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
+                } else if (DirectionFound==1) {
+                     // Keeps direction and just scans, robot thinks it's close
+                        DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
+                } else if (DirectionFound==2) {
+                     // Robot thinks its on track, switch to move mode
+                     mode=2;
+                } else if (DirectionFound==3) {
+                    // Robot is completely lost, move a bit a hope to find it.
+                    // PLEASE NOTE: this movement in combination with the
+                    // rotation in ScanWithRange causes the robot to spiral 
+                    // outwards such that it will ALWAYS get close enough to signal
                     fullSpeedAhead(&mL, &mR);
                     delay_tenth_s(ScanAngle);
                     stop(&mL,&mR);
                     DirectionFound=0;
-               }
+                }
                
-               MoveType[Move] = 1;
-               Move++;
-//                if (DirectionFound==0) {
-//                    // Scans a wide range if it's unsure about direction
-//                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
-//                } else if (DirectionFound==1) {
-//                    // Scans a smaller range when it thinks it's close
-//                    DirectionFound = ScanIR(&motorL, &motorR); // USERVARIABLE
-//                } else if (DirectionFound==2) {
-//                    mode=2;
-//                }
+                MoveType[Move] = 1;
+                Move++;
                
-               break;
+                break;
                
             case 2 : //Move Mode
                //Move forward until RFID read and verified or a certain time
                //has elapsed
-//                delay_s(3); // DEBUG ONLY
+
                 if (RFID_Read) {
                     stop(&mL, &mR);
                     if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){ //If we have a valid ASCII signal
@@ -163,13 +154,12 @@ void main(void){
                         }  
                     }
                 } else {
+                    DirectionFound=1;
+                    mode=1;
                     fullSpeedAhead(&mL,&mR);
                     delay_tenth_s(5);
-                    DirectionFound==1;
-                    mode=1;
                 }
-//                DirectionFound=1; // DEBUG ONLY
-//                mode = 1; // DEBUG ONLY - return to mode 2 to check direction of IR
+                
                break;
                
             case 3 : //Return Mode
@@ -188,7 +178,7 @@ void main(void){
                         }
                     }
                 }
-               break;
+                break;
        }      
    }
 }
