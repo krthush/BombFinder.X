@@ -107,7 +107,7 @@ void main(void){
                 // If button is pressed while robot is performing, it will return to inert mode.
                 // If button is pressed while robot is in inert mode, it will start performing.
                 stop(&mL, &mR);
-
+                RFID_Read=0;   
                 SetLine(1); //Set Line 1
                 LCD_String("        Ready");
                 SetLine(2);
@@ -201,6 +201,7 @@ void main(void){
                     mode=1;
                     fullSpeedAhead(&mL,&mR);
                     delay_tenth_s(5);
+//                    delay_s(3); //INPROG
                     MoveType[Move] = 0;
                     MoveTime[Move] = 5;
                     Move++;
@@ -234,7 +235,7 @@ void main(void){
                 
                 // TODO: Need to do an isLCDset=0 so that when bot returns home
                 // it says line1: "I'm Home" line2: "And Ready!".
-//                mode=-1;
+                mode=-1;
                 
                 break;
        }      

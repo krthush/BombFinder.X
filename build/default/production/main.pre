@@ -4786,11 +4786,8 @@ void SendLCD(unsigned char Byte, char type);
 void SetLine (char line);
 void LCD_String(char *string);
 
-# 12 "Interrupt.h"
-void initInterrupts();
 
-
-# 9 "main.c"
+# 8 "main.c"
 #pragma config OSC = IRCIO
 
 
@@ -4847,7 +4844,22 @@ char Move=0;
 unsigned char ScanAngle=6;
 
 
-initInterrupts();
+INTCONbits.GIEH=1;
+INTCONbits.GIEL=1;
+INTCONbits.PEIE=1;
+RCONbits.IPEN=1;
+
+
+IPR1bits.RCIP=0;
+PIE1bits.RCIE=1;
+
+
+TRISCbits.RC3=1;
+INTCONbits.INT0IE=1;
+
+
+PIR1bits.RC1IF=0;
+INTCONbits.INT0IF=0;
 
 
 struct DC_motor mL, mR;
@@ -4873,9 +4885,9 @@ while(1){
 switch (mode) {
 case -1:
 
-# 95
+# 109
 stop(&mL, &mR);
-
+RFID_Read=0;
 SetLine(1);
 LCD_String("        Ready");
 SetLine(2);
@@ -4904,7 +4916,7 @@ break;
 
 case 1 :
 
-# 129
+# 143
 SetLine(1);
 LCD_String("       Searching");
 
@@ -4966,6 +4978,7 @@ DirectionFound=1;
 mode=1;
 fullSpeedAhead(&mL,&mR);
 delay_tenth_s(5);
+
 MoveType[Move] = 0;
 MoveTime[Move] = 5;
 Move++;
@@ -4982,7 +4995,9 @@ SetLine(2);
 LCD_String("      Going Home");
 stop(&mL,&mR);
 
-# 225
+# 238
+mode=-1;
+
 break;
 }
 }

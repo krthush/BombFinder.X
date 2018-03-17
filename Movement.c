@@ -8,9 +8,9 @@
 
 // USERVARIABLE TOLERANCES
 // minimum signal strength required to be considered an actual signal
-const unsigned int ClearSignalThreshold=500; 
+const unsigned int ClearSignalThreshold=200; 
 // minimum signal strength required for sensor to be considered directly aimed at beacon
-const unsigned int DirectionFoundThreshold=2000; 
+const unsigned int DirectionFoundThreshold=2500; 
 // maximum tolerance between both sensors to be considered both aimed at beacon
 const unsigned int DirectionFoundTolerance=1000; 
 
@@ -57,13 +57,12 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char 
     CAP2BUFL=0;       
     
     // Output signal strength to LCD
-    // N.B. there is no isLCDset check because this needs to refresh
     SendLCD(0b00000001,0); //Clear Display
     __delay_us(50); //Delay to let display clearing finish
     SendLCD(0b00000010,0); // move cursor to home
     __delay_ms(2);
     SetLine(1); //Set Line 1
-    LCD_String("       Searching");
+    LCD_String("         ScanIR");
     SetLine(2); //Set Line 2, for signal strength readings
     sprintf(buf,"     %d, %d",SensorResult[0],SensorResult[1]);
     LCD_String(buf);
@@ -85,7 +84,8 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char 
            MoveTime[*Move]=3;
            MoveType[*Move]=1;
            Move++;
-           return 1;
+           return 1; //PREVIOUS
+//           return 2; //INPROG
         // Right signal is greater -> turn right
         } else if (SensorResult[0]>SensorResult[1]) {
            stop(mL,mR); // TOGGLE: continuous OR stop n scan
@@ -95,7 +95,8 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char 
            MoveTime[*Move]=-3;
            MoveType[*Move]=1;
            Move++;
-           return 1;
+           return 1; //PREVIOUS
+//           return 2; //INPROG
         }
     } else {
         // No clear signal is found, stop!
@@ -137,6 +138,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     unsigned char ResultFalseL=0;
     unsigned char ResultFalseC=0;
     unsigned char ResultFalseR=0;
+    char buf[40]; // Buffer for characters for LCD
     
 //    //Turn on both IR sensors
 //    enableSensor(0, 1);
@@ -146,6 +148,17 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     stop(mL,mR);
     SensorResultC[0]=grabLeftIR();
     SensorResultC[1]=grabRightIR();
+    
+    // Output signal strength to LCD
+    SendLCD(0b00000001,0); //Clear Display
+    __delay_us(50); //Delay to let display clearing finish
+    SendLCD(0b00000010,0); // move cursor to home
+    __delay_ms(2);
+    SetLine(1); //Set Line 1
+    LCD_String("      ScanWithRange");
+    SetLine(2); //Set Line 2, for signal strength readings
+    sprintf(buf,"     %d, %d",SensorResultC[0],SensorResultC[1]);
+    LCD_String(buf);
     
     // Reset the timers to avoid same reading being picked up if there is
     // no signal.
@@ -163,6 +176,17 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     SensorResultL[0]=grabLeftIR();
     SensorResultL[1]=grabRightIR();
     
+    // Output signal strength to LCD
+    SendLCD(0b00000001,0); //Clear Display
+    __delay_us(50); //Delay to let display clearing finish
+    SendLCD(0b00000010,0); // move cursor to home
+    __delay_ms(2);
+    SetLine(1); //Set Line 1
+    LCD_String("      ScanWithRange");
+    SetLine(2); //Set Line 2, for signal strength readings
+    sprintf(buf,"     %d, %d",SensorResultL[0],SensorResultL[1]);
+    LCD_String(buf);
+    
     // Reset the timers to avoid same reading being picked up if there is
     // no signal.
     CAP1BUFH=0;
@@ -178,6 +202,17 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     stop(mL,mR);
     SensorResultR[0]=grabLeftIR();
     SensorResultR[1]=grabRightIR();
+    
+    // Output signal strength to LCD
+    SendLCD(0b00000001,0); //Clear Display
+    __delay_us(50); //Delay to let display clearing finish
+    SendLCD(0b00000010,0); // move cursor to home
+    __delay_ms(2);
+    SetLine(1); //Set Line 1
+    LCD_String("      ScanWithRange");
+    SetLine(2); //Set Line 2, for signal strength readings
+    sprintf(buf,"     %d, %d",SensorResultR[0],SensorResultR[1]);
+    LCD_String(buf);
     
     // Reset the timers to avoid same reading being picked up if there is
     // no signal.
@@ -235,7 +270,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
                 ||((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)))) {
              // Move left to (centre) position as its found direction of bomb
             turnLeft(mL,mR);
-            delay_tenth_s(tenth_seconds);
+            delay_s(3);
             (*MoveTimeEntry) += tenth_seconds;
             stop(mL,mR);
             return 2;       
@@ -253,34 +288,84 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
             delay_tenth_s(3*tenth_seconds);
             (*MoveTimeEntry) += 3*tenth_seconds;
             stop(mL,mR);
-            return 0;
+            return 2; // previous 0
         } else if (SensorResultR[1]>SensorResultR[0]) {
             // Go to right, again prevent scanning of same range
             turnRight(mL,mR);
             delay_tenth_s(tenth_seconds);
             (*MoveTimeEntry) -= tenth_seconds;
             stop(mL,mR);        
-            return 0;
+            return 2; // previous 0
 
-        // Robot thinks its found rough direction of bomb, will run ScanIR on it
+        // Robot thinks its found rough direction of bomb, will move then run ScanIR on it
         } else if ((SensorResultL[1]>SensorResultL[0])&&(SensorResultC[0]>SensorResultC[1])) { 
             // Move to left to (left) inner position for more detailed scanning
             turnLeft(mL,mR);
             delay_tenth_s((3*tenth_seconds)/2);
             (*MoveTimeEntry) += 3*tenth_seconds/2;
             stop(mL,mR);
-            return 1;
+            return 2; // previous 1
         } else if ((SensorResultR[0]>SensorResultR[1])&&(SensorResultC[1]>SensorResultC[0])) {
             // Move left to (right) inner position for more detailed scanning
             turnLeft(mL,mR);
             delay_tenth_s((tenth_seconds)/2);
             (*MoveTimeEntry) += tenth_seconds/2;
             stop(mL,mR);
-            return 1;
+            return 2; // previous 1
         }       
     }
     return 0;
 }
+
+// NEW ROUTINE: This route scans given range in very small time increments
+// INPROG
+//char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTimeEntry) {
+//    // Initialise variable that is used to judge the strength of signals
+//    unsigned int SensorResult[2]={0,0};
+//    char buf[40]; // Buffer for characters for LCD
+//    unsigned int i=0;
+//    
+//    for (i=1; i<=tenth_seconds*10; i++) {
+//        // Scan Data
+//        SensorResult[0]=grabLeftIR();
+//        SensorResult[1]=grabRightIR();
+//
+//        // Reset the timers to avoid same reading being picked up if there is
+//        // no signal.
+//        CAP1BUFH=0;
+//        CAP1BUFL=0;
+//        CAP2BUFH=0;
+//        CAP2BUFL=0;       
+//
+//        // Output signal strength to LCD
+//        SendLCD(0b00000001,0); //Clear Display
+//        __delay_us(50); //Delay to let display clearing finish
+//        SendLCD(0b00000010,0); // move cursor to home
+//        __delay_ms(2);
+//        SetLine(1); //Set Line 1
+//        LCD_String("         ScanIR");
+//        SetLine(2); //Set Line 2, for signal strength readings
+//        sprintf(buf,"     %d, %d",SensorResult[0],SensorResult[1]);
+//        LCD_String(buf);
+//        
+//         // Turn left
+//        turnLeft(mL,mR);
+//        __delay_ms(1);
+//        stop(mL,mR);
+//        
+//        if (((SensorResult[0]>DirectionFoundThreshold)&&(SensorResult[1]>DirectionFoundThreshold)
+//            &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
+//                ||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)))) {
+//           return 2; // Direction of bomb is directly ahead
+//        // Left signal is greater -> turn left
+//        }
+//    }
+//    // No clear signal found, just turn left a lot + move a bit and hope to find it!
+//    turnLeft(mL,mR);
+//    delay_s(3);
+//    stop(mL,mR);
+//    return -1;
+//}
 
 //ALGORITHM PSEUDOCODE
 //ScanCentre();

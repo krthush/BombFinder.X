@@ -4780,9 +4780,9 @@ void SetLine (char line);
 void LCD_String(char *string);
 
 # 11 "Movement.c"
-const unsigned int ClearSignalThreshold=500;
+const unsigned int ClearSignalThreshold=200;
 
-const unsigned int DirectionFoundThreshold=2000;
+const unsigned int DirectionFoundThreshold=2500;
 
 const unsigned int DirectionFoundTolerance=1000;
 
@@ -4825,13 +4825,12 @@ CAP2BUFH=0;
 CAP2BUFL=0;
 
 
-
 SendLCD(0b00000001,0);
 _delay((unsigned long)((50)*(8000000/4000000.0)));
 SendLCD(0b00000010,0);
 _delay((unsigned long)((2)*(8000000/4000.0)));
 SetLine(1);
-LCD_String("       Searching");
+LCD_String("         ScanIR");
 SetLine(2);
 sprintf(buf,"     %d, %d",SensorResult[0],SensorResult[1]);
 LCD_String(buf);
@@ -4855,6 +4854,7 @@ MoveType[*Move]=1;
 Move++;
 return 1;
 
+
 } else if (SensorResult[0]>SensorResult[1]) {
 stop(mL,mR);
 turnRight(mL,mR);
@@ -4864,6 +4864,7 @@ MoveTime[*Move]=-3;
 MoveType[*Move]=1;
 Move++;
 return 1;
+
 }
 } else {
 
@@ -4892,7 +4893,7 @@ return 0;
 return 0;
 }
 
-# 131
+# 132
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTimeEntry) {
 
 
@@ -4902,11 +4903,23 @@ unsigned int SensorResultR[2]={0,0};
 unsigned char ResultFalseL=0;
 unsigned char ResultFalseC=0;
 unsigned char ResultFalseR=0;
+char buf[40];
 
-# 146
+# 148
 stop(mL,mR);
 SensorResultC[0]=grabLeftIR();
 SensorResultC[1]=grabRightIR();
+
+
+SendLCD(0b00000001,0);
+_delay((unsigned long)((50)*(8000000/4000000.0)));
+SendLCD(0b00000010,0);
+_delay((unsigned long)((2)*(8000000/4000.0)));
+SetLine(1);
+LCD_String("      ScanWithRange");
+SetLine(2);
+sprintf(buf,"     %d, %d",SensorResultC[0],SensorResultC[1]);
+LCD_String(buf);
 
 
 
@@ -4925,6 +4938,17 @@ SensorResultL[0]=grabLeftIR();
 SensorResultL[1]=grabRightIR();
 
 
+SendLCD(0b00000001,0);
+_delay((unsigned long)((50)*(8000000/4000000.0)));
+SendLCD(0b00000010,0);
+_delay((unsigned long)((2)*(8000000/4000.0)));
+SetLine(1);
+LCD_String("      ScanWithRange");
+SetLine(2);
+sprintf(buf,"     %d, %d",SensorResultL[0],SensorResultL[1]);
+LCD_String(buf);
+
+
 
 CAP1BUFH=0;
 CAP1BUFL=0;
@@ -4941,13 +4965,24 @@ SensorResultR[0]=grabLeftIR();
 SensorResultR[1]=grabRightIR();
 
 
+SendLCD(0b00000001,0);
+_delay((unsigned long)((50)*(8000000/4000000.0)));
+SendLCD(0b00000010,0);
+_delay((unsigned long)((2)*(8000000/4000.0)));
+SetLine(1);
+LCD_String("      ScanWithRange");
+SetLine(2);
+sprintf(buf,"     %d, %d",SensorResultR[0],SensorResultR[1]);
+LCD_String(buf);
+
+
 
 CAP1BUFH=0;
 CAP1BUFL=0;
 CAP2BUFH=0;
 CAP2BUFL=0;
 
-# 198
+# 233
 if((SensorResultL[0]+SensorResultL[1])<ClearSignalThreshold){
 SensorResultL[0]=0;
 SensorResultL[1]=0;
@@ -4988,7 +5023,7 @@ return 2;
 ||((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)))) {
 
 turnLeft(mL,mR);
-delay_tenth_s(tenth_seconds);
+delay_s(3);
 (*MoveTimeEntry) += tenth_seconds;
 stop(mL,mR);
 return 2;
