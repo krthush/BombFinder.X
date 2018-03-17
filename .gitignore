@@ -25,3 +25,7 @@
 *.hex
 *.elf
 *.cmf
+*.xml
+*.mk
+*.properties
+*.mk
