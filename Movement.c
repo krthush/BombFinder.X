@@ -132,7 +132,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     // Turn left
     turnLeft(mL,mR);
     delay_tenth_s(tenth_seconds);  
-    MoveTime += tenth_seconds;
+    (*MoveTime) += tenth_seconds;
     // Then Scan Data
     stop(mL,mR);
     SensorResultL[0]=grabLeftIR();
@@ -148,7 +148,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     // Turn right (note you must turn for twice as long)
     turnRight(mL,mR);
     delay_tenth_s(2*tenth_seconds);
-    MoveTime -= 2*tenth_seconds;
+    (*MoveTime) -= 2*tenth_seconds;
     // Then Scan Data
     stop(mL,mR);
     SensorResultR[0]=grabLeftIR();
@@ -190,7 +190,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
         //No clear signal found, just turn left a lot + move a bit and hope to find it!
         turnLeft(mL,mR);
         delay_tenth_s(5*tenth_seconds);
-        MoveTime += 5*tenth_seconds; //Add positive 0.5 seconds to turning time
+        (*MoveTime) += 5*tenth_seconds; //Add positive 0.5 seconds to turning time
         stop(mL,mR);
         return 3;
     } else {
@@ -201,7 +201,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
              // Move left to (left) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(2*(tenth_seconds));
-            MoveTime += 2*tenth_seconds;
+            (*MoveTime) += 2*tenth_seconds;
             stop(mL,mR);
             return 2;       
         } else if (((SensorResultC[0]>DirectionFoundLimit)&&(SensorResultC[1]>DirectionFoundLimit)
@@ -210,7 +210,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
              // Move left to (center) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(tenth_seconds);
-            MoveTime += tenth_seconds;
+            (*MoveTime) += tenth_seconds;
             stop(mL,mR);
             return 2;       
         } else if (((SensorResultR[0]>DirectionFoundLimit)&&(SensorResultR[1]>DirectionFoundLimit)
@@ -225,14 +225,14 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
             // Move to centre, then twice as far further to prevent scanning same range again
             turnLeft(mL,mR);
             delay_tenth_s(3*tenth_seconds);
-            MoveTime += 3*tenth_seconds;
+            (*MoveTime) += 3*tenth_seconds;
             stop(mL,mR);
             return 0;
         } else if (SensorResultR[1]>SensorResultR[0]) {
             // Go to right, again prevent scanning of same range
             turnRight(mL,mR);
             delay_tenth_s(tenth_seconds);
-            MoveTime -= tenth_seconds;
+            (*MoveTime) -= tenth_seconds;
             stop(mL,mR);        
             return 0;
 
@@ -241,14 +241,14 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
             // Move to left to (left) inner position for more detailed scanning
             turnLeft(mL,mR);
             delay_tenth_s((3*tenth_seconds)/2);
-            MoveTime += 3*tenth_seconds/2;
+            (*MoveTime) += 3*tenth_seconds/2;
             stop(mL,mR);
             return 1;
         } else if ((SensorResultR[0]>SensorResultR[1])&&(SensorResultC[1]>SensorResultC[0])) {
             // Move left to (right) inner position for more detailed scanning
             turnLeft(mL,mR);
             delay_tenth_s((tenth_seconds)/2);
-            MoveTime += tenth_seconds/2;
+            (*MoveTime) += tenth_seconds/2;
             stop(mL,mR);
             return 1;
         }       
