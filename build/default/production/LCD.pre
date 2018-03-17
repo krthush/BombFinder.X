@@ -4726,10 +4726,10 @@ extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
 
-# 14 "LCD.h"
+# 13 "LCD.h"
 #pragma config OSC = IRCIO, WDTEN=OFF
 
-# 25
+# 23
 void initLCD(void);
 void E_TOG(void);
 void LCDout(unsigned char number);

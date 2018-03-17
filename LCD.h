@@ -8,7 +8,6 @@
 #define	LCD_H
 #define _XTAL_FREQ 8000000
 
-#include <xc.h>
 #include <string.h>
 #include <stdio.h>
 #pragma config OSC = IRCIO, WDTEN=OFF // internal oscillator
@@ -21,15 +20,12 @@
 #define LCD_DB7 LATDbits.LATD1
 #define LCD_RS LATAbits.LATA6
 
-
 void initLCD(void);
 void E_TOG(void);
 void LCDout(unsigned char number);
 void SendLCD(unsigned char Byte, char type);
 void SetLine (char line);
 void LCD_String(char *string);
-
-
 
 #endif	/* LCD_H */
 

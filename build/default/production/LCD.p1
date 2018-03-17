@@ -3667,15 +3667,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdio.h: 190: extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
 [; ;stdio.h: 194: extern int sprintf(char *, const char *, ...);
 [; ;stdio.h: 195: extern int printf(const char *, ...);
-"14 LCD.h
+"13 LCD.h
 [p x OSC=IRCIO ]
 [p x WDTEN=OFF ]
-[; ;LCD.h: 25: void initLCD(void);
-[; ;LCD.h: 26: void E_TOG(void);
-[; ;LCD.h: 27: void LCDout(unsigned char number);
-[; ;LCD.h: 28: void SendLCD(unsigned char Byte, char type);
-[; ;LCD.h: 29: void SetLine (char line);
-[; ;LCD.h: 30: void LCD_String(char *string);
+[; ;LCD.h: 23: void initLCD(void);
+[; ;LCD.h: 24: void E_TOG(void);
+[; ;LCD.h: 25: void LCDout(unsigned char number);
+[; ;LCD.h: 26: void SendLCD(unsigned char Byte, char type);
+[; ;LCD.h: 27: void SetLine (char line);
+[; ;LCD.h: 28: void LCD_String(char *string);
 "5 LCD.c
 [v _E_TOG `(v ~T0 @X0 1 ef ]
 {

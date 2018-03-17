@@ -3,6 +3,7 @@
 #define _XTAL_FREQ 8000000
 #include "IR_Reading.h"
 #include "Movement.h"
+#include "LCD.h"
 
 
 // USERVARIABLE TOLERANCES
@@ -41,6 +42,7 @@ void delay_tenth_s(char tenth_seconds) {
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char *MoveTime, char *MoveType){
     // Initialise variable that is used to judge the strength of signals
     unsigned int SensorResult[2]={0,0};
+    char buf[40]; // Buffer for characters for LCD
     
     // Scan Data
 //    stop(mL,mR); // TOGGLE: continuous OR stop n scan
@@ -54,6 +56,17 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char 
     CAP2BUFH=0;
     CAP2BUFL=0;       
     
+    // Output signal strength to LCD
+    // N.B. there is no isLCDset check because this needs to refresh
+    SendLCD(0b00000001,0); //Clear Display
+    __delay_us(50); //Delay to let display clearing finish
+    SendLCD(0b00000010,0); // move cursor to home
+    __delay_ms(2);
+    SetLine(1); //Set Line 1
+    LCD_String("       Searching");
+    SetLine(2); //Set Line 2, for signal strength readings
+    sprintf(buf,"     %d, %d",SensorResult[0],SensorResult[1]);
+    LCD_String(buf);
     
     // If there is significant signal
     if ((SensorResult[0]+SensorResult[1])>ClearSignalThreshold) {

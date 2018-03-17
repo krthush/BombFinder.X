@@ -3,7 +3,7 @@
 #include "RFID_Reader.h"
 #include "Movement.h"
 #include "IR_Reading.h"
-//#include "LCD.h"
+#include "LCD.h"
 
 #pragma config OSC = IRCIO  // internal oscillator
 
@@ -12,7 +12,7 @@
 volatile unsigned char ReceivedString[16]; //Global variable to read from RFID
 volatile unsigned char i=0;
 volatile unsigned char RFID_Read=0;
-volatile unsigned char start=0;
+volatile signed char mode=0; // Robot mode - see switch case tree in main loop
 
 // High priority interrupt routine
 void interrupt low_priority InterruptHandlerLow ()
@@ -30,10 +30,20 @@ void interrupt low_priority InterruptHandlerLow ()
 }
 
 // Low priority interrupt routine for button 
-// Switches between inert mode vs. start
+// Switches between inert mode vs. other modes
 void interrupt InterruptHandlerHigh () {
     if (INTCONbits.INT0IF) {
-        start=1;
+        if (mode==-1) { // If in inert mode
+            // Start searching and then perform tasks   
+            mode=1;
+        } else if (mode==0) { // If in start up mode
+            // Do nothing! Needs to wait till bot is started.
+        } else { // If in any other mode...
+            // Enter inert mode
+            mode=-1;
+        }
+        // Small delay to de-bounce switch interrupt
+        delay_tenth_s(2);
         INTCONbits.INT0IF=0; // clear the flag
     }
 }
@@ -41,13 +51,12 @@ void interrupt InterruptHandlerHigh () {
 void main(void){
     
     //Initialise Variables
-    unsigned char Message[10]; //Code on RFID Card
-    unsigned char i=0; //Counter variable
-    signed char mode=0; //Robot mode - see switch case tree in main loop
+    unsigned char Message[10]; // Code on RFID Card
+    unsigned char i=0; // Counter variable
     signed char DirectionFound=0; // Flag for if the robot has decided it knows where the bomb is
-    char MoveTime[100]; //Array to store time spent on each type of movement
-    char MoveType[100]; //Array to store movement types - 0 is forwards, 1 is left/right
-    char Move=0; //Move counter
+    char MoveTime[100]; // Array to store time spent on each type of movement
+    char MoveType[100]; // Array to store movement types - 0 is forwards, 1 is left/right
+    char Move=0; // Move counter
     // USERVARIABLE TOLERANCES
     unsigned char ScanAngle=6; // PLEASE NOTE: has to be even, units - tenth seconds
     
@@ -92,37 +101,48 @@ void main(void){
        
        switch (mode) {
            case -1: //Inert Mode
-               // Robot has finished start-up, and now ready to go!
-               // Robot also enters this mode after successfully finishing the task.
-               // If button is pressed while robot is performing, it will return to inert mode.
-               // If button is pressed while robot is in inert mode, it will start performing.
-               stop(&mL, &mR);
                
-               break;
+                // Robot has finished start-up, and now ready to go!
+                // Robot also enters this mode after successfully finishing the task.
+                // If button is pressed while robot is performing, it will return to inert mode.
+                // If button is pressed while robot is in inert mode, it will start performing.
+                stop(&mL, &mR);
+
+                SetLine(1); //Set Line 1
+                LCD_String("        Ready");
+                SetLine(2);
+                LCD_String("        To Go!");
+               
+                break;
                
            case 0 : //Start-up Mode
+               
                 //Initialise EVERYTHING
                 initMotorPWM();  //setup PWM registers
                 initRFID();
                 initLCD();
-                initIR();              
-               
-                // Bot goes forward, stops, then back and stop
-                // TODO: do calibration routine here
-                fullSpeedAhead(&mL, &mR);
-                delay_s(1);
-                stop(&mL, &mR);
-                fullSpeedBack(&mL, &mR);
-                delay_s(1);
-                stop(&mL, &mR);
+                initIR();
               
                 enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
                 enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
-                mode = -1;  //TODO: Make mode change on button press
-               
+                
+                // Small movement to signify initialise code has been successful
+                fullSpeedAhead(&mL, &mR);
+                delay_tenth_s(1);
+                
+                mode=-1;  //TODO: Make mode change on button press
+                
                 break;
                
            case 1 : //Search Mode
+               
+                // TODO: do calibration routine here
+                // Pseudo code:
+                // if(!calibrated){calibrate}
+               
+                SetLine(1); //Set Line 1
+                LCD_String("       Searching");
+                               
                 if (DirectionFound==-1) {
                     // Robot is completely lost, move a bit a hope to find it.
                     // PLEASE NOTE: this movement in combination with the
@@ -135,16 +155,15 @@ void main(void){
                     MoveType[Move]=0;
                 } else if (DirectionFound==0) {
                     // Scans a wide range if it's unsure about direction
-                    DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
-                    MoveType[Move] = 1;
+                    DirectionFound=ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
+                    MoveType[Move]=1;
                 } else if (DirectionFound==1) {
                      // Keeps direction and just scans, robot thinks it's close
-                    DirectionFound = ScanIR(&mL, &mR, &Move, &MoveTime, &MoveType); // USERVARIABLE
-                    
+                    DirectionFound=ScanIR(&mL, &mR, &Move, &MoveTime, &MoveType); // USERVARIABLE
                 } else if (DirectionFound==2) {
                      // Robot thinks its on track, switch to move mode
                      mode=2;
-                     MoveType[Move] = 1;
+                     MoveType[Move]=1;
                 }
                 
                 Move++;
@@ -152,8 +171,8 @@ void main(void){
                 break;
                
             case 2 : // Go forward mode
-               // Move forward until RFID read and verified or a certain time
-               // has elapsed
+                // Move forward until RFID read and verified or a certain time
+                // has elapsed
 
                 if (RFID_Read) {
                     stop(&mL, &mR);
@@ -168,7 +187,7 @@ void main(void){
                             for (i=0; i<16; i++) {
                                 ReceivedString[i]=0;
                             }
-                            mode = 3; //Return to home!
+                            mode=3; //Return to home!
 
                         } else { //If the signal doesn't check out
                             fullSpeedBack(&mL,&mR); //Go back a bit then stop
@@ -191,7 +210,13 @@ void main(void){
                
             case 3 : //Return Mode
                 //Return to original position using MoveType and MoveTime
+                
+                SetLine(1); //Set Line 1
+                LCD_String("      Found Bomb!");
+                SetLine(2);
+                LCD_String("      Going Home");
                 stop(&mL,&mR);
+                
 //                for (Move=Move; Move>0; Move--) { //Go backwards along the moves
 //                    if (MoveType[Move]==0) { //If move was forwards
 //                        fullSpeedBack(&mL,&mR);
@@ -206,6 +231,11 @@ void main(void){
 //                        }
 //                    }
 //                }
+                
+                // TODO: Need to do an isLCDset=0 so that when bot returns home
+                // it says line1: "I'm Home" line2: "And Ready!".
+//                mode=-1;
+                
                 break;
        }      
    }

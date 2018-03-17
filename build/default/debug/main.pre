@@ -4666,7 +4666,7 @@ void delay_s(char seconds);
 void delay_tenth_s(char tenth_seconds);
 
 
-char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char *MoveTime, char *MoveType);
 
 
 
@@ -4679,6 +4679,113 @@ unsigned int grabRightIR(void);
 unsigned int grabLeftIR(void);
 void enableSensor(char sensor, char status);
 
+# 4 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\__size_t.h"
+typedef unsigned size_t;
+
+# 14 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\string.h"
+extern void * memcpy(void *, const void *, size_t);
+extern void * memmove(void *, const void *, size_t);
+extern void * memset(void *, int, size_t);
+
+# 34
+extern char * strcat(char *, const char *);
+extern char * strcpy(char *, const char *);
+extern char * strncat(char *, const char *, size_t);
+extern char * strncpy(char *, const char *, size_t);
+extern char * strdup(const char *);
+extern char * strtok(char *, const char *);
+
+
+extern int memcmp(const void *, const void *, size_t);
+extern int strcmp(const char *, const char *);
+extern int stricmp(const char *, const char *);
+extern int strncmp(const char *, const char *, size_t);
+extern int strnicmp(const char *, const char *, size_t);
+extern void * memchr(const void *, int, size_t);
+extern size_t strcspn(const char *, const char *);
+extern char * strpbrk(const char *, const char *);
+extern size_t strspn(const char *, const char *);
+extern char * strstr(const char *, const char *);
+extern char * stristr(const char *, const char *);
+extern char * strerror(int);
+extern size_t strlen(const char *);
+extern char * strchr(const char *, int);
+extern char * strichr(const char *, int);
+extern char * strrchr(const char *, int);
+extern char * strrichr(const char *, int);
+
+# 7 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\stdarg.h"
+typedef void * va_list[1];
+
+#pragma intrinsic(__va_start)
+extern void * __va_start(void);
+
+#pragma intrinsic(__va_arg)
+extern void * __va_arg(void *, ...);
+
+# 43 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\stdio.h"
+struct __prbuf
+{
+char * ptr;
+void (* func)(char);
+};
+
+# 25 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\errno.h"
+extern int errno;
+
+# 12 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\conio.h"
+extern void init_uart(void);
+
+extern char getch(void);
+extern char getche(void);
+extern void putch(char);
+extern void ungetch(char);
+
+extern __bit kbhit(void);
+
+# 23
+extern char * cgets(char *);
+extern void cputs(const char *);
+
+# 88 "C:\Program Files (x86)\Microchip\xc8\v1.35\include\stdio.h"
+extern int cprintf(char *, ...);
+#pragma printf_check(cprintf)
+
+
+
+extern int _doprnt(struct __prbuf *, const register char *, register va_list);
+
+
+# 180
+#pragma printf_check(vprintf) const
+#pragma printf_check(vsprintf) const
+
+extern char * gets(char *);
+extern int puts(const char *);
+extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
+extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
+extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
+extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
+extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
+extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
+
+#pragma printf_check(printf) const
+#pragma printf_check(sprintf) const
+extern int sprintf(char *, const char *, ...);
+extern int printf(const char *, ...);
+
+
+# 14 "LCD.h"
+#pragma config OSC = IRCIO, WDTEN=OFF
+
+# 25
+void initLCD(void);
+void E_TOG(void);
+void LCDout(unsigned char number);
+void SendLCD(unsigned char Byte, char type);
+void SetLine (char line);
+void LCD_String(char *string);
+
 
 # 8 "main.c"
 #pragma config OSC = IRCIO
@@ -4688,7 +4795,7 @@ void enableSensor(char sensor, char status);
 volatile unsigned char ReceivedString[16];
 volatile unsigned char i=0;
 volatile unsigned char RFID_Read=0;
-volatile unsigned char start=0;
+volatile signed char mode=0;
 
 
 void interrupt low_priority InterruptHandlerLow ()
@@ -4709,7 +4816,17 @@ PIR1bits.RCIF=0;
 
 void interrupt InterruptHandlerHigh () {
 if (INTCONbits.INT0IF) {
-start=1;
+if (mode==-1) {
+
+mode=1;
+} else if (mode==0) {
+
+} else {
+
+mode=-1;
+}
+
+delay_tenth_s(2);
 INTCONbits.INT0IF=0;
 }
 }
@@ -4719,7 +4836,6 @@ void main(void){
 
 unsigned char Message[10];
 unsigned char i=0;
-unsigned char mode=0;
 signed char DirectionFound=0;
 char MoveTime[100];
 char MoveType[100];
@@ -4767,30 +4883,44 @@ while(!OSCCONbits.IOFS);
 while(1){
 
 switch (mode) {
+case -1:
+
+# 109
+stop(&mL, &mR);
+
+SendLCD(0b00000001,0);
+_delay((unsigned long)((50)*(8000000/4000000.0)));
+SendLCD(0b00000010,0);
+_delay((unsigned long)((2)*(8000000/4000.0)));
+SetLine(1);
+LCD_String("        Ready");
+SetLine(2);
+LCD_String("        To Go!");
+
+break;
+
 case 0 :
+
 
 initMotorPWM();
 initRFID();
 initLCD();
 initIR();
 
+enableSensor(0, 1);
+enableSensor(1, 1);
 
 
 fullSpeedAhead(&mL, &mR);
-delay_s(1);
-stop(&mL, &mR);
-fullSpeedBack(&mL, &mR);
-delay_s(1);
-stop(&mL, &mR);
+delay_tenth_s(1);
 
-enableSensor(0, 1);
-enableSensor(1, 1);
-mode = 1;
+mode=-1;
 
 break;
 
 case 1 :
 
+# 147
 if (DirectionFound==-1) {
 
 
@@ -4800,18 +4930,20 @@ fullSpeedAhead(&mL, &mR);
 delay_tenth_s(ScanAngle);
 stop(&mL,&mR);
 DirectionFound=0;
+MoveType[Move]=0;
 } else if (DirectionFound==0) {
 
-DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
+DirectionFound=ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
+MoveType[Move]=1;
 } else if (DirectionFound==1) {
 
-DirectionFound = ScanIR(&mL, &mR);
+DirectionFound=ScanIR(&mL, &mR, &Move, &MoveTime, &MoveType);
 } else if (DirectionFound==2) {
 
 mode=2;
+MoveType[Move]=1;
 }
 
-MoveType[Move] = 1;
 Move++;
 
 break;
@@ -4833,7 +4965,7 @@ Message[i] = ReceivedString[i+1];
 for (i=0; i<16; i++) {
 ReceivedString[i]=0;
 }
-mode = 3;
+mode=3;
 
 } else {
 fullSpeedBack(&mL,&mR);
@@ -4847,15 +4979,29 @@ DirectionFound=1;
 mode=1;
 fullSpeedAhead(&mL,&mR);
 delay_tenth_s(5);
+MoveType[Move] = 0;
+MoveTime[Move] = 5;
+Move++;
 }
 
 break;
 
 case 3 :
 
+
+SendLCD(0b00000001,0);
+_delay((unsigned long)((50)*(8000000/4000000.0)));
+SendLCD(0b00000010,0);
+_delay((unsigned long)((2)*(8000000/4000.0)));
+SetLine(1);
+LCD_String("      Found Bomb!");
+SetLine(2);
+LCD_String("      Going Home");
 stop(&mL,&mR);
 
-# 195
+# 239
+mode=-1;
+
 break;
 }
 }
