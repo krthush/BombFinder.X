@@ -31,16 +31,24 @@ void delay_tenth_s(char tenth_seconds) {
 // - stop n scan, the drone stops every time it scans
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     // Initialise variable that is used to judge the strength of signals
-    unsigned int SensorResult[2];
+    unsigned int SensorResult[2]={0,0};
     // USERVARIABLE TOLERANCES
     const unsigned int ClearSignalTolerance=200;
-    const unsigned int DirectionFoundLimit=1500;
-    const unsigned int DirectionFoundTolerance=500;
+    const unsigned int DirectionFoundLimit=800;
+    const unsigned int DirectionFoundTolerance=600;
     
     // Scan Data
 //    stop(mL,mR); // TOGGLE: continuous OR stop n scan
     SensorResult[0]=grabLeftIR();
     SensorResult[1]=grabRightIR();
+    
+    // Reset the timers to avoid same reading being picked up if there is
+    // no signal.
+    CAP1BUFH=0;
+    CAP1BUFL=0;
+    CAP2BUFH=0;
+    CAP2BUFL=0;       
+    
     
     // If there is significant signal
     if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) {
@@ -93,17 +101,17 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTimeEntry) {
     // Initialise variable that is used to judge the strength of signals
     // Will be strength of left[0] OR right[1] sensor
-    unsigned int SensorResultL[2];
-    unsigned int SensorResultC[2];
-    unsigned int SensorResultR[2];
+    unsigned int SensorResultL[2]={0,0};
+    unsigned int SensorResultC[2]={0,0};
+    unsigned int SensorResultR[2]={0,0};
     unsigned char ResultFalseL=0;
     unsigned char ResultFalseC=0;
     unsigned char ResultFalseR=0;
     
     // USERVARIABLE TOLERANCES
     const unsigned int ClearSignalTolerance=200;
-    const unsigned int DirectionFoundLimit=1500;
-    const unsigned int DirectionFoundTolerance=500;
+    const unsigned int DirectionFoundLimit=800;
+    const unsigned int DirectionFoundTolerance=600;
     
 //    //Turn on both IR sensors
 //    enableSensor(0, 1);
@@ -114,6 +122,13 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     SensorResultC[0]=grabLeftIR();
     SensorResultC[1]=grabRightIR();
     
+    // Reset the timers to avoid same reading being picked up if there is
+    // no signal.
+    CAP1BUFH=0;
+    CAP1BUFL=0;
+    CAP2BUFH=0;
+    CAP2BUFL=0; 
+    
     // Turn left
     turnLeft(mL,mR);
     delay_tenth_s(tenth_seconds);  
@@ -123,6 +138,13 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     SensorResultL[0]=grabLeftIR();
     SensorResultL[1]=grabRightIR();
     
+    // Reset the timers to avoid same reading being picked up if there is
+    // no signal.
+    CAP1BUFH=0;
+    CAP1BUFL=0;
+    CAP2BUFH=0;
+    CAP2BUFL=0; 
+    
     // Turn right (note you must turn for twice as long)
     turnRight(mL,mR);
     delay_tenth_s(2*tenth_seconds);
@@ -131,6 +153,13 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     stop(mL,mR);
     SensorResultR[0]=grabLeftIR();
     SensorResultR[1]=grabRightIR();
+    
+    // Reset the timers to avoid same reading being picked up if there is
+    // no signal.
+    CAP1BUFH=0;
+    CAP1BUFL=0;
+    CAP2BUFH=0;
+    CAP2BUFL=0;
     
 //    //Turn off both IR sensors
 //    enableSensor(0, 0);
@@ -225,16 +254,6 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
         }       
     }
     return 0;
-}
-
-char BombDirectionFound(unsigned int *SensorResult){
-    // USERVARIABLE TOLERANCES
-    const unsigned int DirectionFoundLimit=2000;
-    const unsigned int DirectionFoundTolerance=500;
-    
-    return ((SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
-            &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
-                ||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)));
 }
 
 //ALGORITHM PSEUDOCODE

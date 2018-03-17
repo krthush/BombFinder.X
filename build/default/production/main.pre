@@ -4665,13 +4665,13 @@ void delay_s(char seconds);
 
 void delay_tenth_s(char tenth_seconds);
 
+
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR);
 
 
 
 
 char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTime);
-char BombDirectionFound(unsigned int *SensorResult);
 
 # 15 "IR_Reading.h"
 void initIR(void);
@@ -4801,7 +4801,6 @@ DirectionFound=0;
 MoveType[Move] = 1;
 Move++;
 
-# 137
 break;
 
 case 2 :
@@ -4831,12 +4830,11 @@ fullSpeedAhead(&mL,&mR);
 }
 }
 } else {
+DirectionFound=1;
+mode=1;
 fullSpeedAhead(&mL,&mR);
 delay_tenth_s(5);
-DirectionFound==1;
-mode=1;
 }
-
 
 break;
 
