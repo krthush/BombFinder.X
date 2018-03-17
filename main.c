@@ -123,7 +123,6 @@ void main(void){
                 break;
                
            case 1 : //Search Mode
-               
                 if (DirectionFound==-1) {
                     // Robot is completely lost, move a bit a hope to find it.
                     // PLEASE NOTE: this movement in combination with the
@@ -133,18 +132,21 @@ void main(void){
                     delay_tenth_s(ScanAngle);
                     stop(&mL,&mR);
                     DirectionFound=0;
+                    MoveType[Move]=0;
                 } else if (DirectionFound==0) {
                     // Scans a wide range if it's unsure about direction
                     DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
+                    MoveType[Move] = 1;
                 } else if (DirectionFound==1) {
                      // Keeps direction and just scans, robot thinks it's close
-                        DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
+                    DirectionFound = ScanIR(&mL, &mR, &Move, &MoveTime, &MoveType); // USERVARIABLE
+                    
                 } else if (DirectionFound==2) {
                      // Robot thinks its on track, switch to move mode
                      mode=2;
+                     MoveType[Move] = 1;
                 }
-               
-                MoveType[Move] = 1;
+                
                 Move++;
                
                 break;
@@ -180,6 +182,9 @@ void main(void){
                     mode=1;
                     fullSpeedAhead(&mL,&mR);
                     delay_tenth_s(5);
+                    MoveType[Move] = 0;
+                    MoveTime[Move] = 5;
+                    Move++;
                 }
                 
                 break;
