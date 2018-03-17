@@ -29,7 +29,7 @@ void delay_tenth_s(char tenth_seconds) {
 // Function can be toggled to be:
 // - continuous, the drone moves while scanning until there is a change
 // - stop n scan, the drone stops every time it scans
-char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
+char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char *MoveTime, char *MoveType){
     // Initialise variable that is used to judge the strength of signals
     unsigned int SensorResult[2]={0,0};
     // USERVARIABLE TOLERANCES
@@ -64,6 +64,9 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
            turnLeft(mL,mR); // Turn left
            delay_tenth_s(3);
            stop(mL,mR);
+           MoveTime[*Move]=3;
+           MoveType[*Move]=1;
+           Move++;
            return 1;
         // Right signal is greater -> turn right
         } else if (SensorResult[0]>SensorResult[1]) {
@@ -71,6 +74,9 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
            turnRight(mL,mR); // Turn Right
            delay_tenth_s(3);
            stop(mL,mR);
+           MoveTime[*Move]=-3;
+           MoveType[*Move]=1;
+           Move++;
            return 1;
         }
     } else {
@@ -82,12 +88,18 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
            turnLeft(mL,mR); // Turn left
            delay_tenth_s(5);
            stop(mL,mR);
+           MoveTime[*Move]=5;
+           MoveType[*Move]=1;
+           Move++;
            return 0;
         // Right signal is greater -> turn right
         } else if (SensorResult[0]>SensorResult[1]) {
            turnRight(mL,mR); // Turn Right
            delay_tenth_s(5);
            stop(mL,mR);
+           MoveTime[*Move]=-5;
+           MoveType[*Move]=1;
+           Move++;
            return 0;
         }
     }
