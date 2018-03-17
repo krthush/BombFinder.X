@@ -4688,9 +4688,10 @@ void enableSensor(char sensor, char status);
 volatile unsigned char ReceivedString[16];
 volatile unsigned char i=0;
 volatile unsigned char RFID_Read=0;
+volatile unsigned char start=0;
 
 
-void interrupt InterruptHandlerHigh ()
+void interrupt low_priority InterruptHandlerLow ()
 {
 if (PIR1bits.RCIF) {
 ReceivedString[i]=RCREG;
@@ -4704,16 +4705,22 @@ PIR1bits.RCIF=0;
 }
 }
 
+
+
+void interrupt InterruptHandlerHigh () {
+if (INTCONbits.INT0IF) {
+start=1;
+INTCONbits.INT0IF=0;
+}
+}
+
 void main(void){
 
 
 unsigned char Message[10];
 unsigned char i=0;
 unsigned char mode=0;
-char DirectionFound=0;
-unsigned char SignalStrength[3];
-char PathTaken[100];
-unsigned int test=0;
+signed char DirectionFound=0;
 char MoveTime[100];
 char MoveType[100];
 char Move=0;
@@ -4721,15 +4728,22 @@ char Move=0;
 unsigned char ScanAngle=6;
 
 
-INTCONbits.GIEH = 1;
-INTCONbits.GIEL = 1;
-INTCONbits.PEIE = 1;
-RCONbits.IPEN = 1;
+INTCONbits.GIEH=1;
+INTCONbits.GIEL=1;
+INTCONbits.PEIE=1;
+RCONbits.IPEN=1;
 
 
-IPR1bits.RCIP=1;
+IPR1bits.RCIP=0;
 PIE1bits.RCIE=1;
-PIR1bits.RCIF=0;
+
+
+TRISCbits.RC3=1;
+INTCONbits.INT0IE=1;
+
+
+PIR1bits.RC1IF=0;
+INTCONbits.INT0IF=0;
 
 
 struct DC_motor mL, mR;
@@ -4757,7 +4771,6 @@ case 0 :
 
 initMotorPWM();
 initRFID();
-initIR();
 initLCD();
 initIR();
 
@@ -4778,16 +4791,7 @@ break;
 
 case 1 :
 
-if (DirectionFound==0) {
-
-DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
-} else if (DirectionFound==1) {
-
-DirectionFound = ScanIR(&mL, &mR);
-} else if (DirectionFound==2) {
-
-mode=2;
-} else if (DirectionFound==3) {
+if (DirectionFound==-1) {
 
 
 
@@ -4796,6 +4800,15 @@ fullSpeedAhead(&mL, &mR);
 delay_tenth_s(ScanAngle);
 stop(&mL,&mR);
 DirectionFound=0;
+} else if (DirectionFound==0) {
+
+DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
+} else if (DirectionFound==1) {
+
+DirectionFound = ScanIR(&mL, &mR);
+} else if (DirectionFound==2) {
+
+mode=2;
 }
 
 MoveType[Move] = 1;
@@ -4840,20 +4853,9 @@ break;
 
 case 3 :
 
-for (Move=Move; Move>0; Move--) {
-if (MoveType[Move]==0) {
-fullSpeedBack(&mL,&mR);
-delay_tenth_s(MoveTime[Move]);
-} else if (MoveType[Move]==1) {
-if (MoveTime[Move]>0) {
-turnRight(&mL,&mR);
-delay_tenth_s(MoveTime[Move]);
-} else {
-turnLeft(&mL,&mR);
-delay_tenth_s(MoveTime[Move]);
-}
-}
-}
+stop(&mL,&mR);
+
+# 195
 break;
 }
 }

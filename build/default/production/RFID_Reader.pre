@@ -4639,7 +4639,7 @@ unsigned char VerifySignal(unsigned char *Signal);
 
 # 5 "RFID_Reader.c"
 void initRFID(void){
-TRISC = TRISC || 0b11000000;
+TRISC = TRISC | 0b11000000;
 
 
 
@@ -4651,7 +4651,6 @@ RCSTAbits.CREN=1;
 RCSTAbits.SPEN=1;
 TXSTAbits.SYNC=0;
 RCSTAbits.RX9=0;
-
 }
 
 void sendCharToSerial(char charToSend){
@@ -4676,7 +4675,7 @@ _delay((unsigned long)((50)*(8000000/4000000.0)));
 }
 }
 
-# 56
+# 55
 unsigned char VerifySignal(unsigned char *Signal){
 unsigned char checksum=0;
 unsigned int hexByte=0;

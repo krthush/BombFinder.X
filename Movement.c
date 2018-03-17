@@ -4,6 +4,15 @@
 #include "IR_Reading.h"
 #include "Movement.h"
 
+
+// USERVARIABLE TOLERANCES
+// minimum signal strength required to be considered an actual signal
+const unsigned int ClearSignalThreshold=500; 
+// minimum signal strength required for sensor to be considered directly aimed at beacon
+const unsigned int DirectionFoundThreshold=2000; 
+// maximum tolerance between both sensors to be considered both aimed at beacon
+const unsigned int DirectionFoundTolerance=1000; 
+
 // Function to delay in seconds
 //__delay_ms() is limited to a maximum delay of 89ms with an 8Mhz
 //clock so you need to write a function to make longer delays
@@ -32,10 +41,6 @@ void delay_tenth_s(char tenth_seconds) {
 char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     // Initialise variable that is used to judge the strength of signals
     unsigned int SensorResult[2]={0,0};
-    // USERVARIABLE TOLERANCES
-    const unsigned int ClearSignalTolerance=200;
-    const unsigned int DirectionFoundLimit=800;
-    const unsigned int DirectionFoundTolerance=600;
     
     // Scan Data
 //    stop(mL,mR); // TOGGLE: continuous OR stop n scan
@@ -51,10 +56,10 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR){
     
     
     // If there is significant signal
-    if ((SensorResult[0]+SensorResult[1])>ClearSignalTolerance) {
+    if ((SensorResult[0]+SensorResult[1])>ClearSignalThreshold) {
         // If both signals are greater than 2500 AND the difference between them
         // is less than the specified DirectionFoundTolerance
-        if (((SensorResult[0]>DirectionFoundLimit)&&(SensorResult[1]>DirectionFoundLimit)
+        if (((SensorResult[0]>DirectionFoundThreshold)&&(SensorResult[1]>DirectionFoundThreshold)
             &&(((SensorResult[0]-SensorResult[1])<DirectionFoundTolerance)
                 ||((SensorResult[1]-SensorResult[0])<DirectionFoundTolerance)))) {
            return 2; // Direction of bomb is directly ahead
@@ -107,11 +112,6 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     unsigned char ResultFalseL=0;
     unsigned char ResultFalseC=0;
     unsigned char ResultFalseR=0;
-    
-    // USERVARIABLE TOLERANCES
-    const unsigned int ClearSignalTolerance=200;
-    const unsigned int DirectionFoundLimit=800;
-    const unsigned int DirectionFoundTolerance=600;
     
 //    //Turn on both IR sensors
 //    enableSensor(0, 1);
@@ -170,17 +170,17 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     // THIS SECTION NEEDS MORE COMMENTING OR PUT IN ANOTHER FUNCTION.
     
     // Check if they results are not valid and are above ClearSignalTolerance
-    if((SensorResultL[0]+SensorResultL[1])<ClearSignalTolerance){
+    if((SensorResultL[0]+SensorResultL[1])<ClearSignalThreshold){
         SensorResultL[0]=0;
         SensorResultL[1]=0;
         ResultFalseL=1;
     }
-    if((SensorResultC[0]+SensorResultC[1])<ClearSignalTolerance){
+    if((SensorResultC[0]+SensorResultC[1])<ClearSignalThreshold){
         SensorResultC[0]=0;
         SensorResultC[1]=0;
         ResultFalseC=1;
     }
-    if((SensorResultR[0]+SensorResultR[1])<ClearSignalTolerance){
+    if((SensorResultR[0]+SensorResultR[1])<ClearSignalThreshold){
         SensorResultR[0]=0;
         SensorResultR[1]=0;
         ResultFalseR=1;
@@ -192,10 +192,11 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
         delay_tenth_s(5*tenth_seconds);
         (*MoveTime) += 5*tenth_seconds; //Add positive 0.5 seconds to turning time
         stop(mL,mR);
-        return 3;
+        // Return -1
+        return -1;
     } else {
         // Logic for robot thinks its found the direction the bomb
-        if (((SensorResultL[0]>DirectionFoundLimit)&&(SensorResultL[1]>DirectionFoundLimit)
+        if (((SensorResultL[0]>DirectionFoundThreshold)&&(SensorResultL[1]>DirectionFoundThreshold)
             &&(((SensorResultL[0]-SensorResultL[1])<DirectionFoundTolerance)
                 ||((SensorResultL[1]-SensorResultL[0])<DirectionFoundTolerance)))) {
              // Move left to (left) position as its found direction of bomb
@@ -204,16 +205,16 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
             (*MoveTime) += 2*tenth_seconds;
             stop(mL,mR);
             return 2;       
-        } else if (((SensorResultC[0]>DirectionFoundLimit)&&(SensorResultC[1]>DirectionFoundLimit)
+        } else if (((SensorResultC[0]>DirectionFoundThreshold)&&(SensorResultC[1]>DirectionFoundThreshold)
             &&(((SensorResultC[0]-SensorResultC[1])<DirectionFoundTolerance)
                 ||((SensorResultC[1]-SensorResultC[0])<DirectionFoundTolerance)))) {
-             // Move left to (center) position as its found direction of bomb
+             // Move left to (centre) position as its found direction of bomb
             turnLeft(mL,mR);
             delay_tenth_s(tenth_seconds);
             (*MoveTime) += tenth_seconds;
             stop(mL,mR);
             return 2;       
-        } else if (((SensorResultR[0]>DirectionFoundLimit)&&(SensorResultR[1]>DirectionFoundLimit)
+        } else if (((SensorResultR[0]>DirectionFoundThreshold)&&(SensorResultR[1]>DirectionFoundThreshold)
             &&(((SensorResultR[0]-SensorResultR[1])<DirectionFoundTolerance)
                 ||((SensorResultR[1]-SensorResultR[0])<DirectionFoundTolerance)))) {
              // Stay still facing right position as its found direction of bomb

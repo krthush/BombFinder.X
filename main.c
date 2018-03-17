@@ -12,9 +12,10 @@
 volatile unsigned char ReceivedString[16]; //Global variable to read from RFID
 volatile unsigned char i=0;
 volatile unsigned char RFID_Read=0;
+volatile unsigned char start=0;
 
 // High priority interrupt routine
-void interrupt InterruptHandlerHigh ()
+void interrupt low_priority InterruptHandlerLow ()
 {
     if (PIR1bits.RCIF) {
         ReceivedString[i]=RCREG;
@@ -24,7 +25,16 @@ void interrupt InterruptHandlerHigh ()
         }else{
             i++;  
         }
-        PIR1bits.RCIF=0;
+        PIR1bits.RCIF=0; // clear the flag
+    }
+}
+
+// Low priority interrupt routine for button 
+// Switches between inert mode vs. start
+void interrupt InterruptHandlerHigh () {
+    if (INTCONbits.INT0IF) {
+        start=1;
+        INTCONbits.INT0IF=0; // clear the flag
     }
 }
 
@@ -33,27 +43,31 @@ void main(void){
     //Initialise Variables
     unsigned char Message[10]; //Code on RFID Card
     unsigned char i=0; //Counter variable
-    unsigned char mode=0; //Robot mode - see switch case tree in main loop
-    char DirectionFound=0; // Flag for if the robot has decided it knows where the bomb is
-    unsigned char SignalStrength[3]; 
-    char PathTaken[100]; //Buffer for retaining movement instructions
-    unsigned int test=0;
+    signed char mode=0; //Robot mode - see switch case tree in main loop
+    signed char DirectionFound=0; // Flag for if the robot has decided it knows where the bomb is
     char MoveTime[100]; //Array to store time spent on each type of movement
     char MoveType[100]; //Array to store movement types - 0 is forwards, 1 is left/right
     char Move=0; //Move counter
     // USERVARIABLE TOLERANCES
     unsigned char ScanAngle=6; // PLEASE NOTE: has to be even, units - tenth seconds
     
-    // Enable interrupts
-    INTCONbits.GIEH = 1; // Global Interrupt Enable bit
-    INTCONbits.GIEL = 1; // // Peripheral/Low priority Interrupt Enable bit
-    INTCONbits.PEIE = 1;    // Enable Peripheral  interrupts
-    RCONbits.IPEN = 1; // Enable interrupt priority
+    // Enable general interrupt stuff
+    INTCONbits.GIEH=1; // Global Interrupt Enable bit
+    INTCONbits.GIEL=1; // Peripheral/Low priority Interrupt Enable bit
+    INTCONbits.PEIE=1; // Enable Peripheral  interrupts
+    RCONbits.IPEN=1; // Enable interrupt priority
     
-    // Interrupts for EUSART
-    IPR1bits.RCIP=1; //High Priority+
-    PIE1bits.RCIE=1; //Enable interrupt on serial reception
-    PIR1bits.RCIF=0;//Clear interrupt flag at start for serial reception
+    // Interrupt registers for EUSART
+    IPR1bits.RCIP=0; // Low Priority 
+    PIE1bits.RCIE=1; // Enable interrupt on serial reception
+    
+    // Interrupt registers for button
+    TRISCbits.RC3=1; //set RC3 pin to be an input pin to recognise the button press
+    INTCONbits.INT0IE=1; // Enables the INT0 external interrupt
+    
+    // Clear interrupt flags
+    PIR1bits.RC1IF=0;// clear EUSART interrupt flag
+    INTCONbits.INT0IF=0;// clear flag on the button interrupt
     
     // Initialise Motor Structures
     struct DC_motor mL, mR; //declare 2 motor structures
@@ -77,11 +91,19 @@ void main(void){
    while(1){
        
        switch (mode) {
+           case -1: //Inert Mode
+               // Robot has finished start-up, and now ready to go!
+               // Robot also enters this mode after successfully finishing the task.
+               // If button is pressed while robot is performing, it will return to inert mode.
+               // If button is pressed while robot is in inert mode, it will start performing.
+               stop(&mL, &mR);
+               
+               break;
+               
            case 0 : //Start-up Mode
                 //Initialise EVERYTHING
                 initMotorPWM();  //setup PWM registers
                 initRFID();
-                initIR(); 
                 initLCD();
                 initIR();              
                
@@ -96,22 +118,13 @@ void main(void){
               
                 enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
                 enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
-                mode = 1;  //TODO: Make mode change on button press
+                mode = -1;  //TODO: Make mode change on button press
                
                 break;
                
            case 1 : //Search Mode
                
-                if (DirectionFound==0) {
-                    // Scans a wide range if it's unsure about direction
-                    DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
-                } else if (DirectionFound==1) {
-                     // Keeps direction and just scans, robot thinks it's close
-                        DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
-                } else if (DirectionFound==2) {
-                     // Robot thinks its on track, switch to move mode
-                     mode=2;
-                } else if (DirectionFound==3) {
+                if (DirectionFound==-1) {
                     // Robot is completely lost, move a bit a hope to find it.
                     // PLEASE NOTE: this movement in combination with the
                     // rotation in ScanWithRange causes the robot to spiral 
@@ -120,6 +133,15 @@ void main(void){
                     delay_tenth_s(ScanAngle);
                     stop(&mL,&mR);
                     DirectionFound=0;
+                } else if (DirectionFound==0) {
+                    // Scans a wide range if it's unsure about direction
+                    DirectionFound = ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]); // USERVARIABLE
+                } else if (DirectionFound==1) {
+                     // Keeps direction and just scans, robot thinks it's close
+                        DirectionFound = ScanIR(&mL, &mR); // USERVARIABLE
+                } else if (DirectionFound==2) {
+                     // Robot thinks its on track, switch to move mode
+                     mode=2;
                 }
                
                 MoveType[Move] = 1;
@@ -127,9 +149,9 @@ void main(void){
                
                 break;
                
-            case 2 : //Move Mode
-               //Move forward until RFID read and verified or a certain time
-               //has elapsed
+            case 2 : // Go forward mode
+               // Move forward until RFID read and verified or a certain time
+               // has elapsed
 
                 if (RFID_Read) {
                     stop(&mL, &mR);
@@ -160,24 +182,25 @@ void main(void){
                     delay_tenth_s(5);
                 }
                 
-               break;
+                break;
                
             case 3 : //Return Mode
                 //Return to original position using MoveType and MoveTime
-                for (Move=Move; Move>0; Move--) { //Go backwards along the moves
-                    if (MoveType[Move]==0) { //If move was forwards
-                        fullSpeedBack(&mL,&mR);
-                        delay_tenth_s(MoveTime[Move]);
-                    } else if (MoveType[Move]==1) { //If move was left/right
-                        if (MoveTime[Move]>0) { //If left turn
-                            turnRight(&mL,&mR);
-                            delay_tenth_s(MoveTime[Move]);
-                        } else {
-                            turnLeft(&mL,&mR);
-                            delay_tenth_s(MoveTime[Move]);
-                        }
-                    }
-                }
+                stop(&mL,&mR);
+//                for (Move=Move; Move>0; Move--) { //Go backwards along the moves
+//                    if (MoveType[Move]==0) { //If move was forwards
+//                        fullSpeedBack(&mL,&mR);
+//                        delay_tenth_s(MoveTime[Move]);
+//                    } else if (MoveType[Move]==1) { //If move was left/right
+//                        if (MoveTime[Move]>0) { //If left turn
+//                            turnRight(&mL,&mR);
+//                            delay_tenth_s(MoveTime[Move]);
+//                        } else {
+//                            turnLeft(&mL,&mR);
+//                            delay_tenth_s(MoveTime[Move]);
+//                        }
+//                    }
+//                }
                 break;
        }      
    }

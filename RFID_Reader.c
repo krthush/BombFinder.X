@@ -3,7 +3,7 @@
 #define _XTAL_FREQ 8000000
 
 void initRFID(void){
-    TRISC = TRISC || 0b11000000; //set data direction registers
+    TRISC = TRISC | 0b11000000; //set data direction registers
                         //both need to be 1 even though RC6
                         //is an output, check the datasheet!
         
@@ -14,8 +14,7 @@ void initRFID(void){
     RCSTAbits.CREN=1; //continous receive mode
     RCSTAbits.SPEN=1; //enable serial port, other settings default
     TXSTAbits.SYNC=0; //Asynchronous
-    RCSTAbits.RX9=0; //8-bit reception    
-    
+    RCSTAbits.RX9=0; //8-bit reception  
 }
 
 void sendCharToSerial(char charToSend){
