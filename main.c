@@ -57,6 +57,8 @@ void main(void){
     char MoveTime[100]; // Array to store time spent on each type of movement
     char MoveType[100]; // Array to store movement types - 0 is forwards, 1 is left/right
     char Move=0; // Move counter
+    unsigned int SensorResult[2]={0,0};
+    char buf[40]; // Buffer for characters for LCD
     // USERVARIABLE TOLERANCES
     unsigned char ScanAngle=6; // PLEASE NOTE: has to be even, units - tenth seconds
     
@@ -107,11 +109,29 @@ void main(void){
                 // If button is pressed while robot is performing, it will return to inert mode.
                 // If button is pressed while robot is in inert mode, it will start performing.
                 stop(&mL, &mR);
-                RFID_Read=0;   
+                RFID_Read=0;
+                
+                // Scan Data
+                SensorResult[0]=grabLeftIR();
+                SensorResult[1]=grabRightIR();
+
+                // Reset the timers to avoid same reading being picked up if there is
+                // no signal.
+                CAP1BUFH=0;
+                CAP1BUFL=0;
+                CAP2BUFH=0;
+                CAP2BUFL=0;       
+
+                // Output signal strength to LCD
+                SendLCD(0b00000001,0); //Clear Display
+                __delay_us(50); //Delay to let display clearing finish
+                SendLCD(0b00000010,0); // move cursor to home
+                __delay_ms(2);
                 SetLine(1); //Set Line 1
-                LCD_String("        Ready");
-                SetLine(2);
-                LCD_String("        To Go!");
+                LCD_String("     Inert Mode");
+                SetLine(2); //Set Line 2, for signal strength readings
+                sprintf(buf,"     %04d, %04d",SensorResult[0],SensorResult[1]);
+                LCD_String(buf);
                
                 break;
                
@@ -123,8 +143,8 @@ void main(void){
                 initLCD();
                 initIR();
               
-                enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals:
-                enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals:
+                enableSensor(0, 1); // DEBUG ONLY - enable sensors to test signals
+                enableSensor(1, 1); // DEBUG ONLY - enable sensors to test signals
                 
                 // Small movement to signify initialise code has been successful
                 fullSpeedAhead(&mL, &mR);

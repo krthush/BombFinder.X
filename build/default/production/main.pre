@@ -4840,6 +4840,8 @@ signed char DirectionFound=0;
 char MoveTime[100];
 char MoveType[100];
 char Move=0;
+unsigned int SensorResult[2]={0,0};
+char buf[40];
 
 unsigned char ScanAngle=6;
 
@@ -4885,13 +4887,31 @@ while(1){
 switch (mode) {
 case -1:
 
-# 109
+# 111
 stop(&mL, &mR);
 RFID_Read=0;
+
+
+SensorResult[0]=grabLeftIR();
+SensorResult[1]=grabRightIR();
+
+
+
+CAP1BUFH=0;
+CAP1BUFL=0;
+CAP2BUFH=0;
+CAP2BUFL=0;
+
+
+SendLCD(0b00000001,0);
+_delay((unsigned long)((50)*(8000000/4000000.0)));
+SendLCD(0b00000010,0);
+_delay((unsigned long)((2)*(8000000/4000.0)));
 SetLine(1);
-LCD_String("        Ready");
+LCD_String("     Inert Mode");
 SetLine(2);
-LCD_String("        To Go!");
+sprintf(buf,"     %04d, %04d",SensorResult[0],SensorResult[1]);
+LCD_String(buf);
 
 break;
 
@@ -4916,7 +4936,7 @@ break;
 
 case 1 :
 
-# 143
+# 163
 SetLine(1);
 LCD_String("       Searching");
 
@@ -4995,7 +5015,7 @@ SetLine(2);
 LCD_String("      Going Home");
 stop(&mL,&mR);
 
-# 238
+# 258
 mode=-1;
 
 break;

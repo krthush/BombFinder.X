@@ -144,10 +144,30 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _OSCCONbits `VS376 ~T0 @X0 0 e@4051 ]
 "22 dc_motor.h
 [v _stop `(v ~T0 @X0 0 ef2`*S405`*S405 ]
+"17 IR_Reading.h
+[v _grabLeftIR `(ui ~T0 @X0 0 ef ]
+"16
+[v _grabRightIR `(ui ~T0 @X0 0 ef ]
+"341 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18f4331.h
+[v _CAP1BUFH `Vuc ~T0 @X0 0 e@3945 ]
+"330
+[v _CAP1BUFL `Vuc ~T0 @X0 0 e@3944 ]
+"319
+[v _CAP2BUFH `Vuc ~T0 @X0 0 e@3943 ]
+"308
+[v _CAP2BUFL `Vuc ~T0 @X0 0 e@3942 ]
+"26 LCD.h
+[v _SendLCD `(v ~T0 @X0 0 ef2`uc`uc ]
+[v F3644 `(v ~T0 @X0 1 tf1`ul ]
+"152 C:\Program Files (x86)\Microchip\xc8\v1.35\include\pic18.h
+[v __delay `JF3644 ~T0 @X0 0 e ]
+[p i __delay ]
 "27 LCD.h
 [v _SetLine `(v ~T0 @X0 0 ef1`uc ]
 "28
 [v _LCD_String `(v ~T0 @X0 0 ef1`*uc ]
+"194 C:\Program Files (x86)\Microchip\xc8\v1.35\include\stdio.h
+[v _sprintf `(i ~T0 @X0 0 e1v`*uc`*Cuc ]
 "18 dc_motor.h
 [v _initMotorPWM `(v ~T0 @X0 0 ef ]
 "12 RFID_Reader.h
@@ -3893,382 +3913,429 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;main.c: 58: char MoveType[100];
 [; ;main.c: 59: char Move=0;
 [e = _Move -> -> 0 `i `uc ]
+[v F3890 `ui ~T0 @X0 -> 2 `i s ]
+[i F3890
+:U ..
+"60
+-> -> 0 `i `ui
+-> -> 0 `i `ui
+..
+]
+[v _SensorResult `ui ~T0 @X0 -> 2 `i a ]
+[; ;main.c: 60: unsigned int SensorResult[2]={0,0};
+[e = _SensorResult F3890 ]
 "61
+[v _buf `uc ~T0 @X0 -> 40 `i a ]
+"63
 [v _ScanAngle `uc ~T0 @X0 1 a ]
-[; ;main.c: 61: unsigned char ScanAngle=6;
+[; ;main.c: 61: char buf[40];
+[; ;main.c: 63: unsigned char ScanAngle=6;
 [e = _ScanAngle -> -> 6 `i `uc ]
-[; ;main.c: 64: INTCONbits.GIEH=1;
-"64
-[e = . . _INTCONbits 2 7 -> -> 1 `i `uc ]
-[; ;main.c: 65: INTCONbits.GIEL=1;
-"65
-[e = . . _INTCONbits 2 6 -> -> 1 `i `uc ]
-[; ;main.c: 66: INTCONbits.PEIE=1;
+[; ;main.c: 66: INTCONbits.GIEH=1;
 "66
-[e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
-[; ;main.c: 67: RCONbits.IPEN=1;
+[e = . . _INTCONbits 2 7 -> -> 1 `i `uc ]
+[; ;main.c: 67: INTCONbits.GIEL=1;
 "67
+[e = . . _INTCONbits 2 6 -> -> 1 `i `uc ]
+[; ;main.c: 68: INTCONbits.PEIE=1;
+"68
+[e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
+[; ;main.c: 69: RCONbits.IPEN=1;
+"69
 [e = . . _RCONbits 5 6 -> -> 1 `i `uc ]
-[; ;main.c: 70: IPR1bits.RCIP=0;
-"70
+[; ;main.c: 72: IPR1bits.RCIP=0;
+"72
 [e = . . _IPR1bits 0 5 -> -> 0 `i `uc ]
-[; ;main.c: 71: PIE1bits.RCIE=1;
-"71
+[; ;main.c: 73: PIE1bits.RCIE=1;
+"73
 [e = . . _PIE1bits 0 5 -> -> 1 `i `uc ]
-[; ;main.c: 74: TRISCbits.RC3=1;
-"74
+[; ;main.c: 76: TRISCbits.RC3=1;
+"76
 [e = . . _TRISCbits 1 3 -> -> 1 `i `uc ]
-[; ;main.c: 75: INTCONbits.INT0IE=1;
-"75
+[; ;main.c: 77: INTCONbits.INT0IE=1;
+"77
 [e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
-[; ;main.c: 78: PIR1bits.RC1IF=0;
-"78
+[; ;main.c: 80: PIR1bits.RC1IF=0;
+"80
 [e = . . _PIR1bits 2 1 -> -> 0 `i `uc ]
-[; ;main.c: 79: INTCONbits.INT0IF=0;
-"79
+[; ;main.c: 81: INTCONbits.INT0IF=0;
+"81
 [e = . . _INTCONbits 0 1 -> -> 0 `i `uc ]
-"82
+"84
 [v _mL `S405 ~T0 @X0 1 a ]
 [v _mR `S405 ~T0 @X0 1 a ]
-[; ;main.c: 82: struct DC_motor mL, mR;
-[; ;main.c: 83: mL.power=0;
-"83
-[e = . _mL 0 -> -> 0 `i `uc ]
-[; ;main.c: 84: mL.direction=1;
-"84
-[e = . _mL 1 -> -> 1 `i `uc ]
-[; ;main.c: 85: mL.dutyLowByte=(unsigned char *)(&PDC0L);
+[; ;main.c: 84: struct DC_motor mL, mR;
+[; ;main.c: 85: mL.power=0;
 "85
-[e = . _mL 2 -> &U _PDC0L `*uc ]
-[; ;main.c: 86: mL.dutyHighByte=(unsigned char *)(&PDC0H);
+[e = . _mL 0 -> -> 0 `i `uc ]
+[; ;main.c: 86: mL.direction=1;
 "86
-[e = . _mL 3 -> &U _PDC0H `*uc ]
-[; ;main.c: 87: mL.dir_pin=0;
+[e = . _mL 1 -> -> 1 `i `uc ]
+[; ;main.c: 87: mL.dutyLowByte=(unsigned char *)(&PDC0L);
 "87
-[e = . _mL 4 -> -> 0 `i `uc ]
-[; ;main.c: 88: mL.PWMperiod=199;
+[e = . _mL 2 -> &U _PDC0L `*uc ]
+[; ;main.c: 88: mL.dutyHighByte=(unsigned char *)(&PDC0H);
 "88
-[e = . _mL 5 -> 199 `i ]
-[; ;main.c: 90: mR.power=0;
+[e = . _mL 3 -> &U _PDC0H `*uc ]
+[; ;main.c: 89: mL.dir_pin=0;
+"89
+[e = . _mL 4 -> -> 0 `i `uc ]
+[; ;main.c: 90: mL.PWMperiod=199;
 "90
-[e = . _mR 0 -> -> 0 `i `uc ]
-[; ;main.c: 91: mR.direction=1;
-"91
-[e = . _mR 1 -> -> 1 `i `uc ]
-[; ;main.c: 92: mR.dutyLowByte=(unsigned char *)(&PDC1L);
+[e = . _mL 5 -> 199 `i ]
+[; ;main.c: 92: mR.power=0;
 "92
-[e = . _mR 2 -> &U _PDC1L `*uc ]
-[; ;main.c: 93: mR.dutyHighByte=(unsigned char *)(&PDC1H);
+[e = . _mR 0 -> -> 0 `i `uc ]
+[; ;main.c: 93: mR.direction=1;
 "93
-[e = . _mR 3 -> &U _PDC1H `*uc ]
-[; ;main.c: 94: mR.dir_pin=2;
+[e = . _mR 1 -> -> 1 `i `uc ]
+[; ;main.c: 94: mR.dutyLowByte=(unsigned char *)(&PDC1L);
 "94
-[e = . _mR 4 -> -> 2 `i `uc ]
-[; ;main.c: 95: mR.PWMperiod=199;
+[e = . _mR 2 -> &U _PDC1L `*uc ]
+[; ;main.c: 95: mR.dutyHighByte=(unsigned char *)(&PDC1H);
 "95
-[e = . _mR 5 -> 199 `i ]
-[; ;main.c: 97: OSCCON = 0x72;
+[e = . _mR 3 -> &U _PDC1H `*uc ]
+[; ;main.c: 96: mR.dir_pin=2;
+"96
+[e = . _mR 4 -> -> 2 `i `uc ]
+[; ;main.c: 97: mR.PWMperiod=199;
 "97
+[e = . _mR 5 -> 199 `i ]
+[; ;main.c: 99: OSCCON = 0x72;
+"99
 [e = _OSCCON -> -> 114 `i `uc ]
-[; ;main.c: 98: while(!OSCCONbits.IOFS);
-"98
+[; ;main.c: 100: while(!OSCCONbits.IOFS);
+"100
 [e $U 418  ]
 [e :U 419 ]
 [e :U 418 ]
 [e $ ! != -> . . _OSCCONbits 0 1 `i -> -> -> 0 `i `Vuc `i 419  ]
 [e :U 420 ]
-[; ;main.c: 100: while(1){
-"100
+[; ;main.c: 102: while(1){
+"102
 [e :U 422 ]
 {
-[; ;main.c: 102: switch (mode) {
-"102
+[; ;main.c: 104: switch (mode) {
+"104
 [e $U 425  ]
 {
-[; ;main.c: 103: case -1:
-"103
+[; ;main.c: 105: case -1:
+"105
 [e :U 426 ]
-[; ;main.c: 109: stop(&mL, &mR);
-"109
-[e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 110: RFID_Read=0;
-"110
-[e = _RFID_Read -> -> 0 `i `uc ]
-[; ;main.c: 111: SetLine(1);
+[; ;main.c: 111: stop(&mL, &mR);
 "111
-[e ( _SetLine (1 -> -> 1 `i `uc ]
-[; ;main.c: 112: LCD_String("        Ready");
+[e ( _stop (2 , &U _mL &U _mR ]
+[; ;main.c: 112: RFID_Read=0;
 "112
-[e ( _LCD_String (1 -> :s 1C `*uc ]
-[; ;main.c: 113: SetLine(2);
-"113
-[e ( _SetLine (1 -> -> 2 `i `uc ]
-[; ;main.c: 114: LCD_String("        To Go!");
-"114
-[e ( _LCD_String (1 -> :s 2C `*uc ]
-[; ;main.c: 116: break;
+[e = _RFID_Read -> -> 0 `i `uc ]
+[; ;main.c: 115: SensorResult[0]=grabLeftIR();
+"115
+[e = *U + &U _SensorResult * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResult `ui `ux ( _grabLeftIR ..  ]
+[; ;main.c: 116: SensorResult[1]=grabRightIR();
 "116
-[e $U 424  ]
-[; ;main.c: 118: case 0 :
-"118
-[e :U 427 ]
-[; ;main.c: 121: initMotorPWM();
+[e = *U + &U _SensorResult * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResult `ui `ux ( _grabRightIR ..  ]
+[; ;main.c: 120: CAP1BUFH=0;
+"120
+[e = _CAP1BUFH -> -> 0 `i `uc ]
+[; ;main.c: 121: CAP1BUFL=0;
 "121
-[e ( _initMotorPWM ..  ]
-[; ;main.c: 122: initRFID();
+[e = _CAP1BUFL -> -> 0 `i `uc ]
+[; ;main.c: 122: CAP2BUFH=0;
 "122
-[e ( _initRFID ..  ]
-[; ;main.c: 123: initLCD();
+[e = _CAP2BUFH -> -> 0 `i `uc ]
+[; ;main.c: 123: CAP2BUFL=0;
 "123
-[e ( _initLCD ..  ]
-[; ;main.c: 124: initIR();
-"124
-[e ( _initIR ..  ]
-[; ;main.c: 126: enableSensor(0, 1);
+[e = _CAP2BUFL -> -> 0 `i `uc ]
+[; ;main.c: 126: SendLCD(0b00000001,0);
 "126
-[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
-[; ;main.c: 127: enableSensor(1, 1);
+[e ( _SendLCD (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[; ;main.c: 127: _delay((unsigned long)((50)*(8000000/4000000.0)));
 "127
-[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
-[; ;main.c: 130: fullSpeedAhead(&mL, &mR);
+[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
+[; ;main.c: 128: SendLCD(0b00000010,0);
+"128
+[e ( _SendLCD (2 , -> -> 2 `i `uc -> -> 0 `i `uc ]
+[; ;main.c: 129: _delay((unsigned long)((2)*(8000000/4000.0)));
+"129
+[e ( __delay (1 -> * -> -> 2 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
+[; ;main.c: 130: SetLine(1);
 "130
-[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-[; ;main.c: 131: delay_tenth_s(1);
-"131
-[e ( _delay_tenth_s (1 -> -> 1 `i `uc ]
-[; ;main.c: 133: mode=-1;
-"133
-[e = _mode -> -U -> 1 `i `c ]
-[; ;main.c: 135: break;
-"135
-[e $U 424  ]
-[; ;main.c: 137: case 1 :
-"137
-[e :U 428 ]
-[; ;main.c: 143: SetLine(1);
-"143
 [e ( _SetLine (1 -> -> 1 `i `uc ]
-[; ;main.c: 144: LCD_String("       Searching");
+[; ;main.c: 131: LCD_String("     Inert Mode");
+"131
+[e ( _LCD_String (1 -> :s 1C `*uc ]
+[; ;main.c: 132: SetLine(2);
+"132
+[e ( _SetLine (1 -> -> 2 `i `uc ]
+[; ;main.c: 133: sprintf(buf,"     %04d, %04d",SensorResult[0],SensorResult[1]);
+"133
+[e ( _sprintf (1 , , (. , &U _buf :s 2C *U + &U _SensorResult * -> -> -> 0 `i `ui `ux -> -> # *U &U _SensorResult `ui `ux *U + &U _SensorResult * -> -> -> 1 `i `ui `ux -> -> # *U &U _SensorResult `ui `ux ]
+[; ;main.c: 134: LCD_String(buf);
+"134
+[e ( _LCD_String (1 &U _buf ]
+[; ;main.c: 136: break;
+"136
+[e $U 424  ]
+[; ;main.c: 138: case 0 :
+"138
+[e :U 427 ]
+[; ;main.c: 141: initMotorPWM();
+"141
+[e ( _initMotorPWM ..  ]
+[; ;main.c: 142: initRFID();
+"142
+[e ( _initRFID ..  ]
+[; ;main.c: 143: initLCD();
+"143
+[e ( _initLCD ..  ]
+[; ;main.c: 144: initIR();
 "144
-[e ( _LCD_String (1 -> :s 3C `*uc ]
-[; ;main.c: 146: if (DirectionFound==-1) {
+[e ( _initIR ..  ]
+[; ;main.c: 146: enableSensor(0, 1);
 "146
+[e ( _enableSensor (2 , -> -> 0 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 147: enableSensor(1, 1);
+"147
+[e ( _enableSensor (2 , -> -> 1 `i `uc -> -> 1 `i `uc ]
+[; ;main.c: 150: fullSpeedAhead(&mL, &mR);
+"150
+[e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
+[; ;main.c: 151: delay_tenth_s(1);
+"151
+[e ( _delay_tenth_s (1 -> -> 1 `i `uc ]
+[; ;main.c: 153: mode=-1;
+"153
+[e = _mode -> -U -> 1 `i `c ]
+[; ;main.c: 155: break;
+"155
+[e $U 424  ]
+[; ;main.c: 157: case 1 :
+"157
+[e :U 428 ]
+[; ;main.c: 163: SetLine(1);
+"163
+[e ( _SetLine (1 -> -> 1 `i `uc ]
+[; ;main.c: 164: LCD_String("       Searching");
+"164
+[e ( _LCD_String (1 -> :s 3C `*uc ]
+[; ;main.c: 166: if (DirectionFound==-1) {
+"166
 [e $ ! == -> _DirectionFound `i -U -> 1 `i 429  ]
 {
-[; ;main.c: 151: fullSpeedAhead(&mL, &mR);
-"151
+[; ;main.c: 171: fullSpeedAhead(&mL, &mR);
+"171
 [e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-[; ;main.c: 152: delay_tenth_s(ScanAngle);
-"152
+[; ;main.c: 172: delay_tenth_s(ScanAngle);
+"172
 [e ( _delay_tenth_s (1 _ScanAngle ]
-[; ;main.c: 153: stop(&mL,&mR);
-"153
+[; ;main.c: 173: stop(&mL,&mR);
+"173
 [e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 154: DirectionFound=0;
-"154
+[; ;main.c: 174: DirectionFound=0;
+"174
 [e = _DirectionFound -> -> 0 `i `c ]
-[; ;main.c: 155: MoveType[Move]=0;
-"155
+[; ;main.c: 175: MoveType[Move]=0;
+"175
 [e = *U + &U _MoveType * -> _Move `ux -> -> # *U &U _MoveType `ui `ux -> -> 0 `i `uc ]
-"156
+"176
 }
-[; ;main.c: 156: } else if (DirectionFound==0) {
+[; ;main.c: 176: } else if (DirectionFound==0) {
 [e $U 430  ]
 [e :U 429 ]
 [e $ ! == -> _DirectionFound `i -> 0 `i 431  ]
 {
-[; ;main.c: 158: DirectionFound=ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
-"158
+[; ;main.c: 178: DirectionFound=ScanWithRange(&mL, &mR, ScanAngle, &MoveTime[Move]);
+"178
 [e = _DirectionFound -> ( _ScanWithRange (4 , , , &U _mL &U _mR _ScanAngle &U *U + &U _MoveTime * -> _Move `ux -> -> # *U &U _MoveTime `ui `ux `c ]
-[; ;main.c: 159: MoveType[Move]=1;
-"159
+[; ;main.c: 179: MoveType[Move]=1;
+"179
 [e = *U + &U _MoveType * -> _Move `ux -> -> # *U &U _MoveType `ui `ux -> -> 1 `i `uc ]
-"160
+"180
 }
-[; ;main.c: 160: } else if (DirectionFound==1) {
+[; ;main.c: 180: } else if (DirectionFound==1) {
 [e $U 432  ]
 [e :U 431 ]
 [e $ ! == -> _DirectionFound `i -> 1 `i 433  ]
 {
-[; ;main.c: 162: DirectionFound=ScanIR(&mL, &mR, &Move, &MoveTime, &MoveType);
-"162
+[; ;main.c: 182: DirectionFound=ScanIR(&mL, &mR, &Move, &MoveTime, &MoveType);
+"182
 [e = _DirectionFound -> ( _ScanIR (4 , , , , &U _mL &U _mR &U _Move &U _MoveTime &U _MoveType `c ]
-"163
+"183
 }
-[; ;main.c: 163: } else if (DirectionFound==2) {
+[; ;main.c: 183: } else if (DirectionFound==2) {
 [e $U 434  ]
 [e :U 433 ]
 [e $ ! == -> _DirectionFound `i -> 2 `i 435  ]
 {
-[; ;main.c: 165: mode=2;
-"165
+[; ;main.c: 185: mode=2;
+"185
 [e = _mode -> -> 2 `i `c ]
-[; ;main.c: 166: MoveType[Move]=1;
-"166
+[; ;main.c: 186: MoveType[Move]=1;
+"186
 [e = *U + &U _MoveType * -> _Move `ux -> -> # *U &U _MoveType `ui `ux -> -> 1 `i `uc ]
-"167
+"187
 }
 [e :U 435 ]
-"169
+"189
 [e :U 434 ]
 [e :U 432 ]
 [e :U 430 ]
-[; ;main.c: 167: }
-[; ;main.c: 169: Move++;
+[; ;main.c: 187: }
+[; ;main.c: 189: Move++;
 [e ++ _Move -> -> 1 `i `uc ]
-[; ;main.c: 171: break;
-"171
+[; ;main.c: 191: break;
+"191
 [e $U 424  ]
-[; ;main.c: 173: case 2 :
-"173
+[; ;main.c: 193: case 2 :
+"193
 [e :U 436 ]
-[; ;main.c: 177: if (RFID_Read) {
-"177
+[; ;main.c: 197: if (RFID_Read) {
+"197
 [e $ ! != -> _RFID_Read `i -> -> -> 0 `i `Vuc `i 437  ]
 {
-[; ;main.c: 178: stop(&mL, &mR);
-"178
+[; ;main.c: 198: stop(&mL, &mR);
+"198
 [e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 179: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
-"179
+[; ;main.c: 199: if (ReceivedString[0]==0x02 & ReceivedString[15]==0x03){
+"199
 [e $ ! & == -> *U + &U _ReceivedString * -> -> -> 0 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 2 `i == -> *U + &U _ReceivedString * -> -> -> 15 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux `i -> 3 `i 438  ]
 {
-[; ;main.c: 180: if (VerifySignal(ReceivedString)){
-"180
+[; ;main.c: 200: if (VerifySignal(ReceivedString)){
+"200
 [e $ ! != -> ( _VerifySignal (1 -> &U _ReceivedString `*uc `i -> -> -> 0 `i `uc `i 439  ]
 {
-[; ;main.c: 182: for (i=0; i<10; i++){
-"182
+[; ;main.c: 202: for (i=0; i<10; i++){
+"202
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 10 `i 440  ]
 [e $U 441  ]
 [e :U 440 ]
 {
-[; ;main.c: 183: Message[i] = ReceivedString[i+1];
-"183
+[; ;main.c: 203: Message[i] = ReceivedString[i+1];
+"203
 [e = *U + &U _Message * -> _i `ux -> -> # *U &U _Message `ui `ux *U + &U _ReceivedString * -> -> + -> _i `i -> 1 `i `ui `ux -> -> # *U &U _ReceivedString `ui `ux ]
-"184
+"204
 }
-"182
+"202
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 10 `i 440  ]
 [e :U 441 ]
-"184
+"204
 }
-[; ;main.c: 184: }
-[; ;main.c: 187: for (i=0; i<16; i++) {
-"187
+[; ;main.c: 204: }
+[; ;main.c: 207: for (i=0; i<16; i++) {
+"207
 {
 [e = _i -> -> 0 `i `uc ]
 [e $ < -> _i `i -> 16 `i 443  ]
 [e $U 444  ]
 [e :U 443 ]
 {
-[; ;main.c: 188: ReceivedString[i]=0;
-"188
+[; ;main.c: 208: ReceivedString[i]=0;
+"208
 [e = *U + &U _ReceivedString * -> _i `ux -> -> # *U &U _ReceivedString `ui `ux -> -> 0 `i `uc ]
-"189
+"209
 }
-"187
+"207
 [e ++ _i -> -> 1 `i `uc ]
 [e $ < -> _i `i -> 16 `i 443  ]
 [e :U 444 ]
-"189
+"209
 }
-[; ;main.c: 189: }
-[; ;main.c: 190: mode=3;
-"190
+[; ;main.c: 209: }
+[; ;main.c: 210: mode=3;
+"210
 [e = _mode -> -> 3 `i `c ]
-"192
+"212
 }
-[; ;main.c: 192: } else {
+[; ;main.c: 212: } else {
 [e $U 446  ]
 [e :U 439 ]
 {
-[; ;main.c: 193: fullSpeedBack(&mL,&mR);
-"193
+[; ;main.c: 213: fullSpeedBack(&mL,&mR);
+"213
 [e ( _fullSpeedBack (2 , &U _mL &U _mR ]
-[; ;main.c: 194: delay_tenth_s(5);
-"194
+[; ;main.c: 214: delay_tenth_s(5);
+"214
 [e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
-[; ;main.c: 195: stop(&mL,&mR);
-"195
+[; ;main.c: 215: stop(&mL,&mR);
+"215
 [e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 196: fullSpeedAhead(&mL,&mR);
-"196
+[; ;main.c: 216: fullSpeedAhead(&mL,&mR);
+"216
 [e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-"197
+"217
 }
 [e :U 446 ]
-"198
+"218
 }
 [e :U 438 ]
-"199
+"219
 }
-[; ;main.c: 197: }
-[; ;main.c: 198: }
-[; ;main.c: 199: } else {
+[; ;main.c: 217: }
+[; ;main.c: 218: }
+[; ;main.c: 219: } else {
 [e $U 447  ]
 [e :U 437 ]
 {
-[; ;main.c: 200: DirectionFound=1;
-"200
+[; ;main.c: 220: DirectionFound=1;
+"220
 [e = _DirectionFound -> -> 1 `i `c ]
-[; ;main.c: 201: mode=1;
-"201
+[; ;main.c: 221: mode=1;
+"221
 [e = _mode -> -> 1 `i `c ]
-[; ;main.c: 202: fullSpeedAhead(&mL,&mR);
-"202
+[; ;main.c: 222: fullSpeedAhead(&mL,&mR);
+"222
 [e ( _fullSpeedAhead (2 , &U _mL &U _mR ]
-[; ;main.c: 203: delay_tenth_s(5);
-"203
+[; ;main.c: 223: delay_tenth_s(5);
+"223
 [e ( _delay_tenth_s (1 -> -> 5 `i `uc ]
-[; ;main.c: 205: MoveType[Move] = 0;
-"205
+[; ;main.c: 225: MoveType[Move] = 0;
+"225
 [e = *U + &U _MoveType * -> _Move `ux -> -> # *U &U _MoveType `ui `ux -> -> 0 `i `uc ]
-[; ;main.c: 206: MoveTime[Move] = 5;
-"206
+[; ;main.c: 226: MoveTime[Move] = 5;
+"226
 [e = *U + &U _MoveTime * -> _Move `ux -> -> # *U &U _MoveTime `ui `ux -> -> 5 `i `uc ]
-[; ;main.c: 207: Move++;
-"207
+[; ;main.c: 227: Move++;
+"227
 [e ++ _Move -> -> 1 `i `uc ]
-"208
+"228
 }
 [e :U 447 ]
-[; ;main.c: 208: }
-[; ;main.c: 210: break;
-"210
+[; ;main.c: 228: }
+[; ;main.c: 230: break;
+"230
 [e $U 424  ]
-[; ;main.c: 212: case 3 :
-"212
+[; ;main.c: 232: case 3 :
+"232
 [e :U 448 ]
-[; ;main.c: 215: SetLine(1);
-"215
+[; ;main.c: 235: SetLine(1);
+"235
 [e ( _SetLine (1 -> -> 1 `i `uc ]
-[; ;main.c: 216: LCD_String("      Found Bomb!");
-"216
+[; ;main.c: 236: LCD_String("      Found Bomb!");
+"236
 [e ( _LCD_String (1 -> :s 4C `*uc ]
-[; ;main.c: 217: SetLine(2);
-"217
+[; ;main.c: 237: SetLine(2);
+"237
 [e ( _SetLine (1 -> -> 2 `i `uc ]
-[; ;main.c: 218: LCD_String("      Going Home");
-"218
-[e ( _LCD_String (1 -> :s 5C `*uc ]
-[; ;main.c: 219: stop(&mL,&mR);
-"219
-[e ( _stop (2 , &U _mL &U _mR ]
-[; ;main.c: 238: mode=-1;
+[; ;main.c: 238: LCD_String("      Going Home");
 "238
+[e ( _LCD_String (1 -> :s 5C `*uc ]
+[; ;main.c: 239: stop(&mL,&mR);
+"239
+[e ( _stop (2 , &U _mL &U _mR ]
+[; ;main.c: 258: mode=-1;
+"258
 [e = _mode -> -U -> 1 `i `c ]
-[; ;main.c: 240: break;
-"240
+[; ;main.c: 260: break;
+"260
 [e $U 424  ]
-"241
+"261
 }
-[; ;main.c: 241: }
+[; ;main.c: 261: }
 [e $U 424  ]
-"102
+"104
 [e :U 425 ]
 [e [\ _mode , $ -> -U -> 1 `i `c 426
  , $ -> -> 0 `i `c 427
@@ -4276,21 +4343,22 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ -> -> 2 `i `c 436
  , $ -> -> 3 `i `c 448
  424 ]
-"241
+"261
 [e :U 424 ]
-"242
+"262
 }
 [e :U 421 ]
-"100
+"102
 [e $U 422  ]
 [e :U 423 ]
-[; ;main.c: 242: }
-[; ;main.c: 243: }
-"243
+[; ;main.c: 262: }
+[; ;main.c: 263: }
+"263
 [e :UE 417 ]
 }
-[a 1C 32 32 32 32 32 32 32 32 82 101 97 100 121 0 ]
+[p f _sprintf 8421508 ]
 [a 3C 32 32 32 32 32 32 32 83 101 97 114 99 104 105 110 103 0 ]
 [a 5C 32 32 32 32 32 32 71 111 105 110 103 32 72 111 109 101 0 ]
-[a 2C 32 32 32 32 32 32 32 32 84 111 32 71 111 33 0 ]
+[a 1C 32 32 32 32 32 73 110 101 114 116 32 77 111 100 101 0 ]
+[a 2C 32 32 32 32 32 37 48 52 100 44 32 37 48 52 100 0 ]
 [a 4C 32 32 32 32 32 32 70 111 117 110 100 32 66 111 109 98 33 0 ]

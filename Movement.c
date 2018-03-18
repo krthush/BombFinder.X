@@ -62,9 +62,9 @@ char ScanIR(struct DC_motor *mL, struct DC_motor *mR, unsigned char *Move, char 
     SendLCD(0b00000010,0); // move cursor to home
     __delay_ms(2);
     SetLine(1); //Set Line 1
-    LCD_String("         ScanIR");
+    LCD_String("        ScanIR");
     SetLine(2); //Set Line 2, for signal strength readings
-    sprintf(buf,"     %d, %d",SensorResult[0],SensorResult[1]);
+    sprintf(buf,"     %04d, %04d",SensorResult[0],SensorResult[1]);
     LCD_String(buf);
     
     // If there is significant signal
@@ -155,7 +155,7 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     SendLCD(0b00000010,0); // move cursor to home
     __delay_ms(2);
     SetLine(1); //Set Line 1
-    LCD_String("      ScanWithRange");
+    LCD_String("    ScanWithRange");
     SetLine(2); //Set Line 2, for signal strength readings
     sprintf(buf,"     %d, %d",SensorResultC[0],SensorResultC[1]);
     LCD_String(buf);
@@ -182,9 +182,9 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     SendLCD(0b00000010,0); // move cursor to home
     __delay_ms(2);
     SetLine(1); //Set Line 1
-    LCD_String("      ScanWithRange");
+    LCD_String("    ScanWithRange");
     SetLine(2); //Set Line 2, for signal strength readings
-    sprintf(buf,"     %d, %d",SensorResultL[0],SensorResultL[1]);
+    sprintf(buf,"     %04d, %04d",SensorResultL[0],SensorResultL[1]);
     LCD_String(buf);
     
     // Reset the timers to avoid same reading being picked up if there is
@@ -317,8 +317,8 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
     return 0;
 }
 
-// NEW ROUTINE: This route scans given range in very small time increments
-// INPROG
+//// NEW ROUTINE: This route scans given range in very small time increments
+//// INPROG
 //char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds, char *MoveTimeEntry) {
 //    // Initialise variable that is used to judge the strength of signals
 //    unsigned int SensorResult[2]={0,0};
@@ -343,9 +343,9 @@ char ScanWithRange(struct DC_motor *mL, struct DC_motor *mR, char tenth_seconds,
 //        SendLCD(0b00000010,0); // move cursor to home
 //        __delay_ms(2);
 //        SetLine(1); //Set Line 1
-//        LCD_String("         ScanIR");
+//        LCD_String("    ScanWithRange");
 //        SetLine(2); //Set Line 2, for signal strength readings
-//        sprintf(buf,"     %d, %d",SensorResult[0],SensorResult[1]);
+//        sprintf(buf,"     %04d, %04d",SensorResult[0],SensorResult[1]);
 //        LCD_String(buf);
 //        
 //         // Turn left
