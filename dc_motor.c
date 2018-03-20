@@ -29,13 +29,10 @@ void setMotorPWM(struct DC_motor *m)
 
     PWMduty = (m->power*m->PWMperiod)/100;  //calculate duty cycle (value between 0 and PWMperiod)
     
-    if (m->direction) //if forward direction
-    {
+    if (m->direction) { //if forward direction
         LATB=LATB|(1<<(m->dir_pin)); //set dir_pin high in LATB
 		PWMduty=m->PWMperiod-PWMduty; //need to invert duty cycle as direction is high (100% power is a duty cycle of 0)
-    }
-    else //if reverse direction
-    {
+    } else { //if reverse direction
         LATB=LATB&(~(1<<(m->dir_pin))); //set dir_pin low in LATB
     }
 
